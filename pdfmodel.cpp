@@ -41,12 +41,12 @@ int PDFModel::getCurrentPage()
 
 int PDFModel::getPreviousPage()
 {
-    return (this->getCurrentPage() - 1) % this->lastPage;
+    return (this->getCurrentPage() > this->firstPage ? ((this->getCurrentPage() - 1) % this->lastPage) : this->firstPage);
 }
 
 int PDFModel::getNextPage()
 {
-    return (this->getCurrentPage() + 1) % this->lastPage;
+    return (this->getCurrentPage() < this->lastPage ? ((this->getCurrentPage() + 1) % this->lastPage) : this->lastPage);
 }
 
 QImage PDFModel::renderPdfPage(int page)
