@@ -55,6 +55,9 @@ QImage PDFModel::renderPdfPage(int page)
 
     // Access page of the PDF file
     if (page >= this->firstPage && page <= this->lastPage) {
+        this->document->setRenderHint(Poppler::Document::Antialiasing, true);
+        this->document->setRenderHint(Poppler::Document::TextAntialiasing, true);
+        this->document->setRenderHint(Poppler::Document::TextHinting, true);
         Poppler::Page* pdfPage = this->document->page(page);  // Document starts at page 0
         if (pdfPage == NULL) {
         }
