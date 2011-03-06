@@ -1,25 +1,32 @@
 #include "mainscreenpdfview.h"
-#include <QtGui/QVBoxLayout>
+#include <QtGui/QGridLayout>
+#include <iostream>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele) :
     QMainWindow(parent)
 {
-    QVBoxLayout *vlayout = new QVBoxLayout(this);
-    QHBoxLayout *hlayout = new QHBoxLayout(this);
+    QGridLayout *glayout = new QGridLayout(this);
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
+    this->timer = new QLabel(this);
+    this->timerLength = new QTimer(this);
     this->currentSlide = new QLabel(this);
     this->nextSlide = new QLabel(this);
+    this->timer->setStyleSheet("color: white; font-weight: bold;");
+    this->setStyleSheet("background-color: black;");
 
-    vlayout->addWidget(this->currentSlide);
-    vlayout->addWidget(this->nextSlide);
-    vlayout->addLayout(hlayout);
-    vlayout->addWidget(this->slides);
+    glayout->addWidget(this->currentSlide, 0, 0, Qt::AlignCenter);
+    glayout->addWidget(this->nextSlide, 0, 3, Qt::AlignCenter);
+    glayout->addWidget(this->slides, 2, 1, Qt::AlignCenter);
+    glayout->addWidget(this->timer, 2, 2, Qt::AlignCenter);
 
-    fake->setLayout(vlayout);
+    fake->setLayout(glayout);
     this->setCentralWidget(fake);
 
     this->modele = modele;
+    this->presentationLength = 1000*20*60; /* in msecs */
+    this->presentationEmergency = 1000*2*60;
+    this->timerInterval = 1000;
     QObject::connect(modele, SIGNAL(renderingChanged()), SLOT(updateView()));
 }
 
@@ -55,6 +62,10 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent * ev)
             modele->gotoLastPage();
             break;
 
+        case Qt::Key_Space:
+            this->startTimer(this->timerInterval);
+            break;
+
         default:
             break;
         }
@@ -70,6 +81,8 @@ void MainScreenPdfView::updateView()
             .arg(this->modele->getLastPage() + 1)
             );
 
+    this->updateTimerView();
+
     QSize currentSize(this->modele->getPageSize().height()*1.75, this->modele->getPageSize().width()*1.75);
     QSize nextSize(this->modele->getPageSize().height()*1.35, this->modele->getPageSize().width()*1.35);
 
@@ -84,4 +97,28 @@ void MainScreenPdfView::updateView()
 
     this->currentSlide->setPixmap(QPixmap::fromImage(currentScaled));
     this->nextSlide->setPixmap(QPixmap::fromImage(nextScaled));
+}
+
+void MainScreenPdfView::timerEvent(QTimerEvent *timer)
+{
+    this->presentationLength -= this->timerInterval;
+    this->updateTimerView();
+    if (this->presentationLength <= 0) {
+        this->killTimer(timer->timerId());
+    }
+}
+
+void MainScreenPdfView::updateTimerView()
+{
+    int time_heures = this->presentationLength / (1000*60*60);
+    int time_minutes = (this->presentationLength % (1000*60*60)) / (1000*60);
+    int time_secondes = ((this->presentationLength % (1000*60*60)) % (1000*60)) / 1000;
+
+    QTime temps(time_heures, time_minutes, time_secondes, 0);
+    QString s_temps(temps.toString("hh:mm:ss"));
+
+    this->timer->setText(s_temps);
+    if (this->presentationLength <= this->presentationEmergency) {
+        this->timer->setStyleSheet("color: red; font-weight: bold");
+    }
 }
