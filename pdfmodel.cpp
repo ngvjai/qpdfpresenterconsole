@@ -150,3 +150,8 @@ QImage PDFModel::getImgNextPage()
                                      this->imgNextPage.height()
                                      );
 }
+
+QSizeF PDFModel::getScaleFactor()
+{
+    return QSizeF((qreal)this->scaleFactorX, (qreal)this->scaleFactorY);
+}

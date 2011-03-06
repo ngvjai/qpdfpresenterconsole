@@ -50,6 +50,8 @@ public:
     QImage getImgCurrentPage();
     QImage getImgNextPage();
 
+    QSizeF getScaleFactor();
+
 signals:
     void renderingChanged(void);
 
