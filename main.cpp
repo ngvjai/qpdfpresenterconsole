@@ -2,7 +2,9 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QMessageBox>
 #include <QObject>
+
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "mainscreenpdfview.h"
 #include "presenterpdf.h"
@@ -11,8 +13,11 @@
 
 int main(int argc, char *argv[])
 {
-    QString pdfFile(argv[1]);
     QApplication app(argc, argv);
+
+    QStringList arguments = QCoreApplication::arguments();
+    QString pdfFile = arguments.last();
+
     QDesktopWidget *desktop = app.desktop();
     PDFModel pdf((QObject*)desktop, pdfFile);
 
