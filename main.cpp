@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         return EXIT_SUCCESS;
     }
 
-    pdf.render();
+    pdf.gotoFirstPage();
     presenterPdf.showFullScreen();
     mainScreen.showFullScreen();
 

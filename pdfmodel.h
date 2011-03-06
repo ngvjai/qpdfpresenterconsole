@@ -41,6 +41,8 @@ public:
     void render();
     void gotoNextPage();
     void gotoPreviousPage();
+    void gotoFirstPage(void);
+    void gotoLastPage(void);
 
     QImage getImgPreviousPage();
     QImage getImgCurrentPage();

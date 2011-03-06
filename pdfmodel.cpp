@@ -107,6 +107,18 @@ void PDFModel::gotoPreviousPage()
     this->render();
 }
 
+void PDFModel::gotoFirstPage()
+{
+    this->currentPage = this->firstPage;
+    this->render();
+}
+
+void PDFModel::gotoLastPage()
+{
+    this->currentPage = this->lastPage;
+    this->render();
+}
+
 QImage PDFModel::getImgPreviousPage()
 {
     return this->imgPreviousPage.copy(0, 0,
