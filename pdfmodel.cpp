@@ -39,6 +39,11 @@ int PDFModel::getCurrentPage()
     return this->currentPage;
 }
 
+int PDFModel::getLastPage()
+{
+    return this->lastPage;
+}
+
 int PDFModel::getPreviousPage()
 {
     return (this->getCurrentPage() > this->firstPage ? ((this->getCurrentPage() - 1) % this->lastPage) : this->firstPage);
