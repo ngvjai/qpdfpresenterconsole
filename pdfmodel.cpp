@@ -155,3 +155,8 @@ QSizeF PDFModel::getScaleFactor()
 {
     return QSizeF((qreal)this->scaleFactorX, (qreal)this->scaleFactorY);
 }
+
+QSizeF PDFModel::getPageSize()
+{
+    return this->pageSize;
+}
