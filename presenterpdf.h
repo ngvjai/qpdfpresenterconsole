@@ -12,6 +12,7 @@ class PresenterPdf : public QMainWindow
 {
     Q_OBJECT
     QImage displayPage;
+    QLabel *imgLabel;
     PDFModel *modele;
 
 public:

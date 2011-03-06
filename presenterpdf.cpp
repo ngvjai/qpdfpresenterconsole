@@ -9,13 +9,13 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele) :
     this->move(QPoint(res.x(), res.y()));
     this->resize(res.width(), res.height());
     this->modele = modele;
+    this->imgLabel = new QLabel();
 
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
 }
 
 void PresenterPdf::updateView() {
     this->displayPage = this->modele->getImgCurrentPage();
-    QLabel *imgLabel = new QLabel();
-    imgLabel->setPixmap(QPixmap::fromImage(this->displayPage));
-    this->setCentralWidget(imgLabel);
+    this->imgLabel->setPixmap(QPixmap::fromImage(this->displayPage));
+    this->setCentralWidget(this->imgLabel);
 }
