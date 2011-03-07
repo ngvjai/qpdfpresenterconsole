@@ -1,6 +1,6 @@
 #include "mainscreenpdfview.h"
 #include <QtGui/QGridLayout>
-#include <stdio.h>
+#include <QApplication>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params) :
     QMainWindow(parent)
@@ -84,24 +84,25 @@ void MainScreenPdfView::updateView()
 
     this->updateTimerView();
 
-    float cw = (this->width() * 1.6) / this->modele->getPageSize().width();
-    float ch = (this->height() * 1.6) / this->modele->getPageSize().height();
-    float nw = (this->width() * 0.8) / this->modele->getPageSize().width();
-    float nh = (this->height() * 0.8) / this->modele->getPageSize().height();
+    float cw = (QApplication::desktop()->screenGeometry(this).width() * 0.7) / this->modele->getPageSize().width();
+    float ch = (QApplication::desktop()->screenGeometry(this).height() * 0.7) / this->modele->getPageSize().height();
+    float f1 = qMin(cw, ch);
 
-    printf("cw=%f, ch=%f, nw=%f, nh=%f\n", cw, ch, nw, nh);
+    float nw = (QApplication::desktop()->screenGeometry(this).width() * 0.4) / this->modele->getPageSize().width();
+    float nh = (QApplication::desktop()->screenGeometry(this).height() * 0.4) / this->modele->getPageSize().height();
+    float f2 = qMin(nw, nh);
 
     QImage currentScaled = QImage(
             this->modele->renderPdfPage(
                     this->modele->getCurrentPage(),
-                    QSizeF(cw, ch)
+                    QSizeF(f1, f1)
                     )
             );
 
     QImage nextScaled = QImage(
             this->modele->renderPdfPage(
                     this->modele->getNextPage(),
-                    QSizeF(nw, nh)
+                    QSizeF(f2, f2)
                     )
             );
 
