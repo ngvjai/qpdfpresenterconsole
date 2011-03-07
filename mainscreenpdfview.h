@@ -6,11 +6,13 @@
 #include <QtGui/QLabel>
 #include <QTimer>
 #include "pdfmodel.h"
+#include "parameters.h"
 
 class MainScreenPdfView : public QMainWindow
 {
     Q_OBJECT
     PDFModel *modele;
+    Parameters *params;
     QLabel *slides;
     QLabel *timer;
 
@@ -25,7 +27,7 @@ class MainScreenPdfView : public QMainWindow
     void updateTimerView(void);
 
 public:
-    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0);
+    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0);
 
 signals:
 

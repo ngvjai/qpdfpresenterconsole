@@ -6,17 +6,20 @@
 #include <QtGui/QImage>
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
+#include "parameters.h"
 #include "app.h"
 
 class PDFModel : public QObject
 {
     Q_OBJECT
-    Poppler::Document* document;
+    Poppler::Document *document;
+    Parameters *params;
     int firstPage;
     int currentPage;
     int lastPage;
     int dpiX;
     int dpiY;
+    QString pdfFileName;
     QRect projectorSize;
     QSizeF pageSize;
     float scaleFactorX;
@@ -33,8 +36,10 @@ class PDFModel : public QObject
     void renderCurrentPage();
     void renderNextPage();
 
+    void setPdfFileName(QString file);
+
 public:
-    explicit PDFModel(QObject *parent, QString file);
+    explicit PDFModel(QObject *parent, Parameters *params);
     ~PDFModel();
     bool pdfLoaded();
     void render();
@@ -52,6 +57,8 @@ public:
 
     QSizeF getPageSize();
     QSizeF getScaleFactor();
+
+    QString getPdfFileName(void);
 
 signals:
     void renderingChanged(void);

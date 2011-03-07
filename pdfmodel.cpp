@@ -1,17 +1,20 @@
 #include "pdfmodel.h"
 #include <stdio.h>
 
-PDFModel::PDFModel(QObject *parent, QString file) :
+PDFModel::PDFModel(QObject *parent, Parameters *params) :
     QObject(parent)
 {
     QDesktopWidget *desktop = (QDesktopWidget *)parent;
+    this->params = params;
+    this->setPdfFileName(this->params->getPdfFileName());
+
     this->firstPage = 0;
     this->currentPage = 0;
     this->dpiX = desktop->physicalDpiX();
     this->dpiY = desktop->physicalDpiY();
     this->projectorSize = desktop->screenGeometry(2);
 
-    this->document = Poppler::Document::load(file);
+    this->document = Poppler::Document::load(this->getPdfFileName());
     if (!this->document || this->document->isLocked()) {
       delete this->document;
       return;
@@ -159,4 +162,14 @@ QSizeF PDFModel::getScaleFactor()
 QSizeF PDFModel::getPageSize()
 {
     return this->pageSize;
+}
+
+void PDFModel::setPdfFileName(QString file)
+{
+    this->pdfFileName = file;
+}
+
+QString PDFModel::getPdfFileName(void)
+{
+    return this->pdfFileName;
 }

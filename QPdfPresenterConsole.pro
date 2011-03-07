@@ -19,10 +19,12 @@ LIBS        += -lpoppler-qt4
 SOURCES += main.cpp \
     mainscreenpdfview.cpp \
     presenterpdf.cpp \
-    pdfmodel.cpp
+    pdfmodel.cpp \
+    parameters.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
     presenterpdf.h \
     pdfmodel.h \
-    app.h
+    app.h \
+    parameters.h

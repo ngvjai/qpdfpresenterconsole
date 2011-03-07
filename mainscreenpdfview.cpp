@@ -2,7 +2,7 @@
 #include <QtGui/QGridLayout>
 #include <iostream>
 
-MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele) :
+MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params) :
     QMainWindow(parent)
 {
     QGridLayout *glayout = new QGridLayout(this);
@@ -24,8 +24,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele) :
     this->setCentralWidget(fake);
 
     this->modele = modele;
-    this->presentationLength = 1000*20*60; /* in msecs */
-    this->presentationEmergency = 1000*2*60;
+    this->params = params;
+    this->presentationEmergency = this->params->getPresentationEmergency();
+    this->presentationLength = this->params->getPresentationLength();
     this->timerInterval = 1000;
     QObject::connect(modele, SIGNAL(renderingChanged()), SLOT(updateView()));
 }

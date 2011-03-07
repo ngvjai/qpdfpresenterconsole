@@ -16,14 +16,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QStringList arguments = QCoreApplication::arguments();
-    QString pdfFile = arguments.last();
 
     QDesktopWidget *desktop = app.desktop();
-    PDFModel pdf((QObject*)desktop, pdfFile);
+    Parameters params((QObject*)desktop);
+    params.setParameters(arguments);
 
+    PDFModel pdf((QObject*)desktop, &params);
     if(!pdf.pdfLoaded()) {
         QString err = "File '%1' not found. Cannot continue.";
-        QString errStr = err.arg(pdfFile);
+        QString errStr = err.arg(pdf.getPdfFileName());
         QMessageBox::critical(0,
                               QObject::tr(APPNAME),
                               QObject::tr(errStr.toStdString().c_str())
@@ -31,11 +32,10 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    MainScreenPdfView mainScreen(0, &pdf);
+    MainScreenPdfView mainScreen(0, &pdf, &params);
     PresenterPdf presenterPdf(0, &pdf);
 
     bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
-
     if (!hasMultipleScreens) {
         QMessageBox::critical(0,
                               QObject::tr(APPNAME),
