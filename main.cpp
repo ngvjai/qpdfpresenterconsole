@@ -45,7 +45,6 @@ int main(int argc, char *argv[])
     }
 
     pdf.gotoFirstPage();
-    presenterPdf.showFullScreen();
     mainScreen.showFullScreen();
 
     return app.exec();

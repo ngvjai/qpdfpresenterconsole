@@ -29,9 +29,6 @@ class PDFModel : public QObject
     QImage imgCurrentPage;
     QImage imgNextPage;
 
-    int getPreviousPage();
-    int getNextPage();
-    QImage renderPdfPage(int page);
     void renderPreviousPage();
     void renderCurrentPage();
     void renderNextPage();
@@ -48,8 +45,13 @@ public:
     void gotoFirstPage(void);
     void gotoLastPage(void);
 
+    int getPreviousPage();
     int getCurrentPage();
+    int getNextPage();
     int getLastPage();
+
+    QImage renderPdfPage(int page);
+    QImage renderPdfPage(int page, QSizeF scaleFactor);
 
     QImage getImgPreviousPage();
     QImage getImgCurrentPage();

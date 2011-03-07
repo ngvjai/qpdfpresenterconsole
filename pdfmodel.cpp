@@ -1,5 +1,4 @@
 #include "pdfmodel.h"
-#include <stdio.h>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params) :
     QObject(parent)
@@ -10,9 +9,9 @@ PDFModel::PDFModel(QObject *parent, Parameters *params) :
 
     this->firstPage = 0;
     this->currentPage = 0;
-    this->dpiX = desktop->physicalDpiX();
-    this->dpiY = desktop->physicalDpiY();
-    this->projectorSize = desktop->screenGeometry(2);
+    this->dpiX = 72.0;
+    this->dpiY = 72.0;
+    this->projectorSize = desktop->availableGeometry(2);
 
     this->document = Poppler::Document::load(this->getPdfFileName());
     if (!this->document || this->document->isLocked()) {
@@ -23,8 +22,8 @@ PDFModel::PDFModel(QObject *parent, Parameters *params) :
     // Pages starts at 0 ...
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
-    this->scaleFactorX = this->projectorSize.height() / this->pageSize.height();
-    this->scaleFactorY = this->projectorSize.width() / this->pageSize.width();
+    this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
+    this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
 }
 
 PDFModel::~PDFModel()
@@ -57,7 +56,7 @@ int PDFModel::getNextPage()
     return (this->getCurrentPage() < this->lastPage ? ((this->getCurrentPage() + 1) % this->lastPage) : this->lastPage);
 }
 
-QImage PDFModel::renderPdfPage(int page)
+QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
 {
     QImage image;
 
@@ -67,11 +66,15 @@ QImage PDFModel::renderPdfPage(int page)
         this->document->setRenderHint(Poppler::Document::TextAntialiasing, true);
         this->document->setRenderHint(Poppler::Document::TextHinting, true);
         Poppler::Page* pdfPage = this->document->page(page);  // Document starts at page 0
+
         if (pdfPage == NULL) {
         }
 
         // Generate a QImage of the rendered page
-        image = pdfPage->renderToImage( this->scaleFactorX * 72.0, this->scaleFactorY * 72.0 );
+        image = pdfPage->renderToImage(
+                scaleFactor.width() * this->dpiX,
+                scaleFactor.height() * this->dpiY
+                );
         if (image.isNull()) {
         }
 
@@ -80,6 +83,11 @@ QImage PDFModel::renderPdfPage(int page)
     }
 
     return image;
+}
+
+QImage PDFModel::renderPdfPage(int page)
+{
+    return this->renderPdfPage(page, QSizeF(this->scaleFactorX, this->scaleFactorY));
 }
 
 void PDFModel::renderPreviousPage()
