@@ -84,8 +84,8 @@ void MainScreenPdfView::updateView()
 
     this->updateTimerView();
 
-    float f1 = (QApplication::desktop()->screenGeometry(this).width() * 0.7 - 15) / this->modele->getPageSize().width();
-    float f2 = (QApplication::desktop()->screenGeometry(this).width() * 0.3 - 15) / this->modele->getPageSize().width();
+    float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
+    float f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
 
     QImage currentScaled = QImage(
             this->modele->renderPdfPage(

@@ -9,6 +9,7 @@ Parameters::Parameters(QObject *parent) :
 void Parameters::setParameters(QStringList params)
 {
 
+    this->setCurrentSlidePrcentWidth(0.7);
     this->setPresentationLength(1000*20*60); /* in msecs */
     this->setPresentationEmergency(1000*2*60);
     this->setPdfFileName(params.last());
@@ -42,4 +43,14 @@ void Parameters::setPdfFileName(QString v)
 QString Parameters::getPdfFileName()
 {
     return this->pdfFileName;
+}
+
+void Parameters::setCurrentSlidePrcentWidth(float v)
+{
+    this->currentSlidePrcentWidth = v;
+}
+
+float Parameters::getCurrentSlidePrcentWidth()
+{
+    return this->currentSlidePrcentWidth;
 }

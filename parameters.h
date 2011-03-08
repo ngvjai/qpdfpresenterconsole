@@ -11,10 +11,13 @@ class Parameters : public QObject
     QString pdfFileName;
     int presentationLength;
     int presentationEmergency;
+    float currentSlidePrcentWidth;
 
     void setPresentationLength(int v);
     void setPresentationEmergency(int v);
     void setPdfFileName(QString v);
+    void setCurrentSlidePrcentWidth(float v);
+
 
 public:
     explicit Parameters(QObject *parent = 0);
@@ -23,6 +26,7 @@ public:
     int getPresentationLength();
     int getPresentationEmergency();
     QString getPdfFileName();
+    float getCurrentSlidePrcentWidth();
 
 signals:
 
