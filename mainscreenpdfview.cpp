@@ -17,8 +17,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     glayout->addWidget(this->currentSlide, 0, 0, Qt::AlignCenter);
     glayout->addWidget(this->nextSlide, 0, 1, Qt::AlignCenter);
-    glayout->addWidget(this->slides, 2, 0, Qt::AlignCenter);
-    glayout->addWidget(this->timer, 2, 1, Qt::AlignCenter);
+    glayout->addWidget(this->slides, 2, 1, Qt::AlignCenter);
+    glayout->addWidget(this->timer, 2, 0, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
