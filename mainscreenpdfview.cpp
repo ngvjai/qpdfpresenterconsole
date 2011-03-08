@@ -16,9 +16,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->setStyleSheet("background-color: black;");
 
     glayout->addWidget(this->currentSlide, 0, 0, Qt::AlignCenter);
-    glayout->addWidget(this->nextSlide, 0, 3, Qt::AlignCenter);
-    glayout->addWidget(this->slides, 2, 1, Qt::AlignCenter);
-    glayout->addWidget(this->timer, 2, 2, Qt::AlignCenter);
+    glayout->addWidget(this->nextSlide, 0, 1, Qt::AlignCenter);
+    glayout->addWidget(this->slides, 2, 0, Qt::AlignCenter);
+    glayout->addWidget(this->timer, 2, 1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
@@ -84,13 +84,8 @@ void MainScreenPdfView::updateView()
 
     this->updateTimerView();
 
-    float cw = (QApplication::desktop()->screenGeometry(this).width() * 0.7) / this->modele->getPageSize().width();
-    float ch = (QApplication::desktop()->screenGeometry(this).height() * 0.7) / this->modele->getPageSize().height();
-    float f1 = qMin(cw, ch);
-
-    float nw = (QApplication::desktop()->screenGeometry(this).width() * 0.4) / this->modele->getPageSize().width();
-    float nh = (QApplication::desktop()->screenGeometry(this).height() * 0.4) / this->modele->getPageSize().height();
-    float f2 = qMin(nw, nh);
+    float f1 = (QApplication::desktop()->screenGeometry(this).width() * 0.7 - 15) / this->modele->getPageSize().width();
+    float f2 = (QApplication::desktop()->screenGeometry(this).width() * 0.3 - 15) / this->modele->getPageSize().width();
 
     QImage currentScaled = QImage(
             this->modele->renderPdfPage(
