@@ -1,6 +1,8 @@
 #ifndef APP_H
 #define APP_H
 
+#include <QString>
+
 #define APPNAME "QPdfPresenterConsole"
 #define SHORTNAME "qpdfpresenterconsole"
 #define APPVERS "1.0.0"
