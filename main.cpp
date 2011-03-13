@@ -15,6 +15,12 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
+    QString locale = QLocale::system().name();
+    QTranslator translator;
+    translator.load(QString(SHORTNAME) + "_" + locale);
+    app.installTranslator(&translator);
+
     QStringList arguments = QCoreApplication::arguments();
 
     QDesktopWidget *desktop = app.desktop();

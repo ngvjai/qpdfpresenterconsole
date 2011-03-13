@@ -16,6 +16,8 @@ TEMPLATE = app
 INCLUDEPATH += /usr/include/poppler/qt4
 LIBS        += -lpoppler-qt4
 
+TRANSLATIONS = qpdfpresenterconsole_fr.ts
+
 SOURCES += main.cpp \
     mainscreenpdfview.cpp \
     presenterpdf.cpp \
@@ -30,3 +32,6 @@ HEADERS += \
     app.h \
     parameters.h \
     presentationtimer.h
+
+OTHER_FILES += \
+    qpdfpresenterconsole_fr.ts
