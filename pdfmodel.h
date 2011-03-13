@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QKeyEvent>
 #include "parameters.h"
+#include "presentationtimer.h"
 #include "app.h"
 
 class PDFModel : public QObject
@@ -15,6 +16,8 @@ class PDFModel : public QObject
     Q_OBJECT
     Poppler::Document *document;
     Parameters *params;
+    PresentationTimer *timer;
+
     int firstPage;
     int currentPage;
     int lastPage;
@@ -37,7 +40,7 @@ class PDFModel : public QObject
     void setPdfFileName(QString file);
 
 public:
-    explicit PDFModel(QObject *parent, Parameters *params);
+    explicit PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer);
     ~PDFModel();
     bool pdfLoaded();
     void render();
@@ -65,6 +68,8 @@ public:
 
 signals:
     void renderingChanged(void);
+    void presentationStarted(void);
+    void presentationReset(void);
 
 public slots:
     void handleModelSequence(QKeyEvent *e);

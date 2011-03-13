@@ -1,10 +1,12 @@
 #include "pdfmodel.h"
 
-PDFModel::PDFModel(QObject *parent, Parameters *params) :
+PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
 {
     QDesktopWidget *desktop = (QDesktopWidget *)parent;
     this->params = params;
+    this->timer = timer;
+
     this->setPdfFileName(this->params->getPdfFileName());
 
     this->firstPage = 0;
@@ -24,6 +26,9 @@ PDFModel::PDFModel(QObject *parent, Parameters *params) :
     this->pageSize = this->document->page(0)->pageSizeF();
     this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
     this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
+
+    QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
+    QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
 }
 
 PDFModel::~PDFModel()

@@ -1,0 +1,40 @@
+#ifndef PRESENTATIONTIMER_H
+#define PRESENTATIONTIMER_H
+
+#include <QObject>
+#include <QTimer>
+#include <QTimerEvent>
+#include "parameters.h"
+
+class PresentationTimer : public QObject
+{
+    Q_OBJECT
+
+    Parameters *params;
+
+    QTimer *timerLength;
+    int presentationLength;
+    int presentationEmergency;
+    int timerInterval;
+    bool started;
+
+public:
+    explicit PresentationTimer(QObject *parent = 0, Parameters *params = 0);
+    int getPresentationHours();
+    int getPresentationMinutes();
+    int getPresentationSeconds();
+    bool isCritical();
+    void launch();
+    void initCounter();
+
+signals:
+    void timerChanged();
+
+public slots:
+    void startCounterIfNeeded();
+    void resetCounter();
+    void timerEvent(QTimerEvent *);
+
+};
+
+#endif // PRESENTATIONTIMER_H

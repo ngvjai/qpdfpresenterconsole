@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
     Parameters params((QObject*)desktop);
     params.setParameters(arguments);
 
-    PDFModel pdf((QObject*)desktop, &params);
+    PresentationTimer presentationTimer(0, &params);
+
+    PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
     if(!pdf.pdfLoaded()) {
         QString err = "File '%1' not found. Cannot continue.";
         QString errStr = err.arg(pdf.getPdfFileName());
@@ -32,7 +34,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    MainScreenPdfView mainScreen(0, &pdf, &params);
+    MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer);
     PresenterPdf presenterPdf(0, &pdf);
 
     bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;

@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "pdfmodel.h"
 #include "parameters.h"
+#include "presentationtimer.h"
 
 class MainScreenPdfView : public QMainWindow
 {
@@ -19,22 +20,17 @@ class MainScreenPdfView : public QMainWindow
     QLabel *currentSlide;
     QLabel *nextSlide;
 
-    QTimer *timerLength;
-    int presentationLength;
-    int presentationEmergency;
-    int timerInterval;
-
-    void updateTimerView(void);
+    PresentationTimer *pTimer;
 
 public:
-    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0);
+    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0);
 
 signals:
     void keyPressed(QKeyEvent *e);
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
-    void timerEvent(QTimerEvent *timer);
+    void timerUpdated(void);
     void updateView(void);
 
 };

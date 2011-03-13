@@ -20,11 +20,13 @@ SOURCES += main.cpp \
     mainscreenpdfview.cpp \
     presenterpdf.cpp \
     pdfmodel.cpp \
-    parameters.cpp
+    parameters.cpp \
+    presentationtimer.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
     presenterpdf.h \
     pdfmodel.h \
     app.h \
-    parameters.h
+    parameters.h \
+    presentationtimer.h

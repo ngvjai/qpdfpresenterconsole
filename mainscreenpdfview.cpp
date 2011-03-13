@@ -2,14 +2,13 @@
 #include <QtGui/QGridLayout>
 #include <QApplication>
 
-MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params) :
+MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
 {
     QGridLayout *glayout = new QGridLayout(this);
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
-    this->timerLength = new QTimer(this);
     this->currentSlide = new QLabel(this);
     this->nextSlide = new QLabel(this);
     this->timer->setStyleSheet("color: white; font-weight: bold;");
@@ -25,11 +24,12 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     this->modele = modele;
     this->params = params;
-    this->presentationEmergency = this->params->getPresentationEmergency();
-    this->presentationLength = this->params->getPresentationLength();
-    this->timerInterval = 1000;
+    this->pTimer = timer;
 
-    QObject::connect(modele, SIGNAL(renderingChanged()), SLOT(updateView()));
+    this->timerUpdated();
+
+    QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
+    QObject::connect(this->pTimer, SIGNAL(timerChanged()), SLOT(timerUpdated()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
                      this->modele, SLOT(handleModelSequence(QKeyEvent*)));
 }
@@ -46,7 +46,7 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             break;
 
         case Qt::Key_Space:
-            this->startTimer(this->timerInterval);
+            this->pTimer->launch();
             break;
 
         default:
@@ -64,8 +64,6 @@ void MainScreenPdfView::updateView()
             .arg(this->modele->getCurrentPage() + 1)
             .arg(this->modele->getLastPage() + 1)
             );
-
-    this->updateTimerView();
 
     float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
     float f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
@@ -88,26 +86,13 @@ void MainScreenPdfView::updateView()
     this->nextSlide->setPixmap(QPixmap::fromImage(nextScaled));
 }
 
-void MainScreenPdfView::timerEvent(QTimerEvent *timer)
+void MainScreenPdfView::timerUpdated()
 {
-    this->presentationLength -= this->timerInterval;
-    this->updateTimerView();
-    if (this->presentationLength <= 0) {
-        this->killTimer(timer->timerId());
-    }
-}
-
-void MainScreenPdfView::updateTimerView()
-{
-    int time_heures = this->presentationLength / (1000*60*60);
-    int time_minutes = (this->presentationLength % (1000*60*60)) / (1000*60);
-    int time_secondes = ((this->presentationLength % (1000*60*60)) % (1000*60)) / 1000;
-
-    QTime temps(time_heures, time_minutes, time_secondes, 0);
+    QTime temps(this->pTimer->getPresentationHours(), this->pTimer->getPresentationMinutes(), this->pTimer->getPresentationSeconds(), 0);
     QString s_temps(temps.toString("hh:mm:ss"));
-
     this->timer->setText(s_temps);
-    if (this->presentationLength <= this->presentationEmergency) {
+
+    if (this->pTimer->isCritical()) {
         this->timer->setStyleSheet("color: red; font-weight: bold");
     }
 }
