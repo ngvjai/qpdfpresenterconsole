@@ -11,6 +11,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->timer = new QLabel(this);
     this->currentSlide = new QLabel(this);
     this->nextSlide = new QLabel(this);
+    this->currentDate = new QLabel(this);
+    this->emergencyDate = new QLabel(this);
+
     this->timer->setStyleSheet(
             this->timer->styleSheet()
             .append("color: white;"));
@@ -20,20 +23,36 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->slides->setStyleSheet(
             this->slides->styleSheet()
             .append("color: white; font-weight: bold;"));
+    this->emergencyDate->setStyleSheet(
+            this->emergencyDate->styleSheet()
+            .append("color: red; font-weight: bold;")
+            );
+    this->currentDate->setStyleSheet(
+            this->currentDate->styleSheet()
+            .append("color: white; font-weight: bold;")
+            );
 
     /* Setting fontSize */
     QFont slidesFont(this->slides->font());
     QFont timerFont(this->timer->font());
+    QFont dateFont(this->currentDate->font());
+    QFont emergencyFont(this->emergencyDate->font());
     slidesFont.setPointSize(32);
     timerFont.setPointSize(32);
+    dateFont.setPointSize(32);
+    emergencyFont.setPointSize(32);
 
     this->slides->setFont(slidesFont);
     this->timer->setFont(timerFont);
+    this->currentDate->setFont(dateFont);
+    this->emergencyDate->setFont(emergencyFont);
 
     this->setStyleSheet("background-color: black;");
 
-    glayout->addWidget(this->currentSlide, 0, 0, Qt::AlignCenter);
-    glayout->addWidget(this->nextSlide, 0, 1, Qt::AlignCenter);
+    glayout->addWidget(this->currentDate, 0, 0, Qt::AlignCenter);
+    glayout->addWidget(this->emergencyDate, 0, 1, Qt::AlignCenter);
+    glayout->addWidget(this->currentSlide, 1, 0, Qt::AlignCenter);
+    glayout->addWidget(this->nextSlide, 1, 1, Qt::AlignCenter);
     glayout->addWidget(this->slides, 2, 0, Qt::AlignCenter);
     glayout->addWidget(this->timer, 2, 1, Qt::AlignCenter);
 
@@ -45,6 +64,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->pTimer = timer;
 
     this->timerUpdated();
+    /* Timer for current date displaying */
+    this->startTimer(1000);
 
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this->pTimer, SIGNAL(timerChanged()), SLOT(timerUpdated()));
@@ -101,15 +122,38 @@ void MainScreenPdfView::updateView()
 
     this->currentSlide->setPixmap(QPixmap::fromImage(currentScaled));
     this->nextSlide->setPixmap(QPixmap::fromImage(nextScaled));
+
+    this->emergencyDate->setText(
+            QString(
+                    QTime(
+                            this->pTimer->getEmergencyHours(),
+                            this->pTimer->getEmergencyMinutes(),
+                            this->pTimer->getEmergencySeconds(), 0
+                            )
+                    .toString("hh:mm:ss")
+                    )
+            );
 }
 
 void MainScreenPdfView::timerUpdated()
 {
-    QTime temps(this->pTimer->getPresentationHours(), this->pTimer->getPresentationMinutes(), this->pTimer->getPresentationSeconds(), 0);
-    QString s_temps(temps.toString("hh:mm:ss"));
-    this->timer->setText(s_temps);
+    this->timer->setText(
+            QString(
+                    QTime(
+                            this->pTimer->getPresentationHours(),
+                            this->pTimer->getPresentationMinutes(),
+                            this->pTimer->getPresentationSeconds(), 0
+                            )
+                    .toString("hh:mm:ss")
+                    )
+            );
 
     if (this->pTimer->isCritical()) {
         this->timer->setStyleSheet(this->timer->styleSheet().append("color: red;"));
     }
+}
+
+void MainScreenPdfView::timerEvent(QTimerEvent *ev)
+{
+    this->currentDate->setText(QDateTime::currentDateTime().toString(Qt::DefaultLocaleLongDate));
 }

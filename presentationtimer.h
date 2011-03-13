@@ -24,6 +24,9 @@ public:
     int getPresentationHours();
     int getPresentationMinutes();
     int getPresentationSeconds();
+    int getEmergencyHours();
+    int getEmergencyMinutes();
+    int getEmergencySeconds();
     bool isCritical();
     void launch();
     void initCounter();

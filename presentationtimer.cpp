@@ -43,6 +43,21 @@ int PresentationTimer::getPresentationSeconds()
     return ((this->presentationLength % (1000*60*60)) % (1000*60)) / 1000;
 }
 
+int PresentationTimer::getEmergencyHours()
+{
+    return this->presentationEmergency / (1000*60*60);
+}
+
+int PresentationTimer::getEmergencyMinutes()
+{
+    return (this->presentationEmergency % (1000*60*60)) / (1000*60);
+}
+
+int PresentationTimer::getEmergencySeconds()
+{
+    return ((this->presentationEmergency % (1000*60*60)) % (1000*60)) / 1000;
+}
+
 bool PresentationTimer::isCritical()
 {
     return (this->presentationLength <= this->presentationEmergency);

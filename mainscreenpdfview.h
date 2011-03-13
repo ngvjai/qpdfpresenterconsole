@@ -16,6 +16,8 @@ class MainScreenPdfView : public QMainWindow
     Parameters *params;
     QLabel *slides;
     QLabel *timer;
+    QLabel *currentDate;
+    QLabel *emergencyDate;
 
     QLabel *currentSlide;
     QLabel *nextSlide;
@@ -32,6 +34,7 @@ public slots:
     void keyReleaseEvent(QKeyEvent *ev);
     void timerUpdated(void);
     void updateView(void);
+    void timerEvent(QTimerEvent *ev);
 
 };
 
