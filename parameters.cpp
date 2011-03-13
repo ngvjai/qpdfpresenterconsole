@@ -28,7 +28,7 @@ Parameters::Parameters(QObject *parent) :
         },
         {
             QCommandLine::Param, QChar(), "file",
-            QObject::tr("PDF file of the presentation"),
+            QObject::tr("PDF file of the presentation."),
             QCommandLine::Mandatory
         },
         QCOMMANDLINE_CONFIG_ENTRY_END
