@@ -28,6 +28,11 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 'p', "page",
+            QObject::tr("Starting page number. PDF will be opened at this page. Default: %1.").arg(DEFAULT_PAGE),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Mandatory
@@ -58,6 +63,7 @@ void Parameters::setDefaultParameters()
     this->setCurrentSlidePrcentWidth(DEFAULT_SLIDESWIDTH / 100.0);
     this->setPresentationLength(1000*60*DEFAULT_DURATION); /* in msecs */
     this->setPresentationEmergency(1000*60*DEFAULT_EMERGENCY);
+    this->setOpenPage(DEFAULT_PAGE - 1);
 }
 
 void Parameters::setPresentationLength(int v)
@@ -100,6 +106,16 @@ float Parameters::getCurrentSlidePrcentWidth()
     return this->currentSlidePrcentWidth;
 }
 
+void Parameters::setOpenPage(int v)
+{
+    this->openPage = v;
+}
+
+int Parameters::getOpenPage()
+{
+    return this->openPage;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -115,6 +131,9 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "slides-width") {
          this->setCurrentSlidePrcentWidth(value.toInt() / 100.0);
+     }
+     if (name == "page") {
+         this->setOpenPage(value.toInt() - 1);
      }
 }
 

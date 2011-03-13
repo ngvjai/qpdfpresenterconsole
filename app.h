@@ -13,5 +13,6 @@ const QString appvers = APPVERS;
 #define DEFAULT_DURATION    20
 #define DEFAULT_EMERGENCY   2
 #define DEFAULT_SLIDESWIDTH 70
+#define DEFAULT_PAGE        1
 
 #endif // APP_H

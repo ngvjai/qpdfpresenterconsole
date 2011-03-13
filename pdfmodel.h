@@ -46,8 +46,9 @@ public:
     void render();
     void gotoNextPage();
     void gotoPreviousPage();
-    void gotoFirstPage(void);
-    void gotoLastPage(void);
+    void gotoFirstPage();
+    void gotoLastPage();
+    void gotoOpenPage();
 
     int getPreviousPage();
     int getCurrentPage();

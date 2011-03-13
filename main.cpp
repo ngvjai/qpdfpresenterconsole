@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
         return EXIT_SUCCESS;
     }
 
-    pdf.gotoFirstPage();
+    pdf.gotoOpenPage();
     mainScreen.showFullScreen();
 
     return app.exec();

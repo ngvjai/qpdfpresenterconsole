@@ -143,6 +143,15 @@ void PDFModel::gotoLastPage()
     this->render();
 }
 
+void PDFModel::gotoOpenPage()
+{
+    int openPage = this->params->getOpenPage();
+    if (openPage >= this->firstPage && openPage <= this->lastPage) {
+        this->currentPage = openPage;
+        this->render();
+    }
+}
+
 QImage PDFModel::getImgPreviousPage()
 {
     return this->imgPreviousPage.copy(0, 0,
