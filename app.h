@@ -5,4 +5,8 @@
 #define SHORTNAME "qpdfpresenterconsole"
 #define APPVERS "1.0.0"
 
+#define DEFAULT_DURATION    20
+#define DEFAULT_EMERGENCY   2
+#define DEFAULT_SLIDESWIDTH 70
+
 #endif // APP_H

@@ -1,3 +1,4 @@
+#include "app.h"
 #include "parameters.h"
 #include <QDebug>
 
@@ -12,17 +13,17 @@ Parameters::Parameters(QObject *parent) :
         // { QCommandLine::Param, QChar(), "source", "The sources", QCommandLine::MandatoryMultiple },
         {
             QCommandLine::Option, 'd', "duration",
-            QObject::tr("Duration of the presentation in minutes. Default: 20."),
+            QObject::tr("Duration of the presentation in minutes. Default: %1.").arg(DEFAULT_DURATION),
             QCommandLine::Optional
         },
         {
             QCommandLine::Option, 'e', "emergency",
-            QObject::tr("Timer emergency in minutes. When reached, timer becomes red. Default: 2."),
+            QObject::tr("Timer emergency in minutes. When reached, timer becomes red. Default: %1.").arg(DEFAULT_EMERGENCY),
             QCommandLine::Optional
         },
         {
             QCommandLine::Option, 's', "slides-width",
-            QObject::tr("Main slide width on computer's main screen, in percent. Default: 70."),
+            QObject::tr("Main slide width on computer's main screen, in percent. Default: %1.").arg(DEFAULT_SLIDESWIDTH),
             QCommandLine::Optional
         },
         {
@@ -53,9 +54,9 @@ Parameters::Parameters(QObject *parent) :
 
 void Parameters::setDefaultParameters()
 {
-    this->setCurrentSlidePrcentWidth(0.7);
-    this->setPresentationLength(1000*20*60); /* in msecs */
-    this->setPresentationEmergency(1000*2*60);
+    this->setCurrentSlidePrcentWidth(DEFAULT_SLIDESWIDTH / 100.0);
+    this->setPresentationLength(1000*60*DEFAULT_DURATION); /* in msecs */
+    this->setPresentationEmergency(1000*60*DEFAULT_EMERGENCY);
 }
 
 void Parameters::setPresentationLength(int v)
@@ -112,7 +113,7 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
          this->setPresentationLength(1000*60*(value.toInt()));
      }
      if (name == "slides-width") {
-         this->setCurrentSlidePrcentWidth(value.toInt() / 100);
+         this->setCurrentSlidePrcentWidth(value.toInt() / 100.0);
      }
 }
 
