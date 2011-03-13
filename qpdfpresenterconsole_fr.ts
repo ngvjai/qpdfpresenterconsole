@@ -62,37 +62,42 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="31"/>
+        <location filename="main.cpp" line="32"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="48"/>
+        <location filename="main.cpp" line="49"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation>Pas de support multi-écran actif. Arr^et.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="101"/>
+        <location filename="mainscreenpdfview.cpp" line="103"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
     <message>
-        <location filename="parameters.cpp" line="16"/>
+        <location filename="parameters.cpp" line="17"/>
         <source>Duration of the presentation in minutes. Default: %1.</source>
         <translation>Durée de la présentation en minutes. Par défaut, %1.</translation>
     </message>
     <message>
-        <location filename="parameters.cpp" line="21"/>
+        <location filename="parameters.cpp" line="22"/>
         <source>Timer emergency in minutes. When reached, timer becomes red. Default: %1.</source>
         <translation>Passage de la minuterie en mode urgence, en minutes. À partir de cet instant, la minuterie devient rouge. Par défaut, %1.</translation>
     </message>
     <message>
-        <location filename="parameters.cpp" line="26"/>
+        <location filename="parameters.cpp" line="27"/>
         <source>Main slide width on computer&apos;s main screen, in percent. Default: %1.</source>
         <translation>Largeur de la diapositive principale affichée sur l&apos;écran principal de l&apos;ordinateur, en pourcent. Par défault, %1.</translation>
     </message>
     <message>
-        <location filename="parameters.cpp" line="31"/>
+        <location filename="parameters.cpp" line="32"/>
+        <source>Starting page number. PDF will be opened at this page. Default: %1.</source>
+        <translation>Numéro de la page de départ. Le fichier PDF sera ouvert à cette page .Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="37"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>
