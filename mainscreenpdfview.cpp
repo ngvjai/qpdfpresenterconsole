@@ -71,6 +71,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this->pTimer, SIGNAL(timerChanged()), SLOT(timerUpdated()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
                      this->modele, SLOT(handleModelSequence(QKeyEvent*)));
+    QObject::connect(this, SIGNAL(presentationStarted()),
+                     this->pTimer, SLOT(startCounterIfNeeded()));
 }
 
 void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
@@ -85,7 +87,7 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             break;
 
         case Qt::Key_Space:
-            this->pTimer->launch();
+            emit presentationStarted();
             break;
 
         default:

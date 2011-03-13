@@ -29,6 +29,7 @@ public:
 
 signals:
     void keyPressed(QKeyEvent *e);
+    void presentationStarted();
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
