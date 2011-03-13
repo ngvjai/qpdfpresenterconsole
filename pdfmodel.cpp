@@ -197,6 +197,7 @@ void PDFModel::handleModelSequence(QKeyEvent *ev)
         case Qt::Key_Left:
         case Qt::Key_Down:
         case Qt::Key_PageUp:
+            emit presentationStarted();
             this->gotoPreviousPage();
             break;
 
@@ -204,10 +205,12 @@ void PDFModel::handleModelSequence(QKeyEvent *ev)
         case Qt::Key_Up:
         case Qt::Key_Enter:
         case Qt::Key_PageDown:
+            emit presentationStarted();
             this->gotoNextPage();
             break;
 
         case Qt::Key_Home:
+            emit presentationReset();
             this->gotoFirstPage();
             break;
 

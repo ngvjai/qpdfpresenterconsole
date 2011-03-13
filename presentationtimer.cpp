@@ -50,7 +50,7 @@ bool PresentationTimer::isCritical()
 
 void PresentationTimer::launch()
 {
-    this->startTimer(this->timerInterval);
+    this->timerId = this->startTimer(this->timerInterval);
     this->started = true;
 }
 
@@ -63,6 +63,7 @@ void PresentationTimer::startCounterIfNeeded()
 
 void PresentationTimer::resetCounter()
 {
+    this->started = false;
+    this->killTimer(this->timerId);
     this->initCounter();
-    this->launch();
 }

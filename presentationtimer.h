@@ -16,6 +16,7 @@ class PresentationTimer : public QObject
     int presentationLength;
     int presentationEmergency;
     int timerInterval;
+    int timerId;
     bool started;
 
 public:
