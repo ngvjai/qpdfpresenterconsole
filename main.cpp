@@ -21,11 +21,8 @@ int main(int argc, char *argv[])
     translator.load(QString(SHORTNAME) + "_" + locale);
     app.installTranslator(&translator);
 
-    QStringList arguments = QCoreApplication::arguments();
-
     QDesktopWidget *desktop = app.desktop();
     Parameters params((QObject*)desktop);
-    params.setParameters(arguments);
 
     PresentationTimer presentationTimer(0, &params);
 

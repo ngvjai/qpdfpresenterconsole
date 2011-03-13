@@ -37,7 +37,7 @@ void PresenterPdf::keyReleaseEvent(QKeyEvent *ev)
         switch(ev->key())
         {
         case Qt::Key_Escape:
-            exit(EXIT_SUCCESS);
+            QCoreApplication::quit();
             break;
 
         default:

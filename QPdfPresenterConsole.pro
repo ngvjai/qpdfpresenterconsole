@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     presenterpdf.cpp \
     pdfmodel.cpp \
     parameters.cpp \
-    presentationtimer.cpp
+    presentationtimer.cpp \
+    qcommandline.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -32,10 +33,13 @@ HEADERS += \
     pdfmodel.h \
     app.h \
     parameters.h \
-    presentationtimer.h
+    presentationtimer.h \
+    qcommandline.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
 lrelease.output        = ${QMAKE_FILE_BASE}.qm
 lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_BASE}.qm
 lrelease.CONFIG       += no_link target_predeps
+
+RESOURCES +=

@@ -1,18 +1,61 @@
 #include "parameters.h"
+#include <QDebug>
 
 Parameters::Parameters(QObject *parent) :
     QObject(parent)
 {
+    static const struct QCommandLineConfigEntry conf[] =
+      {
+        // { QCommandLine::Option, 'v', "verbose", "Verbose level (0-3)", QCommandLine::Mandatory },
+        // { QCommandLine::Switch, 'l', "list", "Show a list", QCommandLine::Optional },
+        // { QCommandLine::Param, QChar(), "target", "The target", QCommandLine::Mandatory },
+        // { QCommandLine::Param, QChar(), "source", "The sources", QCommandLine::MandatoryMultiple },
+        {
+            QCommandLine::Option, 'd', "duration",
+            QObject::tr("Duration of the presentation in minutes. Default: 20."),
+            QCommandLine::Optional
+        },
+        {
+            QCommandLine::Option, 'e', "emergency",
+            QObject::tr("Timer emergency in minutes. When reached, timer becomes red. Default: 2."),
+            QCommandLine::Optional
+        },
+        {
+            QCommandLine::Option, 's', "slides-width",
+            QObject::tr("Main slide width on computer's main screen, in percent. Default: 70."),
+            QCommandLine::Optional
+        },
+        {
+            QCommandLine::Param, QChar(), "file",
+            QObject::tr("PDF file of the presentation"),
+            QCommandLine::Mandatory
+        },
+        QCOMMANDLINE_CONFIG_ENTRY_END
+      };
 
+    cmdline = new QCommandLine(this);
+    cmdline->setConfig(conf);
+    cmdline->enableVersion(true); // enable -v // --version
+    cmdline->enableHelp(true); // enable -h / --help
+
+    connect(cmdline, SIGNAL(switchFound(const QString &)),
+            this, SLOT(switchFound(const QString &)));
+    connect(cmdline, SIGNAL(optionFound(const QString &, const QVariant &)),
+            this, SLOT(optionFound(const QString &, const QVariant &)));
+    connect(cmdline, SIGNAL(paramFound(const QString &, const QVariant &)),
+            this, SLOT(paramFound(const QString &, const QVariant &)));
+    connect(cmdline, SIGNAL(parseError(const QString &)),
+            this, SLOT(parseError(const QString &)));
+
+    this->setDefaultParameters();
+    cmdline->parse();
 }
 
-void Parameters::setParameters(QStringList params)
+void Parameters::setDefaultParameters()
 {
-
     this->setCurrentSlidePrcentWidth(0.7);
     this->setPresentationLength(1000*20*60); /* in msecs */
     this->setPresentationEmergency(1000*2*60);
-    this->setPdfFileName(params.last());
 }
 
 void Parameters::setPresentationLength(int v)
@@ -53,4 +96,36 @@ void Parameters::setCurrentSlidePrcentWidth(float v)
 float Parameters::getCurrentSlidePrcentWidth()
 {
     return this->currentSlidePrcentWidth;
+}
+
+void Parameters::switchFound(const QString &name)
+{
+    // qWarning() << "Switch:" << name;
+}
+
+void Parameters::optionFound(const QString &name, const QVariant &value)
+{
+     if (name == "emergency") {
+         this->setPresentationEmergency(1000*60*(value.toInt()));
+     }
+     if (name == "duration") {
+         this->setPresentationLength(1000*60*(value.toInt()));
+     }
+     if (name == "slides-width") {
+         this->setCurrentSlidePrcentWidth(value.toInt() / 100);
+     }
+}
+
+void Parameters::paramFound(const QString &name, const QVariant &value)
+{
+     if (name == "file") {
+         this->setPdfFileName(value.toString());
+     }
+}
+
+void Parameters::parseError(const QString &error)
+{
+     qWarning() << qPrintable(error);
+     cmdline->showHelp(true, -1);
+     QCoreApplication::quit();
 }

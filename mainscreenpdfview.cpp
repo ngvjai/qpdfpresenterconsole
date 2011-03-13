@@ -60,7 +60,7 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
         switch(ev->key())
         {
         case Qt::Key_Escape:
-            exit(EXIT_SUCCESS);
+            QCoreApplication::quit();
             break;
 
         case Qt::Key_Space:
