@@ -76,13 +76,10 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
 
 void MainScreenPdfView::updateView()
 {
-    QString slides = "Slide %1 of %2";
     this->slides->setText(
-            QObject::tr(
-                    slides
+            QObject::tr("Slide %1 of %2")
                     .arg(this->modele->getCurrentPage() + 1)
                     .arg(this->modele->getLastPage() + 1)
-                    .toStdString().c_str())
             );
 
     float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();

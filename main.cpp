@@ -31,11 +31,12 @@ int main(int argc, char *argv[])
 
     PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
     if(!pdf.pdfLoaded()) {
-        QString err = "File '%1' not found. Cannot continue.";
-        QString errStr = err.arg(pdf.getPdfFileName());
+        QString err = QObject::tr("File '%1' not found. Cannot continue.")
+                    .arg(pdf.getPdfFileName());
+
         QMessageBox::critical(0,
-                              QObject::tr(APPNAME),
-                              QObject::tr(errStr.toStdString().c_str())
+                              APPNAME,
+                              err
                               );
         return EXIT_FAILURE;
     }
