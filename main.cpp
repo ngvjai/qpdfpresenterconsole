@@ -13,9 +13,10 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setApplicationName(appname);
+    QCoreApplication::setApplicationVersion(appvers);
     QApplication app(argc, argv);
 
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("utf8"));
     QString locale = QLocale::system().name();
     QTranslator translator;
     translator.load(QString(SHORTNAME) + "_" + locale);

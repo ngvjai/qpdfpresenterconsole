@@ -242,7 +242,7 @@ QCommandLine::parse()
 	}
 
 	if (idx == -1) {
-	  if (i+1 < args.size() && !args[i+1].startsWith(QLatin1Char('-'))) {
+          if (i+1 < args.size() && !args[i+1].startsWith(QLatin1Char('-'))) {
 	    value = args[i+1];
 	    forward = true;
 	  } else {
@@ -416,17 +416,17 @@ QCommandLine::help(bool logo)
   foreach (QCommandLineConfigEntry entry, d->config) {
     if (entry.type == QCommandLine::Option) {
       if (entry.flags & QCommandLine::Mandatory)
-	h.append(QLatin1String(" --") + entry.longName + QLatin1String("=<val>"));
+        h.append(QLatin1String(" --") + entry.longName + QLatin1String("=<val>"));
     }
     if (entry.type == QCommandLine::Param) {
       h.append(QLatin1String(" "));
       if (entry.flags & QCommandLine::Optional)
-	h.append(QLatin1String("["));
+        h.append(QLatin1String("["));
       h.append(entry.longName);
       if (entry.flags & QCommandLine::Multiple)
-	h.append(QLatin1String(" [") + entry.longName + QLatin1String(" [...]]"));
+        h.append(QLatin1String(" [") + entry.longName + QLatin1String(" [...]]"));
       if (entry.flags & QCommandLine::Optional)
-	h.append(QLatin1String("]"));
+        h.append(QLatin1String("]"));
     }
   }
   h.append(QLatin1String("\n\n"));
@@ -442,7 +442,7 @@ QCommandLine::help(bool logo)
 
     if (entry.type == QCommandLine::Option)
       val = QLatin1String("-") + QString(entry.shortName) +
-	QLatin1String(",--") + entry.longName + QLatin1String("=<val>");
+        QLatin1String(",--") + entry.longName + QLatin1String("=<val>");
     if (entry.type == QCommandLine::Switch)
       val = QLatin1String("-") + QString(entry.shortName) + QLatin1String(",--") + entry.longName;
     if (entry.type == QCommandLine::Param)

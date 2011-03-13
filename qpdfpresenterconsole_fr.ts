@@ -54,7 +54,9 @@
         <source>
 Mandatory arguments to long options are mandatory for short options too.
 </source>
-        <translation>Les arguments nécessaires aux options longues le sont également pour les options courtes.</translation>
+        <translation>
+Les arguments nécessaires aux options longues le sont également pour les options courtes.
+</translation>
     </message>
 </context>
 <context>
