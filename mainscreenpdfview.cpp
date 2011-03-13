@@ -11,13 +11,31 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->timer = new QLabel(this);
     this->currentSlide = new QLabel(this);
     this->nextSlide = new QLabel(this);
-    this->timer->setStyleSheet("color: white; font-weight: bold;");
+    this->timer->setStyleSheet(
+            this->timer->styleSheet()
+            .append("color: white;"));
+    this->timer->setStyleSheet(
+            this->timer->styleSheet()
+            .append("font-weight: bold;"));
+    this->slides->setStyleSheet(
+            this->slides->styleSheet()
+            .append("color: white; font-weight: bold;"));
+
+    /* Setting fontSize */
+    QFont slidesFont(this->slides->font());
+    QFont timerFont(this->timer->font());
+    slidesFont.setPointSize(32);
+    timerFont.setPointSize(32);
+
+    this->slides->setFont(slidesFont);
+    this->timer->setFont(timerFont);
+
     this->setStyleSheet("background-color: black;");
 
     glayout->addWidget(this->currentSlide, 0, 0, Qt::AlignCenter);
     glayout->addWidget(this->nextSlide, 0, 1, Qt::AlignCenter);
-    glayout->addWidget(this->slides, 2, 1, Qt::AlignCenter);
-    glayout->addWidget(this->timer, 2, 0, Qt::AlignCenter);
+    glayout->addWidget(this->slides, 2, 0, Qt::AlignCenter);
+    glayout->addWidget(this->timer, 2, 1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
@@ -58,11 +76,13 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
 
 void MainScreenPdfView::updateView()
 {
-    QString slides = "%1/%2";
+    QString slides = "Slide %1 of %2";
     this->slides->setText(
-            slides
-            .arg(this->modele->getCurrentPage() + 1)
-            .arg(this->modele->getLastPage() + 1)
+            QObject::tr(
+                    slides
+                    .arg(this->modele->getCurrentPage() + 1)
+                    .arg(this->modele->getLastPage() + 1)
+                    .toStdString().c_str())
             );
 
     float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
@@ -93,6 +113,6 @@ void MainScreenPdfView::timerUpdated()
     this->timer->setText(s_temps);
 
     if (this->pTimer->isCritical()) {
-        this->timer->setStyleSheet("color: red; font-weight: bold");
+        this->timer->setStyleSheet(this->timer->styleSheet().append("color: red;"));
     }
 }
