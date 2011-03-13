@@ -1,6 +1,7 @@
 #include "app.h"
 #include "parameters.h"
 #include <QDebug>
+#include <iostream>
 
 Parameters::Parameters(QObject *parent) :
     QObject(parent)
@@ -126,7 +127,7 @@ void Parameters::paramFound(const QString &name, const QVariant &value)
 
 void Parameters::parseError(const QString &error)
 {
-     qWarning() << qPrintable(error);
-     cmdline->showHelp(true, -1);
-     QCoreApplication::quit();
+    std::cerr << error.toStdString() << std::endl;
+    cmdline->showHelp(true, -1);
+    QCoreApplication::quit();
 }
