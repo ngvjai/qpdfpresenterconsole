@@ -20,9 +20,29 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele) :
 
     this->modele = modele;
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
+    QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
+                     this->modele, SLOT(handleModelSequence(QKeyEvent*)));
 }
 
 void PresenterPdf::updateView() {
     this->displayPage = this->modele->getImgCurrentPage();
     this->imgLabel->setPixmap(QPixmap::fromImage(this->displayPage));
+}
+
+void PresenterPdf::keyReleaseEvent(QKeyEvent *ev)
+{
+    if (ev->isAutoRepeat()) {
+        ev->ignore();
+    } else {
+        switch(ev->key())
+        {
+        case Qt::Key_Escape:
+            exit(EXIT_SUCCESS);
+            break;
+
+        default:
+            emit keyPressed(ev);
+            break;
+        }
+    }
 }

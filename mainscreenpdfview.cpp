@@ -28,10 +28,14 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->presentationEmergency = this->params->getPresentationEmergency();
     this->presentationLength = this->params->getPresentationLength();
     this->timerInterval = 1000;
+
     QObject::connect(modele, SIGNAL(renderingChanged()), SLOT(updateView()));
+
+    QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
+                     this->modele, SLOT(handleModelSequence(QKeyEvent*)));
 }
 
-void MainScreenPdfView::keyReleaseEvent(QKeyEvent * ev)
+void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
 {
     if (ev->isAutoRepeat()) {
         ev->ignore();
@@ -42,32 +46,12 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent * ev)
             exit(EXIT_SUCCESS);
             break;
 
-        case Qt::Key_Left:
-        case Qt::Key_Down:
-        case Qt::Key_PageUp:
-            modele->gotoPreviousPage();
-            break;
-
-        case Qt::Key_Right:
-        case Qt::Key_Up:
-        case Qt::Key_Enter:
-        case Qt::Key_PageDown:
-            modele->gotoNextPage();
-            break;
-
-        case Qt::Key_Home:
-            modele->gotoFirstPage();
-            break;
-
-        case Qt::Key_End:
-            modele->gotoLastPage();
-            break;
-
         case Qt::Key_Space:
             this->startTimer(this->timerInterval);
             break;
 
         default:
+            emit keyPressed(ev);
             break;
         }
     }

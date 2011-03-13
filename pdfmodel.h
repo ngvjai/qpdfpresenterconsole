@@ -6,6 +6,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
+#include <QKeyEvent>
 #include "parameters.h"
 #include "app.h"
 
@@ -66,6 +67,7 @@ signals:
     void renderingChanged(void);
 
 public slots:
+    void handleModelSequence(QKeyEvent *e);
 
 };
 

@@ -181,3 +181,37 @@ QString PDFModel::getPdfFileName(void)
 {
     return this->pdfFileName;
 }
+
+void PDFModel::handleModelSequence(QKeyEvent *ev)
+{
+    if (ev->isAutoRepeat()) {
+        ev->ignore();
+    } else {
+        switch(ev->key())
+        {
+        case Qt::Key_Left:
+        case Qt::Key_Down:
+        case Qt::Key_PageUp:
+            this->gotoPreviousPage();
+            break;
+
+        case Qt::Key_Right:
+        case Qt::Key_Up:
+        case Qt::Key_Enter:
+        case Qt::Key_PageDown:
+            this->gotoNextPage();
+            break;
+
+        case Qt::Key_Home:
+            this->gotoFirstPage();
+            break;
+
+        case Qt::Key_End:
+            this->gotoLastPage();
+            break;
+
+        default:
+            break;
+        }
+    }
+}

@@ -19,8 +19,10 @@ public:
     explicit PresenterPdf(QWidget *parent = 0, PDFModel *modele = 0);
 
 signals:
+    void keyPressed(QKeyEvent *e);
 
 public slots:
+    void keyReleaseEvent(QKeyEvent *ev);
     void updateView(void);
 
 };

@@ -30,6 +30,7 @@ public:
     explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0);
 
 signals:
+    void keyPressed(QKeyEvent *e);
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
