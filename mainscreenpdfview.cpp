@@ -1,6 +1,7 @@
 #include "mainscreenpdfview.h"
 #include <QtGui/QGridLayout>
 #include <QApplication>
+#include <stdio.h>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
@@ -86,6 +87,14 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             QCoreApplication::quit();
             break;
 
+        case Qt::Key_F:
+            if (this->maximized) {
+                this->showNormal();
+            } else {
+                this->showFullScreen();
+            }
+            break;
+
         case Qt::Key_Space:
             emit presentationStarted();
             break;
@@ -95,6 +104,15 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             break;
         }
     }
+}
+
+void MainScreenPdfView::resizeEvent(QResizeEvent *ev)
+{
+    QRect desktop = QApplication::desktop()->screenGeometry(this);
+    QSize dSize(desktop.width(), desktop.height());
+    QSize wSize = ev->size();
+
+    this->maximized = (dSize == wSize);
 }
 
 void MainScreenPdfView::updateView()

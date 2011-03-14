@@ -23,6 +23,7 @@ class MainScreenPdfView : public QMainWindow
     QLabel *nextSlide;
 
     PresentationTimer *pTimer;
+    bool maximized;
 
 public:
     explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0);
@@ -36,6 +37,7 @@ public slots:
     void timerUpdated(void);
     void updateView(void);
     void timerEvent(QTimerEvent *ev);
+    void resizeEvent(QResizeEvent *ev);
 
 };
 
