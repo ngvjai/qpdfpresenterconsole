@@ -69,7 +69,7 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     <message>
         <location filename="main.cpp" line="49"/>
         <source>No multiscreen enabled. Quitting.</source>
-        <translation>Pas de support multi-écran actif. Arr^et.</translation>
+        <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="103"/>
