@@ -4,6 +4,7 @@ PresentationTimer::PresentationTimer(QObject *parent, Parameters *params) :
     QObject(parent)
 {
     this->params = params;
+    this->started = false;
     this->timerLength = new QTimer(this);
     this->initCounter();
 }
