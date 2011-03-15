@@ -1,4 +1,5 @@
 #include "pdfmodel.h"
+#include <QFileDialog>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
@@ -6,6 +7,14 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     QDesktopWidget *desktop = (QDesktopWidget *)parent;
     this->params = params;
     this->timer = timer;
+
+    if (this->params->getPdfFileName() == "") {
+        QString fileName = QFileDialog::getOpenFileName(0,
+             tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
+        if (fileName != "") {
+            this->params->setPdfFileName(fileName);
+        }
+    }
 
     this->setPdfFileName(this->params->getPdfFileName());
 

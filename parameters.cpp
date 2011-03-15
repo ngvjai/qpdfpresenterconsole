@@ -35,7 +35,7 @@ Parameters::Parameters(QObject *parent) :
         {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
-            QCommandLine::Mandatory
+            QCommandLine::Optional
         },
         QCOMMANDLINE_CONFIG_ENTRY_END
       };
@@ -64,6 +64,7 @@ void Parameters::setDefaultParameters()
     this->setPresentationLength(1000*60*DEFAULT_DURATION); /* in msecs */
     this->setPresentationEmergency(1000*60*DEFAULT_EMERGENCY);
     this->setOpenPage(DEFAULT_PAGE - 1);
+    this->setPdfFileName("");
 }
 
 void Parameters::setPresentationLength(int v)
