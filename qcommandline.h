@@ -4,18 +4,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QList>
 #include <QtCore/QStringList>
-
-#ifndef QCOMMANDLINE_EXPORT
-# if defined(QCOMMANDLINE_MAKEDLL)
-   /* We are building this library */
-#  define QCOMMANDLINE_EXPORT Q_DECL_EXPORT
-# else
-   /* We are using this library */
-#  define QCOMMANDLINE_EXPORT Q_DECL_IMPORT
-# endif
-#endif
-
-class QCoreApplication;
+#include <QCoreApplication>
 
 struct QCommandLineConfigEntry;
 typedef QList< QCommandLineConfigEntry > QCommandLineConfig;
@@ -36,7 +25,7 @@ struct QCommandLinePrivate {
 /**
  * @brief Main class used to convert parse command line
  */
-class QCOMMANDLINE_EXPORT QCommandLine : public QObject
+class QCommandLine : public QObject
 {
   Q_OBJECT
 public:
