@@ -5,9 +5,8 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params
     QMainWindow(parent)
 {
     QDesktopWidget *desktop = QApplication::desktop();
-    QRect res = desktop->availableGeometry(params->getProjectorScreenId());
+    QRect res = desktop->screenGeometry(params->getProjectorScreenId());
     this->move(res.x(), res.y());
-    this->showFullScreen();
     this->setStyleSheet("background-color: black;");
 
     // QGridLayout *glayout = new QGridLayout(this);

@@ -6,9 +6,8 @@
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
 {
-    QRect res = QApplication::desktop()->availableGeometry(params->getMainScreenId());
+    QRect res = QApplication::desktop()->screenGeometry(params->getMainScreenId());
     this->move(res.x(), res.y());
-    this->showFullScreen();
 
     QGridLayout *glayout = new QGridLayout(this);
     QWidget *fake = new QWidget(this);

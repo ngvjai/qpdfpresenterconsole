@@ -22,7 +22,7 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->currentPage = 0;
     this->dpiX = 72.0;
     this->dpiY = 72.0;
-    this->projectorSize = desktop->availableGeometry(this->params->getProjectorScreenId());
+    this->projectorSize = desktop->screenGeometry(this->params->getProjectorScreenId());
 
     this->document = Poppler::Document::load(this->getPdfFileName());
     if (!this->document || this->document->isLocked()) {

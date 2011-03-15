@@ -52,7 +52,9 @@ int main(int argc, char *argv[])
     }
 
     pdf.gotoOpenPage();
+    presenterPdf.showFullScreen();
     mainScreen.showFullScreen();
+    mainScreen.setFocus();
 
     return app.exec();
 }
