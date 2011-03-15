@@ -19,15 +19,15 @@ class Parameters : public QObject
 
     QCommandLine *cmdline;
 
+public:
+    explicit Parameters(QObject *parent = 0);
+
     void setPresentationLength(int v);
     void setPresentationEmergency(int v);
     void setPdfFileName(QString v);
     void setCurrentSlidePrcentWidth(float v);
     void setOpenPage(int v);
     void setDefaultParameters();
-
-public:
-    explicit Parameters(QObject *parent = 0);
 
     int getPresentationLength();
     int getPresentationEmergency();
