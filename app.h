@@ -14,5 +14,7 @@ const QString appvers = APPVERS;
 #define DEFAULT_EMERGENCY   2
 #define DEFAULT_SLIDESWIDTH 70
 #define DEFAULT_PAGE        1
+#define DEFAULT_MAINSCREEN  1
+#define DEFAULT_PROJECTORSCREEN 2
 
 #endif // APP_H

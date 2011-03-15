@@ -7,6 +7,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QLayout>
 #include "pdfmodel.h"
+#include "parameters.h"
 
 class PresenterPdf : public QMainWindow
 {
@@ -14,9 +15,10 @@ class PresenterPdf : public QMainWindow
     QImage displayPage;
     QLabel *imgLabel;
     PDFModel *modele;
+    Parameters *params;
 
 public:
-    explicit PresenterPdf(QWidget *parent = 0, PDFModel *modele = 0);
+    explicit PresenterPdf(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0);
 
 signals:
     void keyPressed(QKeyEvent *e);

@@ -33,6 +33,16 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 'm', "mainscreen",
+            QObject::tr("Main screen identifier. This is where augmented presentation will be. Default: %1.").arg(DEFAULT_MAINSCREEN),
+            QCommandLine::Optional
+        },
+        {
+            QCommandLine::Option, 's', "projectorscreen",
+            QObject::tr("Projector screen identifier. This is where classical presentation will be. Default: %1.").arg(DEFAULT_PROJECTORSCREEN),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Optional
@@ -64,6 +74,8 @@ void Parameters::setDefaultParameters()
     this->setPresentationLength(1000*60*DEFAULT_DURATION); /* in msecs */
     this->setPresentationEmergency(1000*60*DEFAULT_EMERGENCY);
     this->setOpenPage(DEFAULT_PAGE - 1);
+    this->setMainScreenId(DEFAULT_MAINSCREEN);
+    this->setProjectorScreenId(DEFAULT_PROJECTORSCREEN);
     this->setPdfFileName("");
 }
 
@@ -117,6 +129,26 @@ int Parameters::getOpenPage()
     return this->openPage;
 }
 
+void Parameters::setMainScreenId(int v)
+{
+    this->mainScreenId = v;
+}
+
+int Parameters::getMainScreenId()
+{
+    return this->mainScreenId;
+}
+
+void Parameters::setProjectorScreenId(int v)
+{
+    this->projectorScreenId = v;
+}
+
+int Parameters::getProjectorScreenId()
+{
+    return this->projectorScreenId;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -135,6 +167,12 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "page") {
          this->setOpenPage(value.toInt() - 1);
+     }
+     if (name == "mainscreen") {
+         this->setMainScreenId(value.toInt());
+     }
+     if (name == "projectorscreen") {
+         this->setProjectorScreenId(value.toInt());
      }
 }
 

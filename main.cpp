@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     }
 
     MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer);
-    PresenterPdf presenterPdf(0, &pdf);
+    PresenterPdf presenterPdf(0, &pdf, &params);
 
     bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
     if (!hasMultipleScreens) {

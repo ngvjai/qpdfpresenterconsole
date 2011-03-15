@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="fr_FR">
 <context>
+    <name>PDFModel</name>
+    <message>
+        <location filename="pdfmodel.cpp" line="13"/>
+        <source>Open PDF file</source>
+        <translation>Ouvrir le fichier PDF</translation>
+    </message>
+    <message>
+        <location filename="pdfmodel.cpp" line="13"/>
+        <source>PDF Files (*.pdf)</source>
+        <translation>Fichiers PDF (*.pdf)</translation>
+    </message>
+</context>
+<context>
     <name>QCommandLine</name>
     <message>
         <location filename="qcommandline.cpp" line="10"/>
@@ -72,7 +85,7 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="103"/>
+        <location filename="mainscreenpdfview.cpp" line="125"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
@@ -98,6 +111,16 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     </message>
     <message>
         <location filename="parameters.cpp" line="37"/>
+        <source>Main screen identifier. This is where augmented presentation will be. Default: %1.</source>
+        <translation>Identifiant de l&apos;écran principal. C&apos;est sur cet écran que la présentation agrémentée d&apos;informations supplémentaire sera affichée. Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="42"/>
+        <source>Projector screen identifier. This is where classical presentation will be. Default: %1.</source>
+        <translation>Identifiant du projecteur. C&apos;est sur cet écran que la présentation « classique » sera affichée. Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="47"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>

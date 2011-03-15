@@ -16,6 +16,8 @@ class Parameters : public QObject
     int presentationEmergency;
     float currentSlidePrcentWidth;
     int openPage;
+    int mainScreenId;
+    int projectorScreenId;
 
     QCommandLine *cmdline;
 
@@ -27,6 +29,8 @@ public:
     void setPdfFileName(QString v);
     void setCurrentSlidePrcentWidth(float v);
     void setOpenPage(int v);
+    void setMainScreenId(int v);
+    void setProjectorScreenId(int v);
     void setDefaultParameters();
 
     int getPresentationLength();
@@ -34,6 +38,8 @@ public:
     QString getPdfFileName();
     float getCurrentSlidePrcentWidth();
     int getOpenPage();
+    int getMainScreenId();
+    int getProjectorScreenId();
 
 signals:
 

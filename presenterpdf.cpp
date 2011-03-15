@@ -1,11 +1,11 @@
 #include "presenterpdf.h"
 #include <stdio.h>
 
-PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele) :
+PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params) :
     QMainWindow(parent)
 {
     QDesktopWidget *desktop = QApplication::desktop();
-    QRect res = desktop->availableGeometry(2);
+    QRect res = desktop->availableGeometry(params->getProjectorScreenId());
     this->move(res.x(), res.y());
     this->showFullScreen();
     this->setStyleSheet("background-color: black;");
@@ -19,6 +19,7 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele) :
     this->setCentralWidget(this->imgLabel);
 
     this->modele = modele;
+    this->params = params;
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
                      this->modele, SLOT(handleModelSequence(QKeyEvent*)));
