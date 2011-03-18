@@ -1,4 +1,5 @@
 #include "pdfmodel.h"
+#include <QApplication>
 #include <QFileDialog>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
@@ -13,6 +14,8 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
              tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
         if (fileName != "") {
             this->params->setPdfFileName(fileName);
+        } else {
+            QApplication::exit();
         }
     }
 
