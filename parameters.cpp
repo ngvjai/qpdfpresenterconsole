@@ -23,7 +23,7 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
-            QCommandLine::Option, 's', "slides-width",
+            QCommandLine::Option, 'w', "slides-width",
             QObject::tr("Main slide width on computer's main screen, in percent. Default: %1.").arg(DEFAULT_SLIDESWIDTH),
             QCommandLine::Optional
         },
