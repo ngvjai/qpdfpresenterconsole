@@ -94,18 +94,12 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
 
         QList<Poppler::Annotation*> annotations = pdfPage->annotations();
         QList<Poppler::Annotation*>::iterator annIt;
-        bool found = false;
         for(annIt = annotations.begin(); annIt != annotations.end(); ++annIt) {
             if ( (*annIt)->subType() == Poppler::TextAnnotation::AText
                 && ((Poppler::TextAnnotation*)(*annIt))->textIcon() == BEAMER_NOTE_NAME ) {
                 Poppler::TextAnnotation *te = (Poppler::TextAnnotation*) (*annIt);
                 this->setCurrentBeamerNote(te->contents());
-                found = true;
             }
-        }
-
-        if (!found) {
-            this->setCurrentBeamerNote("");
         }
 
         // Generate a QImage of the rendered page
@@ -206,12 +200,14 @@ QImage& PDFModel::getImgNextPage()
 
 QString PDFModel::getCurrentBeamerNote()
 {
-    return this->currentBeamerNote;
+    return this->annotations.value(this->getCurrentPage());
 }
 
 void PDFModel::setCurrentBeamerNote(QString v)
 {
-    this->currentBeamerNote = v;
+    if (this->annotations.value(this->getCurrentPage()).isEmpty()) {
+        this->annotations.insert(this->getCurrentPage(), v);
+    }
 }
 
 QSizeF PDFModel::getScaleFactor()

@@ -28,7 +28,7 @@ class PDFModel : public QObject
     QSizeF pageSize;
     float scaleFactorX;
     float scaleFactorY;
-    QString currentBeamerNote;
+    QHash<int, QString> annotations;
 
     QImage imgPreviousPage;
     QImage imgCurrentPage;
