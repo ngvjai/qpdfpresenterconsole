@@ -28,6 +28,7 @@ class PDFModel : public QObject
     QSizeF pageSize;
     float scaleFactorX;
     float scaleFactorY;
+    QString currentBeamerNote;
 
     QImage imgPreviousPage;
     QImage imgCurrentPage;
@@ -57,6 +58,9 @@ public:
 
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor);
+
+    QString getCurrentBeamerNote();
+    void setCurrentBeamerNote(QString v);
 
     QImage getImgPreviousPage();
     QImage getImgCurrentPage();
