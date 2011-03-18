@@ -52,6 +52,7 @@ public:
     void gotoLastPage();
     void gotoOpenPage();
 
+    int getFirstPage();
     int getPreviousPage();
     int getCurrentPage();
     int getNextPage();

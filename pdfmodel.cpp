@@ -53,6 +53,11 @@ bool PDFModel::pdfLoaded()
     return (this->document != NULL);
 }
 
+int PDFModel::getFirstPage()
+{
+    return this->firstPage;
+}
+
 int PDFModel::getCurrentPage()
 {
     return this->currentPage;
@@ -154,6 +159,7 @@ void PDFModel::gotoSpecificPage(int page)
 void PDFModel::gotoNextPage()
 {
     this->currentPage = this->getNextPage();
+    this->imgPreviousPage = this->imgCurrentPage;
     this->imgCurrentPage = this->imgNextPage;
     emit renderingChanged();
     this->renderNextPage();
@@ -162,6 +168,7 @@ void PDFModel::gotoNextPage()
 void PDFModel::gotoPreviousPage()
 {
     this->currentPage = this->getPreviousPage();
+    this->imgNextPage = this->imgCurrentPage;
     this->imgCurrentPage = this->imgPreviousPage;
     emit renderingChanged();
     this->renderPreviousPage();
