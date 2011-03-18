@@ -150,13 +150,17 @@ void PDFModel::render()
 void PDFModel::gotoNextPage()
 {
     this->currentPage = this->getNextPage();
-    this->render();
+    this->imgCurrentPage = this->imgNextPage;
+    emit renderingChanged();
+    this->renderNextPage();
 }
 
 void PDFModel::gotoPreviousPage()
 {
     this->currentPage = this->getPreviousPage();
-    this->render();
+    this->imgCurrentPage = this->imgPreviousPage;
+    emit renderingChanged();
+    this->renderPreviousPage();
 }
 
 void PDFModel::gotoFirstPage()
@@ -182,26 +186,17 @@ void PDFModel::gotoOpenPage()
 
 QImage PDFModel::getImgPreviousPage()
 {
-    return this->imgPreviousPage.copy(0, 0,
-                                     this->imgPreviousPage.width(),
-                                     this->imgPreviousPage.height()
-                                     );
+    return this->imgPreviousPage;
 }
 
 QImage PDFModel::getImgCurrentPage()
 {
-    return this->imgCurrentPage.copy(0, 0,
-                                     this->imgCurrentPage.width(),
-                                     this->imgCurrentPage.height()
-                                     );
+    return this->imgCurrentPage;
 }
 
 QImage PDFModel::getImgNextPage()
 {
-    return this->imgNextPage.copy(0, 0,
-                                     this->imgNextPage.width(),
-                                     this->imgNextPage.height()
-                                     );
+    return this->imgNextPage;
 }
 
 QString PDFModel::getCurrentBeamerNote()
