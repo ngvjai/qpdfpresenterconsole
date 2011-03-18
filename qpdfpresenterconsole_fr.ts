@@ -4,12 +4,12 @@
 <context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="13"/>
+        <location filename="pdfmodel.cpp" line="14"/>
         <source>Open PDF file</source>
         <translation>Ouvrir le fichier PDF</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="13"/>
+        <location filename="pdfmodel.cpp" line="14"/>
         <source>PDF Files (*.pdf)</source>
         <translation>Fichiers PDF (*.pdf)</translation>
     </message>
@@ -85,7 +85,17 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="125"/>
+        <location filename="mainscreenpdfview.cpp" line="113"/>
+        <source>Going to a specific page number</source>
+        <translation>Aller à une page précise</translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="114"/>
+        <source>Going to page:</source>
+        <translation>Aller à la page :</translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="149"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>

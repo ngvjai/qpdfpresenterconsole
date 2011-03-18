@@ -1,7 +1,7 @@
 #include "mainscreenpdfview.h"
 #include <QtGui/QGridLayout>
 #include <QApplication>
-#include <stdio.h>
+#include <QInputDialog>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
@@ -104,6 +104,23 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             } else {
                 this->showFullScreen();
             }
+            break;
+
+        case Qt::Key_G:
+            {
+                bool ok;
+                int p = QInputDialog::getInt(0,
+                                         QObject::tr("Going to a specific page number"),
+                                         QObject::tr("Going to page:"),
+                                         this->modele->getCurrentPage() + 1,
+                                         this->modele->getFirstPage() + 1,
+                                         this->modele->getLastPage() + 1,
+                                         1, &ok);
+                if (ok) {
+                    this->modele->gotoSpecificPage(p - 1);
+                }
+            }
+
             break;
 
         case Qt::Key_Space:
