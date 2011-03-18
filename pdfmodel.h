@@ -45,6 +45,7 @@ public:
     ~PDFModel();
     bool pdfLoaded();
     void render();
+    void gotoSpecificPage(int page);
     void gotoNextPage();
     void gotoPreviousPage();
     void gotoFirstPage();
@@ -62,9 +63,9 @@ public:
     QString getCurrentBeamerNote();
     void setCurrentBeamerNote(QString v);
 
-    QImage getImgPreviousPage();
-    QImage getImgCurrentPage();
-    QImage getImgNextPage();
+    QImage& getImgPreviousPage();
+    QImage& getImgCurrentPage();
+    QImage& getImgNextPage();
 
     QSizeF getPageSize();
     QSizeF getScaleFactor();

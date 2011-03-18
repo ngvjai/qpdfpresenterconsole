@@ -104,10 +104,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
         }
 
         // Generate a QImage of the rendered page
-        image = pdfPage->renderToImage(
-                scaleFactor.width() * this->dpiX,
-                scaleFactor.height() * this->dpiY
-                );
+        image = pdfPage->renderToImage(scaleFactor.width() * this->dpiX, scaleFactor.height() * this->dpiY);
         if (image.isNull()) {
         }
 
@@ -143,8 +140,15 @@ void PDFModel::render()
     this->renderCurrentPage();
     this->renderPreviousPage();
     this->renderNextPage();
-
     emit renderingChanged();
+}
+
+void PDFModel::gotoSpecificPage(int page)
+{
+    if (page >= this->firstPage && page <= this->lastPage) {
+        this->currentPage = page;
+        this->render();
+    }
 }
 
 void PDFModel::gotoNextPage()
@@ -165,36 +169,30 @@ void PDFModel::gotoPreviousPage()
 
 void PDFModel::gotoFirstPage()
 {
-    this->currentPage = this->firstPage;
-    this->render();
+    this->gotoSpecificPage(this->firstPage);
 }
 
 void PDFModel::gotoLastPage()
 {
-    this->currentPage = this->lastPage;
-    this->render();
+    this->gotoSpecificPage(this->lastPage);
 }
 
 void PDFModel::gotoOpenPage()
 {
-    int openPage = this->params->getOpenPage();
-    if (openPage >= this->firstPage && openPage <= this->lastPage) {
-        this->currentPage = openPage;
-        this->render();
-    }
+    this->gotoSpecificPage(this->params->getOpenPage());
 }
 
-QImage PDFModel::getImgPreviousPage()
+QImage& PDFModel::getImgPreviousPage()
 {
     return this->imgPreviousPage;
 }
 
-QImage PDFModel::getImgCurrentPage()
+QImage& PDFModel::getImgCurrentPage()
 {
     return this->imgCurrentPage;
 }
 
-QImage PDFModel::getImgNextPage()
+QImage& PDFModel::getImgNextPage()
 {
     return this->imgNextPage;
 }

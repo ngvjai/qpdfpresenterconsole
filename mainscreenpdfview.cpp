@@ -139,22 +139,22 @@ void MainScreenPdfView::updateView()
     float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
     float f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
 
-    QImage currentScaled = QImage(
-            this->modele->renderPdfPage(
-                    this->modele->getCurrentPage(),
-                    QSizeF(f1, f1)
+    this->currentSlide->setPixmap(
+            QPixmap::fromImage(
+                    this->modele->renderPdfPage(
+                            this->modele->getCurrentPage(),
+                            QSizeF(f1, f1)
+                            )
                     )
             );
-
-    QImage nextScaled = QImage(
-            this->modele->renderPdfPage(
-                    this->modele->getNextPage(),
-                    QSizeF(f2, f2)
+    this->nextSlide->setPixmap(
+            QPixmap::fromImage(
+                    this->modele->renderPdfPage(
+                            this->modele->getNextPage(),
+                            QSizeF(f2, f2)
+                            )
                     )
             );
-
-    this->currentSlide->setPixmap(QPixmap::fromImage(currentScaled));
-    this->nextSlide->setPixmap(QPixmap::fromImage(nextScaled));
 
     this->emergencyDate->setText(
             QString(
