@@ -87,15 +87,20 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
         if (pdfPage == NULL) {
         }
 
-        this->setCurrentBeamerNote("");
         QList<Poppler::Annotation*> annotations = pdfPage->annotations();
         QList<Poppler::Annotation*>::iterator annIt;
+        bool found = false;
         for(annIt = annotations.begin(); annIt != annotations.end(); ++annIt) {
             if ( (*annIt)->subType() == Poppler::TextAnnotation::AText
                 && ((Poppler::TextAnnotation*)(*annIt))->textIcon() == BEAMER_NOTE_NAME ) {
                 Poppler::TextAnnotation *te = (Poppler::TextAnnotation*) (*annIt);
                 this->setCurrentBeamerNote(te->contents());
+                found = true;
             }
+        }
+
+        if (!found) {
+            this->setCurrentBeamerNote("");
         }
 
         // Generate a QImage of the rendered page

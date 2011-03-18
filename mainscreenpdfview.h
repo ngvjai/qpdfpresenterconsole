@@ -21,6 +21,7 @@ class MainScreenPdfView : public QMainWindow
 
     QLabel *currentSlide;
     QLabel *nextSlide;
+    QLabel *beamerNote;
 
     PresentationTimer *pTimer;
     bool maximized;
