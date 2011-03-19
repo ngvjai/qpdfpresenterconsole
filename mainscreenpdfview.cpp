@@ -2,12 +2,15 @@
 #include <QtGui/QGridLayout>
 #include <QApplication>
 #include <QInputDialog>
+#include "optionsdialog.h"
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
 {
-    QRect res = QApplication::desktop()->screenGeometry(params->getMainScreenId());
-    this->move(res.x(), res.y());
+    this->modele = modele;
+    this->params = params;
+    this->pTimer = timer;
+    this->options = NULL;
 
     QGridLayout *glayout = new QGridLayout();
     QGridLayout *right = new QGridLayout();
@@ -56,8 +59,6 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->emergencyDate->setFont(emergencyFont);
     this->beamerNote->setFont(beamerNoteFont);
 
-    this->setStyleSheet("background-color: black;");
-
     glayout->addWidget(this->currentDate,   0, 0, Qt::AlignCenter);
     glayout->addWidget(this->emergencyDate, 0, 1, Qt::AlignCenter);
     glayout->addWidget(this->currentSlide,  1, 0, Qt::AlignCenter);
@@ -70,10 +71,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
-
-    this->modele = modele;
-    this->params = params;
-    this->pTimer = timer;
+    this->centralWidget()->setStyleSheet("background-color: black;");
 
     this->timerUpdated();
     /* Timer for current date displaying */
@@ -85,6 +83,18 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
                      this->modele, SLOT(handleModelSequence(QKeyEvent*)));
     QObject::connect(this, SIGNAL(presentationStarted()),
                      this->pTimer, SLOT(startCounterIfNeeded()));
+    QObject::connect(this->params, SIGNAL(mainScreenChanged()), SLOT(moveToScreen()));
+
+    this->moveToScreen();
+}
+
+void MainScreenPdfView::moveToScreen()
+{
+    this->showNormal();
+    QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
+    this->move(res.x(), res.y());
+    this->resize(QApplication::desktop()->availableGeometry(this).size());
+    this->showFullScreen();
 }
 
 void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
@@ -120,7 +130,16 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
                     this->modele->gotoSpecificPage(p - 1);
                 }
             }
+            break;
 
+        case Qt::Key_O:
+            if (!this->options) {
+                this->options = new OptionsDialog(this, this->params);
+                QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(updateView()));
+                QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(timerUpdated()));
+                QObject::connect(this->options, SIGNAL(resetPresentationCounter()), SLOT(resetPresentationTimer()));
+            }
+            this->options->show();
             break;
 
         case Qt::Key_Space:
@@ -183,6 +202,11 @@ void MainScreenPdfView::updateView()
                     .toString("hh:mm:ss")
                     )
             );
+}
+
+void MainScreenPdfView::resetPresentationTimer()
+{
+    this->pTimer->resetCounter();
 }
 
 void MainScreenPdfView::timerUpdated()

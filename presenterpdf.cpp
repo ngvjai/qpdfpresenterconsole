@@ -1,27 +1,30 @@
 #include "presenterpdf.h"
-#include <stdio.h>
 
 PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params) :
     QMainWindow(parent)
 {
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect res = desktop->screenGeometry(params->getProjectorScreenId());
-    this->move(res.x(), res.y());
-    this->setStyleSheet("background-color: black;");
-
-    // QGridLayout *glayout = new QGridLayout(this);
-    // QWidget *fake = new QWidget(this);
-    this->imgLabel = new QLabel();
-
-    // glayout->addWidget(this->imgLabel, 0, 0, Qt::AlignCenter);
-    // fake->setLayout(glayout);
-    this->setCentralWidget(this->imgLabel);
-
     this->modele = modele;
     this->params = params;
+
+    this->imgLabel = new QLabel();
+    this->setCentralWidget(this->imgLabel);
+    this->centralWidget()->setStyleSheet("background-color: black;");
+
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
                      this->modele, SLOT(handleModelSequence(QKeyEvent*)));
+    QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(moveToScreen()));
+
+    this->moveToScreen();
+}
+
+void PresenterPdf::moveToScreen()
+{
+    this->showNormal();
+    QRect res = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
+    this->move(res.x(), res.y());
+    this->resize(QApplication::desktop()->availableGeometry(this).size());
+    this->showFullScreen();
 }
 
 void PresenterPdf::updateView() {

@@ -26,6 +26,7 @@ signals:
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
     void updateView(void);
+    void moveToScreen(void);
 
 };
 

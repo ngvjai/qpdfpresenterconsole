@@ -5,7 +5,6 @@
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
 {
-    QDesktopWidget *desktop = (QDesktopWidget *)parent;
     this->params = params;
     this->timer = timer;
 
@@ -21,26 +20,32 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
 
     this->setPdfFileName(this->params->getPdfFileName());
 
-    this->firstPage = 0;
-    this->currentPage = 0;
-    this->dpiX = 72.0;
-    this->dpiY = 72.0;
-    this->projectorSize = desktop->screenGeometry(this->params->getProjectorScreenId());
-
     this->document = Poppler::Document::load(this->getPdfFileName());
     if (!this->document || this->document->isLocked()) {
       delete this->document;
       return;
     }
 
+    this->firstPage = 0;
+    this->currentPage = 0;
     // Pages starts at 0 ...
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
-    this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
-    this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
+    this->dpiX = 72.0;
+    this->dpiY = 72.0;
+    this->updateProjectorSize();
 
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
+    QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
+}
+
+void PDFModel::updateProjectorSize()
+{
+    this->projectorSize = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
+    this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
+    this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
+    this->render();
 }
 
 PDFModel::~PDFModel()

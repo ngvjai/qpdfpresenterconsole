@@ -2,14 +2,59 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="fr_FR">
 <context>
+    <name>OptionsDialog</name>
+    <message>
+        <location filename="optionsdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Dialogue</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="25"/>
+        <source>Presentation length</source>
+        <translation>Durée de la présentation</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="38"/>
+        <location filename="optionsdialog.ui" line="58"/>
+        <source>HH:mm</source>
+        <translation>HH:mm</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="45"/>
+        <source>Presentation emergency</source>
+        <translation>Moment critique de la présentation</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="65"/>
+        <source>Slides screen prcent width</source>
+        <translation>Largeur d&apos;écran de la diapositive (%)</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="86"/>
+        <location filename="optionsdialog.ui" line="96"/>
+        <source>0</source>
+        <translation>0</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="106"/>
+        <source>Main screen identifier</source>
+        <translation>Identifiant de l&apos;écran principal</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="113"/>
+        <source>Projector screen identifier</source>
+        <translation>Identifiant du projecteur</translation>
+    </message>
+</context>
+<context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="14"/>
+        <location filename="pdfmodel.cpp" line="13"/>
         <source>Open PDF file</source>
         <translation>Ouvrir le fichier PDF</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="14"/>
+        <location filename="pdfmodel.cpp" line="13"/>
         <source>PDF Files (*.pdf)</source>
         <translation>Fichiers PDF (*.pdf)</translation>
     </message>
@@ -85,17 +130,17 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="113"/>
+        <location filename="mainscreenpdfview.cpp" line="123"/>
         <source>Going to a specific page number</source>
         <translation>Aller à une page précise</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="114"/>
+        <location filename="mainscreenpdfview.cpp" line="124"/>
         <source>Going to page:</source>
         <translation>Aller à la page :</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="149"/>
+        <location filename="mainscreenpdfview.cpp" line="168"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
@@ -134,6 +179,11 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.cpp" line="17"/>
+        <source>Parameters management</source>
+        <translation>Gestion des paramètres</translation>
     </message>
 </context>
 </TS>

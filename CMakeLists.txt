@@ -127,18 +127,25 @@ file(	GLOB
 	*.ts
 )
 
+file(	GLOB
+        UIC_SOURCE_FILES
+        *.ui
+)
+
 configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
 
 QT4_WRAP_CPP(MOC ${H_SOURCE_FILES})
+QT4_WRAP_UI(UIC ${UIC_SOURCE_FILES})
 
 QT4_ADD_TRANSLATION(QM ${TRANSLATION_FILES})
 
 add_executable(${PROJECT_TARGETBIN}
 	${CPP_SOURCE_FILES}
 	${MOC}
-	${QM}
+        ${UIC}
+        ${QM}
 )
 
 target_link_libraries(

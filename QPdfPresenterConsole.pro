@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     pdfmodel.cpp \
     parameters.cpp \
     presentationtimer.cpp \
-    qcommandline.cpp
+    qcommandline.cpp \
+    optionsdialog.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -34,7 +35,8 @@ HEADERS += \
     app.h.in \
     parameters.h \
     presentationtimer.h \
-    qcommandline.h
+    qcommandline.h \
+    optionsdialog.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
@@ -52,3 +54,6 @@ OTHER_FILES += \
     README.txt \
     LICENSE.txt \
     .gitignore
+
+FORMS += \
+    optionsdialog.ui

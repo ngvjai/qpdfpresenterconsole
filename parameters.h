@@ -42,6 +42,8 @@ public:
     int getProjectorScreenId();
 
 signals:
+    void mainScreenChanged();
+    void projectorScreenChanged();
 
 public slots:
     void parseError(const QString & error);

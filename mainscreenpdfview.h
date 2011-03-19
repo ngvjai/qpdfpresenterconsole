@@ -8,6 +8,7 @@
 #include "pdfmodel.h"
 #include "parameters.h"
 #include "presentationtimer.h"
+#include "optionsdialog.h"
 
 class MainScreenPdfView : public QMainWindow
 {
@@ -23,6 +24,7 @@ class MainScreenPdfView : public QMainWindow
     QLabel *nextSlide;
     QLabel *beamerNote;
 
+    OptionsDialog *options;
     PresentationTimer *pTimer;
     bool maximized;
 
@@ -36,9 +38,11 @@ signals:
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
     void timerUpdated(void);
+    void resetPresentationTimer(void);
     void updateView(void);
     void timerEvent(QTimerEvent *ev);
     void resizeEvent(QResizeEvent *ev);
+    void moveToScreen(void);
 
 };
 

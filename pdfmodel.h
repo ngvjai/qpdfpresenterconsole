@@ -80,6 +80,7 @@ signals:
 
 public slots:
     void handleModelSequence(QKeyEvent *e);
+    void updateProjectorSize();
 
 };
 

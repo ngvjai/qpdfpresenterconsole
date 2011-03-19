@@ -132,6 +132,7 @@ int Parameters::getOpenPage()
 void Parameters::setMainScreenId(int v)
 {
     this->mainScreenId = v;
+    emit mainScreenChanged();
 }
 
 int Parameters::getMainScreenId()
@@ -142,6 +143,7 @@ int Parameters::getMainScreenId()
 void Parameters::setProjectorScreenId(int v)
 {
     this->projectorScreenId = v;
+    emit projectorScreenChanged();
 }
 
 int Parameters::getProjectorScreenId()
