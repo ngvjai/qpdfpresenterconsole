@@ -9,8 +9,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QRect res = QApplication::desktop()->screenGeometry(params->getMainScreenId());
     this->move(res.x(), res.y());
 
-    QGridLayout *glayout = new QGridLayout(this);
-    QGridLayout *right = new QGridLayout(this);
+    QGridLayout *glayout = new QGridLayout();
+    QGridLayout *right = new QGridLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
