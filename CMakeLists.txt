@@ -17,6 +17,14 @@ set(DEFAULT_OPTION_PAGE 1 CACHE STRING "Default first page opened")
 set(DEFAULT_OPTION_MAINSCREEN 1 CACHE STRING "Default main screen identifier")
 set(DEFAULT_OPTION_PROJECTORSCREEN 2 CACHE STRING "Default secondary screen identifier")
 
+if(CMAKE_CROSSCOMPILING)
+    message(STATUS "Cross-compiling for " ${CMAKE_SYSTEM_NAME})
+endif(CMAKE_CROSSCOMPILING)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(DEFAULT_OPTION_MAINSCREEN 0)
+    set(DEFAULT_OPTION_PROJECTORSCREEN 1)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(PopplerQt4 REQUIRED)
 

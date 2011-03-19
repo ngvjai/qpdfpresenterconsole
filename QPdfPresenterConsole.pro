@@ -46,4 +46,5 @@ RESOURCES +=
 
 OTHER_FILES += \
     CMakeLists.txt \
-    cmake/FindPopplerQt4.cmake
+    cmake/FindPopplerQt4.cmake \
+    cmake/mingw32-cross.cmake
