@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     QString locale = QLocale::system().name();
     QTranslator translator;
-    translator.load(QString(SHORTNAME) + "_" + locale);
+    translator.load(QString(SHORTNAME) + "_" + locale, QString(DATADIR));
     app.installTranslator(&translator);
 
     QDesktopWidget *desktop = app.desktop();
