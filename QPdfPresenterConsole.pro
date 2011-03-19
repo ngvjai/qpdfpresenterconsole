@@ -31,7 +31,7 @@ HEADERS += \
     mainscreenpdfview.h \
     presenterpdf.h \
     pdfmodel.h \
-    app.h \
+    app.h.in \
     parameters.h \
     presentationtimer.h \
     qcommandline.h
@@ -43,3 +43,7 @@ lrelease.commands      = $$[QT_INSTALL_BINS]/lrelease ${QMAKE_FILE_IN} -qm ${QMA
 lrelease.CONFIG       += no_link target_predeps
 
 RESOURCES +=
+
+OTHER_FILES += \
+    CMakeLists.txt \
+    cmake/FindPopplerQt4.cmake
