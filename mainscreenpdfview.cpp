@@ -175,6 +175,17 @@ void MainScreenPdfView::updateView()
 
     this->beamerNote->setText(this->modele->getCurrentBeamerNote());
 
+    this->emergencyDate->setText(
+            QString(
+                    QTime(
+                            this->pTimer->getEmergencyHours(),
+                            this->pTimer->getEmergencyMinutes(),
+                            this->pTimer->getEmergencySeconds(), 0
+                            )
+                    .toString("hh:mm:ss")
+                    )
+            );
+
     float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
     float f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
 
@@ -192,17 +203,6 @@ void MainScreenPdfView::updateView()
                             this->modele->getNextPage(),
                             QSizeF(f2, f2)
                             )
-                    )
-            );
-
-    this->emergencyDate->setText(
-            QString(
-                    QTime(
-                            this->pTimer->getEmergencyHours(),
-                            this->pTimer->getEmergencyMinutes(),
-                            this->pTimer->getEmergencySeconds(), 0
-                            )
-                    .toString("hh:mm:ss")
                     )
             );
 }
