@@ -35,8 +35,10 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
 # Packages-specific
 set(CPACK_RPM_PACKAGE_LICENSE "MIT")
 set(CPACK_RPM_PACKAGE_GROUP "Graphical desktop/Other")
+set(CPACK_RPM_PACKAGE_URL "http://gitorious.org/qpdfpresenterconsole")
 
 # Distrib-specific
+set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "http://gitorious.org/qpdfpresenterconsole")
 set(CPACK_DEBIAN_PACKAGE_SECTION "misc")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
@@ -57,6 +59,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(DEFAULT_OPTION_PROJECTORSCREEN 1)
     set(WINOTHERDEPS "${CMAKE_SOURCE_DIR}/win32-dependencies/")
     set(CPACK_GENERATOR "${CPACK_GENERATOR};NSIS;ZIP")
+    set(CPACK_NSIS_URL_INFO_ABOUT "http://gitorious.org/qpdfpresenterconsole")
     set(CPACK_PACKAGE_EXECUTABLES "${PROJECT_TARGETBIN}" "QPdfPresenterConsole")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
