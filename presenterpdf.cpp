@@ -23,8 +23,9 @@ void PresenterPdf::moveToScreen()
     this->showNormal();
     QRect res = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
     this->move(res.x(), res.y());
-    this->resize(QApplication::desktop()->availableGeometry(this).size());
     this->showFullScreen();
+
+    this->updateView();
 }
 
 void PresenterPdf::updateView() {

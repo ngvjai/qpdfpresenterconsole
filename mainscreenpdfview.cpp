@@ -93,8 +93,9 @@ void MainScreenPdfView::moveToScreen()
     this->showNormal();
     QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
     this->move(res.x(), res.y());
-    this->resize(QApplication::desktop()->availableGeometry(this).size());
     this->showFullScreen();
+
+    this->updateView();
 }
 
 void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
