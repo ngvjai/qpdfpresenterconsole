@@ -28,6 +28,7 @@ class PDFModel : public QObject
     QSizeF pageSize;
     float scaleFactorX;
     float scaleFactorY;
+    float scaleFactor;
     QHash<int, QString> annotations;
 
     QImage imgPreviousPage;

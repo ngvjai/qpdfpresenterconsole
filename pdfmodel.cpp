@@ -46,6 +46,7 @@ void PDFModel::updateProjectorSize()
     this->dpiY = 72.0;
     this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
     this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
+    this->scaleFactor = qMin(this->scaleFactorX, this->scaleFactorY);
     this->render();
 }
 
@@ -122,7 +123,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
 
 QImage PDFModel::renderPdfPage(int page)
 {
-    return this->renderPdfPage(page, QSizeF(this->scaleFactorX, this->scaleFactorY));
+    return this->renderPdfPage(page, QSizeF(this->scaleFactor, this->scaleFactor));
 }
 
 void PDFModel::renderPreviousPage()

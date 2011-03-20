@@ -92,11 +92,8 @@ void MainScreenPdfView::moveToScreen()
 {
     this->showNormal();
     QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
-    this->setMinimumSize(QSize(0, 0));
-    this->setGeometry(res);
     this->move(res.x(), res.y());
     this->showFullScreen();
-    this->adjustSize();
     this->updateView();
 }
 
@@ -232,5 +229,10 @@ void MainScreenPdfView::timerUpdated()
 
 void MainScreenPdfView::timerEvent(QTimerEvent *ev)
 {
-    this->currentDate->setText(QDateTime::currentDateTime().toString(Qt::DefaultLocaleLongDate));
+    this->currentDate->setText(
+            QDateTime::currentDateTime()
+            .toString(
+                    Qt::DefaultLocaleShortDate
+                    )
+            );
 }
