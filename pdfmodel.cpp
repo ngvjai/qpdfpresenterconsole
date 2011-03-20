@@ -1,7 +1,7 @@
 #include "pdfmodel.h"
 #include <QApplication>
 #include <QFileDialog>
-#include <stdio.h>
+#include <QtConcurrentRun>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
@@ -172,7 +172,7 @@ void PDFModel::gotoNextPage()
     this->imgPreviousPage = this->imgCurrentPage;
     this->imgCurrentPage = this->imgNextPage;
     emit renderingChanged();
-    this->renderNextPage();
+    QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderNextPage);
 }
 
 void PDFModel::gotoPreviousPage()
@@ -181,7 +181,7 @@ void PDFModel::gotoPreviousPage()
     this->imgNextPage = this->imgCurrentPage;
     this->imgCurrentPage = this->imgPreviousPage;
     emit renderingChanged();
-    this->renderPreviousPage();
+    QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderPreviousPage);
 }
 
 void PDFModel::gotoFirstPage()
