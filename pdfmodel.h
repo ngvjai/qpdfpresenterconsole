@@ -39,6 +39,7 @@ class PDFModel : public QObject
     void renderCurrentPage();
     void renderNextPage();
 
+    void finishInit();
     void setPdfFileName(QString file);
 
 public:

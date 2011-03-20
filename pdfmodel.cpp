@@ -8,20 +8,28 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
 {
     this->params = params;
     this->timer = timer;
+    this->document = NULL;
 
-    if (this->params->getPdfFileName() == "") {
+    if (!this->params->getPdfFileName().isEmpty()) {
+        this->setPdfFileName(this->params->getPdfFileName());
+        this->finishInit();
+    } else {
         QString fileName = QFileDialog::getOpenFileName(0,
              tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
-        if (fileName != "") {
+        if (!fileName.isEmpty()) {
             this->params->setPdfFileName(fileName);
+            this->setPdfFileName(fileName);
+            this->finishInit();
         } else {
-            QApplication::exit();
+            QCoreApplication::exit(EXIT_FAILURE);
         }
     }
+}
 
-    this->setPdfFileName(this->params->getPdfFileName());
-
+void PDFModel::finishInit()
+{
     this->document = Poppler::Document::load(this->getPdfFileName());
+
     if (!this->document || this->document->isLocked()) {
       delete this->document;
       return;
@@ -37,6 +45,7 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
+
 }
 
 void PDFModel::updateProjectorSize()

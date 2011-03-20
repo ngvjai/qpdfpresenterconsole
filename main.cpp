@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
                               APPNAME,
                               err
                               );
-        return EXIT_FAILURE;
+
+        exit(EXIT_FAILURE);
     }
 
     MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer);
@@ -48,7 +49,8 @@ int main(int argc, char *argv[])
                               QObject::tr(APPNAME),
                               QObject::tr("No multiscreen enabled. Quitting.")
                               );
-        return EXIT_SUCCESS;
+
+        QCoreApplication::quit();
     }
 
     pdf.gotoOpenPage();
