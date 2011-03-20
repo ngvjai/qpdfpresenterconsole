@@ -8,7 +8,7 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params
 
     this->imgLabel = new QLabel();
     this->setCentralWidget(this->imgLabel);
-    this->centralWidget()->setStyleSheet("background-color: black;");
+    this->setStyleSheet("background-color: black;");
 
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
@@ -22,9 +22,10 @@ void PresenterPdf::moveToScreen()
 {
     this->showNormal();
     QRect res = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
+    this->setMinimumSize(QSize(0, 0));
+    this->setGeometry(res);
     this->move(res.x(), res.y());
     this->showFullScreen();
-
     this->updateView();
 }
 

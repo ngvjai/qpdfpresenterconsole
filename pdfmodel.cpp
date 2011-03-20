@@ -1,6 +1,7 @@
 #include "pdfmodel.h"
 #include <QApplication>
 #include <QFileDialog>
+#include <stdio.h>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
@@ -31,8 +32,6 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     // Pages starts at 0 ...
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
-    this->dpiX = 72.0;
-    this->dpiY = 72.0;
     this->updateProjectorSize();
 
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
@@ -43,6 +42,8 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
 void PDFModel::updateProjectorSize()
 {
     this->projectorSize = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
+    this->dpiX = 72.0;
+    this->dpiY = 72.0;
     this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
     this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
     this->render();

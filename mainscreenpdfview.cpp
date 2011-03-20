@@ -71,7 +71,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
-    this->centralWidget()->setStyleSheet("background-color: black;");
+    this->setStyleSheet("background-color: black;");
 
     this->timerUpdated();
     /* Timer for current date displaying */
@@ -92,9 +92,11 @@ void MainScreenPdfView::moveToScreen()
 {
     this->showNormal();
     QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
+    this->setMinimumSize(QSize(0, 0));
+    this->setGeometry(res);
     this->move(res.x(), res.y());
     this->showFullScreen();
-
+    this->adjustSize();
     this->updateView();
 }
 
@@ -135,7 +137,7 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
 
         case Qt::Key_O:
             if (!this->options) {
-                this->options = new OptionsDialog(this, this->params);
+                this->options = new OptionsDialog(0, this->params);
                 QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(updateView()));
                 QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(timerUpdated()));
                 QObject::connect(this->options, SIGNAL(resetPresentationCounter()), SLOT(resetPresentationTimer()));

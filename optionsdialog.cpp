@@ -7,6 +7,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, Parameters *params) :
     ui(new Ui::OptionsDialog)
 {
     this->ui->setupUi(this);
+
     this->params = params;
     this->oldCurrentSlidePrcentWidth = this->params->getCurrentSlidePrcentWidth();
     this->oldMainScreenId = this->params->getMainScreenId();
