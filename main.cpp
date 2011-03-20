@@ -25,6 +25,16 @@ int main(int argc, char *argv[])
     QDesktopWidget *desktop = app.desktop();
     Parameters params((QObject*)desktop);
 
+    bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
+    if (!hasMultipleScreens) {
+        QMessageBox::critical(0,
+                              QObject::tr(APPNAME),
+                              QObject::tr("No multiscreen enabled. Quitting.")
+                              );
+
+        exit(EXIT_FAILURE);
+    }
+
     PresentationTimer presentationTimer(0, &params);
 
     PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
@@ -42,16 +52,6 @@ int main(int argc, char *argv[])
 
     MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer);
     PresenterPdf presenterPdf(0, &pdf, &params);
-
-    bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
-    if (!hasMultipleScreens) {
-        QMessageBox::critical(0,
-                              QObject::tr(APPNAME),
-                              QObject::tr("No multiscreen enabled. Quitting.")
-                              );
-
-        QCoreApplication::quit();
-    }
 
     pdf.gotoOpenPage();
     mainScreen.setFocus();
