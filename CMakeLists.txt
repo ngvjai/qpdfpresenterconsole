@@ -38,7 +38,7 @@ set(CPACK_RPM_PACKAGE_GROUP "Graphical desktop/Other")
 
 # Distrib-specific
 set(CPACK_DEBIAN_PACKAGE_SECTION "misc")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libstdc++6, libgcc1, libqt4-core, libqt4-gui, libpoppler-qt4-3")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
     "${PROJECT_NAME} is a Beamer-oriented presenting tool.
 
