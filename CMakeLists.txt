@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 
+if(NOT CMAKE_INSTALL_PREFIX)
+    set(NO_INSTALL_PREFIX ON)
+endif(NOT CMAKE_INSTALL_PREFIX)
+
 project(QPdfPresenterConsole)
 set(CMAKE_MODULE_PATH
 	"${PROJECT_SOURCE_DIR}/cmake"
@@ -86,6 +90,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    if(NO_INSTALL_PREFIX)
+        message(WARNING "\n!!!\nYou did not set any CMAKE_INSTALL_PREFIX for your Linux binaries. Your installation will be done with CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}\n!!!")
+    endif(NO_INSTALL_PREFIX)
     set(DEFAULT_OPTION_MAINSCREEN 1)
     set(DEFAULT_OPTION_PROJECTORSCREEN 2)
     set(CPACK_GENERATOR "${CPACK_GENERATOR};DEB;RPM")
