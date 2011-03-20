@@ -67,12 +67,11 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "misc")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
     "${PROJECT_NAME} is a Beamer-oriented presenting tool.
-
-QPdfPresenterConsole is a software inspired by both Apple's Keynote and
-Pdf Presenter Console [http://westhoffswelt.de/projects/pdf_presenter_console.html]
-written using Qt4. Thus, it is easy to use, extend and port.
-Currently, it runs smoothly on any Linux which has XRandR capabilities, and
-Windows 7 at least.")
+ QPdfPresenterConsole is a software inspired by both Apple's Keynote and
+ Pdf Presenter Console [http://westhoffswelt.de/projects/pdf_presenter_console.html]
+ written using Qt4. Thus, it is easy to use, extend and port.
+ Currently, it runs smoothly on any Linux which has XRandR capabilities, and
+ Windows 7 at least.")
 
 message(STATUS "Compilation profile: " ${CMAKE_BUILD_TYPE})
 
