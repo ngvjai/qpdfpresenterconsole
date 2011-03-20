@@ -14,6 +14,26 @@ set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 set(PROJECT_DATADIR "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_SHORTNAME}")
 
+option(PROJECT_DEBUG "Compile in Debug profile" OFF)
+
+include(CMakeDependentOption)
+
+CMAKE_DEPENDENT_OPTION(PROJECT_RELEASE "Compile for distribution" ON "NOT PROJECT_DEBUG" OFF)
+CMAKE_DEPENDENT_OPTION(PROJECT_STRIP_BIN "Strip Windows binaries" ON "NOT PROJECT_DEBUG" OFF)
+CMAKE_DEPENDENT_OPTION(PROJECT_PACK_BIN "Compress Windows binaries" ON "NOT PROJECT_DEBUG" OFF)
+
+if(PROJECT_DEBUG)
+    set(CMAKE_BUILD_TYPE "Debug")
+endif(PROJECT_DEBUG)
+
+if(PROJECT_RELEASE)
+    set(CMAKE_BUILD_TYPE "MinRelSize")
+endif(PROJECT_RELEASE)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif(NOT CMAKE_BUILD_TYPE)
+
 set(DEFAULT_OPTION_DURATION 20 CACHE STRING "Default presentation length (min)")
 set(DEFAULT_OPTION_EMERGENCY 2 CACHE STRING "Default emergency time (min)")
 set(DEFAULT_OPTION_SLIDESWIDTH 55 CACHE STRING "Default main slide width (prcent)")
@@ -50,6 +70,8 @@ written using Qt4. Thus, it is easy to use, extend and port.
 Currently, it runs smoothly on any Linux which has XRandR capabilities, and
 Windows 7 at least.")
 
+message(STATUS "Compilation profile: " ${CMAKE_BUILD_TYPE})
+
 if(CMAKE_CROSSCOMPILING)
     message(STATUS "Cross-compiling for " ${CMAKE_SYSTEM_NAME})
 endif(CMAKE_CROSSCOMPILING)
@@ -67,12 +89,23 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(DEFAULT_OPTION_MAINSCREEN 1)
     set(DEFAULT_OPTION_PROJECTORSCREEN 2)
     set(CPACK_GENERATOR "${CPACK_GENERATOR};DEB;RPM")
+    set(CPACK_STRIP_FILES "${PROJECT_TARGETBIN}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(PopplerQt4 REQUIRED)
 
 include(CPack)
+
+if(PROJECT_STRIP_BIN)
+    message(STATUS "Using Stripper: " ${CMAKE_STRIP})
+endif(PROJECT_STRIP_BIN)
+
+if(PROJECT_PACK_BIN)
+    include(FindSelfPackers)
+    message(STATUS "Using Packer for binaries: " ${SELF_PACKER_FOR_EXECUTABLE})
+    message(STATUS "Using Packer for librairies: " ${SELF_PACKER_FOR_SHARED_LIB})
+endif(PROJECT_PACK_BIN)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(PROJECT_BASE_WINDEPS
@@ -162,3 +195,25 @@ install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+
+if(PROJECT_STRIP_BIN)
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        install(CODE
+"file(GLOB FILES_TO_STRIP \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/*.exe\" \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/*.dll\")
+message(STATUS \"Stripping with ${CMAKE_STRIP}\")
+execute_process(COMMAND ${CMAKE_STRIP} \${FILES_TO_STRIP})")
+    endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+endif(PROJECT_STRIP_BIN)
+
+if(PROJECT_PACK_BIN)
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        install(CODE
+"file(GLOB BINS_TO_PACK \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/*.exe\")
+file(GLOB DEPS_TO_PACK \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/bin/*.dll\")
+message(STATUS \"Packing binaries with ${SELF_PACKER_FOR_EXECUTABLE}\")
+execute_process(COMMAND ${SELF_PACKER_FOR_EXECUTABLE} ${SELF_PACKER_FOR_EXECUTABLE_FLAGS} -qq \${BINS_TO_PACK})
+message(STATUS \"Packing libraries with ${SELF_PACKER_FOR_SHARED_LIB}\")
+execute_process(COMMAND ${SELF_PACKER_FOR_SHARED_LIB} ${SELF_PACKER_FOR_SHARED_LIB_FLAGS} -qq \${DEPS_TO_PACK})
+")
+    endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+endif(PROJECT_PACK_BIN)
