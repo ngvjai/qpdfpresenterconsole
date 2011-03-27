@@ -1,0 +1,23 @@
+\documentclass{beamer}
+\newcommand{\beamerannot}[1]{
+	\pdfannot {
+		/Subtype /Text
+		/Name /BeamerNote
+		/H Y
+		/Contents (#1)
+	}
+}
+
+\title{Beamer Annotations Example}
+\author{Alexandre Lissy}
+
+\begin{document}
+	\frame{\titlepage}
+
+	\begin{frame}\frametitle{Title of the frame}
+		\begin{block}{Example}
+		We might discuss some data, that are tricky
+		\end{block}
+		\beamerannot{So let's say that they don't come from us.}
+	\end{frame}
+\end{document}
