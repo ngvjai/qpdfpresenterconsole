@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QtConcurrentRun>
+#include <stdio.h>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
@@ -86,12 +87,14 @@ int PDFModel::getLastPage()
 
 int PDFModel::getPreviousPage()
 {
-    return (this->getCurrentPage() > this->firstPage ? ((this->getCurrentPage() - 1) % (this->lastPage + 1)) : this->firstPage);
+    int v = (this->getCurrentPage() > this->firstPage ? ((this->getCurrentPage() - 1) % (this->lastPage + 1)) : this->firstPage);
+    return v;
 }
 
 int PDFModel::getNextPage()
 {
-    return (this->getCurrentPage() < this->lastPage ? ((this->getCurrentPage() + 1) % (this->lastPage + 1)) : this->lastPage);
+    int v = (this->getCurrentPage() < this->lastPage ? ((this->getCurrentPage() + 1) % (this->lastPage + 1)) : this->lastPage);
+    return v;
 }
 
 QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
@@ -168,20 +171,26 @@ void PDFModel::gotoSpecificPage(int page)
 
 void PDFModel::gotoNextPage()
 {
-    this->currentPage = this->getNextPage();
-    this->imgPreviousPage = this->imgCurrentPage;
-    this->imgCurrentPage = this->imgNextPage;
-    emit renderingChanged();
-    QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderNextPage);
+    if (this->getCurrentPage() != this->getLastPage()) {
+        this->currentPage = this->getNextPage();
+        this->imgPreviousPage = this->imgCurrentPage;
+        this->imgCurrentPage = this->imgNextPage;
+        emit renderingChanged();
+        if (this->getCurrentPage() < this->getLastPage()) {
+            QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderNextPage);
+        }
+    }
 }
 
 void PDFModel::gotoPreviousPage()
 {
-    this->currentPage = this->getPreviousPage();
-    this->imgNextPage = this->imgCurrentPage;
-    this->imgCurrentPage = this->imgPreviousPage;
-    emit renderingChanged();
-    QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderPreviousPage);
+    if (this->getCurrentPage() != this->getFirstPage()) {
+        this->currentPage = this->getPreviousPage();
+        this->imgNextPage = this->imgCurrentPage;
+        this->imgCurrentPage = this->imgPreviousPage;
+        emit renderingChanged();
+        QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderPreviousPage);
+    }
 }
 
 void PDFModel::gotoFirstPage()
