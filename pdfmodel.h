@@ -7,6 +7,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
 #include <QKeyEvent>
+#include <QReadWriteLock>
 #include "parameters.h"
 #include "presentationtimer.h"
 #include "app.h"
@@ -30,6 +31,9 @@ class PDFModel : public QObject
     float scaleFactorY;
     float scaleFactor;
     QHash<int, QString> annotations;
+    QReadWriteLock mutexPreviousPage;
+    QReadWriteLock mutexCurrentPage;
+    QReadWriteLock mutexNextPage;
 
     QImage imgPreviousPage;
     QImage imgCurrentPage;

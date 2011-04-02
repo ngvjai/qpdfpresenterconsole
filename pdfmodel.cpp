@@ -46,7 +46,6 @@ void PDFModel::finishInit()
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
-
 }
 
 void PDFModel::updateProjectorSize()
@@ -140,17 +139,23 @@ QImage PDFModel::renderPdfPage(int page)
 
 void PDFModel::renderPreviousPage()
 {
-    this->imgPreviousPage = this->renderPdfPage(this->getPreviousPage());
+    this->mutexPreviousPage.lockForWrite();
+        this->imgPreviousPage = this->renderPdfPage(this->getPreviousPage());
+    this->mutexPreviousPage.unlock();
 }
 
 void PDFModel::renderCurrentPage()
 {
-    this->imgCurrentPage = this->renderPdfPage(this->getCurrentPage());
+    this->mutexCurrentPage.lockForWrite();
+        this->imgCurrentPage = this->renderPdfPage(this->getCurrentPage());
+    this->mutexCurrentPage.unlock();
 }
 
 void PDFModel::renderNextPage()
 {
-    this->imgNextPage = this->renderPdfPage(this->getNextPage());
+    this->mutexNextPage.lockForWrite();
+        this->imgNextPage = this->renderPdfPage(this->getNextPage());
+    this->mutexNextPage.unlock();
 }
 
 void PDFModel::render()
@@ -173,8 +178,13 @@ void PDFModel::gotoNextPage()
 {
     if (this->getCurrentPage() != this->getLastPage()) {
         this->currentPage = this->getNextPage();
+
+        this->mutexPreviousPage.lockForRead(); this->mutexCurrentPage.lockForRead();
         this->imgPreviousPage = this->imgCurrentPage;
+        this->mutexPreviousPage.unlock(); this->mutexNextPage.lockForRead();
         this->imgCurrentPage = this->imgNextPage;
+        this->mutexCurrentPage.unlock(); this->mutexNextPage.unlock();
+
         emit renderingChanged();
         if (this->getCurrentPage() < this->getLastPage()) {
             QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderNextPage);
@@ -186,8 +196,13 @@ void PDFModel::gotoPreviousPage()
 {
     if (this->getCurrentPage() != this->getFirstPage()) {
         this->currentPage = this->getPreviousPage();
+
+        this->mutexNextPage.lockForRead(); this->mutexCurrentPage.lockForRead();
         this->imgNextPage = this->imgCurrentPage;
+        this->mutexNextPage.unlock(); this->mutexPreviousPage.lockForRead();
         this->imgCurrentPage = this->imgPreviousPage;
+        this->mutexCurrentPage.unlock(); this->mutexPreviousPage.unlock();
+
         emit renderingChanged();
         QFuture<void> future = QtConcurrent::run(this, &PDFModel::renderPreviousPage);
     }
