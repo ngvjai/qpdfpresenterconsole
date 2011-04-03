@@ -2,10 +2,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QMessageBox>
 #include <QObject>
-
 #include <stdlib.h>
-#include <stdio.h>
-
 #include "mainscreenpdfview.h"
 #include "presenterpdf.h"
 #include "pdfmodel.h"

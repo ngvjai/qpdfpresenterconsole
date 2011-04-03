@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QInputDialog>
 #include "optionsdialog.h"
-#include <stdio.h>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
