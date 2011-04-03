@@ -94,6 +94,10 @@ void MainScreenPdfView::moveToScreen()
     QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
     this->move(res.x(), res.y());
     this->showFullScreen();
+
+    this->f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
+    this->f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
+
     this->updateView();
 }
 
@@ -183,14 +187,11 @@ void MainScreenPdfView::updateView()
                     )
             );
 
-    float f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
-    float f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
-
     this->currentSlide->setPixmap(
             QPixmap::fromImage(
                     this->modele->renderPdfPage(
                             this->modele->getCurrentPage(),
-                            QSizeF(f1, f1)
+                            QSizeF(this->f1, this->f1)
                             )
                     )
             );
@@ -198,7 +199,7 @@ void MainScreenPdfView::updateView()
             QPixmap::fromImage(
                     this->modele->renderPdfPage(
                             this->modele->getNextPage(),
-                            QSizeF(f2, f2)
+                            QSizeF(this->f2, this->f2)
                             )
                     )
             );

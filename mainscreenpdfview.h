@@ -27,6 +27,7 @@ class MainScreenPdfView : public QMainWindow
     OptionsDialog *options;
     PresentationTimer *pTimer;
     bool maximized;
+    float f1, f2;
 
 public:
     explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0);
