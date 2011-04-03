@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QInputDialog>
 #include "optionsdialog.h"
+#include <stdio.h>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
     QMainWindow(parent)
@@ -13,7 +14,6 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->options = NULL;
 
     QGridLayout *glayout = new QGridLayout();
-    QGridLayout *right = new QGridLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
@@ -62,16 +62,20 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     glayout->addWidget(this->currentDate,   0, 0, Qt::AlignCenter);
     glayout->addWidget(this->emergencyDate, 0, 1, Qt::AlignCenter);
     glayout->addWidget(this->currentSlide,  1, 0, Qt::AlignCenter);
-    glayout->addWidget(this->slides,        2, 0, Qt::AlignCenter);
-    glayout->addWidget(this->timer,         2, 1, Qt::AlignCenter);
-
-    right->addWidget(this->nextSlide,   0, 0, Qt::AlignCenter);
-    right->addWidget(this->beamerNote,  1, 0, Qt::AlignCenter);
-    glayout->addLayout(right,               1, 1, Qt::AlignCenter);
+    glayout->addWidget(this->nextSlide,     1, 1, Qt::AlignCenter);
+    glayout->addWidget(this->beamerNote,    2, 0, 1, -1, Qt::AlignCenter);
+    glayout->addWidget(this->slides,        3, 0, Qt::AlignCenter);
+    glayout->addWidget(this->timer,         3, 1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
     this->setStyleSheet("background-color: black;");
+
+    this->beamerNote->setWordWrap(true);
+    this->beamerNote->setStyleSheet(
+            this->beamerNote->styleSheet()
+            .append("color: white;")
+            );
 
     this->timerUpdated();
     /* Timer for current date displaying */
@@ -174,8 +178,6 @@ void MainScreenPdfView::updateView()
                     .arg(this->modele->getLastPage() + 1)
             );
 
-    this->beamerNote->setText(this->modele->getCurrentBeamerNote());
-
     this->emergencyDate->setText(
             QString(
                     QTime(
@@ -195,6 +197,7 @@ void MainScreenPdfView::updateView()
                             )
                     )
             );
+
     this->nextSlide->setPixmap(
             QPixmap::fromImage(
                     this->modele->renderPdfPage(
@@ -203,6 +206,9 @@ void MainScreenPdfView::updateView()
                             )
                     )
             );
+
+    this->beamerNote->setFixedWidth(this->currentSlide->width() + this->nextSlide->width());
+    this->beamerNote->setText(this->modele->getCurrentBeamerNote());
 }
 
 void MainScreenPdfView::resetPresentationTimer()
