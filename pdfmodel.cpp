@@ -2,7 +2,6 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QtConcurrentRun>
-#include <stdio.h>
 
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
@@ -116,7 +115,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
             if ( (*annIt)->subType() == Poppler::TextAnnotation::AText
                 && ((Poppler::TextAnnotation*)(*annIt))->textIcon() == BEAMER_NOTE_NAME ) {
                 Poppler::TextAnnotation *te = (Poppler::TextAnnotation*) (*annIt);
-                this->setCurrentBeamerNote(te->contents());
+                this->setBeamerNote(te->contents(), page);
             }
         }
 
@@ -240,13 +239,17 @@ QImage& PDFModel::getImgNextPage()
 
 QString PDFModel::getCurrentBeamerNote()
 {
-    return this->annotations.value(this->getCurrentPage());
+    QString s = "";
+    if (this->annotations.contains(this->getCurrentPage())) {
+        s = this->annotations.value(this->getCurrentPage());
+    }
+    return s;
 }
 
-void PDFModel::setCurrentBeamerNote(QString v)
+void PDFModel::setBeamerNote(QString v, int page)
 {
-    if (this->annotations.value(this->getCurrentPage()).isEmpty()) {
-        this->annotations.insert(this->getCurrentPage(), v);
+    if (!this->annotations.contains(page)) {
+        this->annotations.insert(page, v);
     }
 }
 

@@ -68,7 +68,7 @@ public:
     QImage renderPdfPage(int page, QSizeF scaleFactor);
 
     QString getCurrentBeamerNote();
-    void setCurrentBeamerNote(QString v);
+    void setBeamerNote(QString v, int page);
 
     QImage& getImgPreviousPage();
     QImage& getImgCurrentPage();
