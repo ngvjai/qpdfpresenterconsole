@@ -83,7 +83,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this->pTimer, SIGNAL(timerChanged()), SLOT(timerUpdated()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
-                     this->modele, SLOT(handleModelSequence(QKeyEvent*)));
+                     this->modele, SLOT(handleKeyModelSequence(QKeyEvent*)));
+    QObject::connect(this, SIGNAL(mousePressed(QMouseEvent*)),
+                     this->modele, SLOT(handleMouseModelSequence(QMouseEvent*)));
     QObject::connect(this, SIGNAL(presentationStarted()),
                      this->pTimer, SLOT(startCounterIfNeeded()));
     QObject::connect(this->params, SIGNAL(mainScreenChanged()), SLOT(moveToScreen()));
@@ -157,6 +159,15 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
             emit keyPressed(ev);
             break;
         }
+    }
+}
+
+void MainScreenPdfView::mouseReleaseEvent(QMouseEvent *ev)
+{
+    switch(ev->button()) {
+    default:
+        emit mousePressed(ev);
+        break;
     }
 }
 

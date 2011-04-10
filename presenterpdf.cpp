@@ -13,7 +13,7 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params
 
     QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
     QObject::connect(this, SIGNAL(keyPressed(QKeyEvent*)),
-                     this->modele, SLOT(handleModelSequence(QKeyEvent*)));
+                     this->modele, SLOT(handleKeyModelSequence(QKeyEvent*)));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(moveToScreen()));
 
     this->moveToScreen();

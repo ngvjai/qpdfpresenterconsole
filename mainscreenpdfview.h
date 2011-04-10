@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMouseEvent>
 #include <QtGui/QLabel>
 #include <QTimer>
 #include "pdfmodel.h"
@@ -34,10 +35,12 @@ public:
 
 signals:
     void keyPressed(QKeyEvent *e);
+    void mousePressed(QMouseEvent *e);
     void presentationStarted();
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);
+    void mouseReleaseEvent(QMouseEvent *ev);
     void timerUpdated(void);
     void resetPresentationTimer(void);
     void updateView(void);

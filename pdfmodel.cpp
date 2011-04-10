@@ -273,35 +273,57 @@ QString PDFModel::getPdfFileName(void)
     return this->pdfFileName;
 }
 
-void PDFModel::handleModelSequence(QKeyEvent *ev)
+void PDFModel::handleKeyModelSequence(QKeyEvent *ev)
 {
-    if (ev->isAutoRepeat()) {
-        ev->ignore();
-    } else {
-        switch(ev->key())
-        {
-        case Qt::Key_Left:
-        case Qt::Key_Up:
-        case Qt::Key_PageUp:
+    if (ev) {
+        if (ev->isAutoRepeat()) {
+            ev->ignore();
+        } else {
+            switch(ev->key())
+            {
+            case Qt::Key_Left:
+            case Qt::Key_Up:
+            case Qt::Key_PageUp:
+                emit presentationStarted();
+                this->gotoPreviousPage();
+                break;
+
+            case Qt::Key_Enter:
+            case Qt::Key_Right:
+            case Qt::Key_Down:
+            case Qt::Key_PageDown:
+                emit presentationStarted();
+                this->gotoNextPage();
+                break;
+
+            case Qt::Key_Home:
+                emit presentationReset();
+                this->gotoFirstPage();
+                break;
+
+            case Qt::Key_End:
+                this->gotoLastPage();
+                break;
+
+            default:
+                break;
+            }
+        }
+    }
+}
+
+void PDFModel::handleMouseModelSequence(QMouseEvent *ev)
+{
+    if (ev) {
+        switch(ev->button()) {
+        case Qt::RightButton:
             emit presentationStarted();
             this->gotoPreviousPage();
             break;
 
-        case Qt::Key_Enter:
-        case Qt::Key_Right:
-        case Qt::Key_Down:
-        case Qt::Key_PageDown:
+        case Qt::LeftButton:
             emit presentationStarted();
             this->gotoNextPage();
-            break;
-
-        case Qt::Key_Home:
-            emit presentationReset();
-            this->gotoFirstPage();
-            break;
-
-        case Qt::Key_End:
-            this->gotoLastPage();
             break;
 
         default:

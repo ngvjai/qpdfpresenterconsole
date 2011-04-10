@@ -7,6 +7,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
 #include <QKeyEvent>
+#include <QMouseEvent>
 #include <QReadWriteLock>
 #include "parameters.h"
 #include "presentationtimer.h"
@@ -85,7 +86,8 @@ signals:
     void presentationReset(void);
 
 public slots:
-    void handleModelSequence(QKeyEvent *e);
+    void handleKeyModelSequence(QKeyEvent *e);
+    void handleMouseModelSequence(QMouseEvent *e);
     void updateProjectorSize();
 
 };
