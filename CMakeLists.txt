@@ -17,6 +17,10 @@ set(PROJECT_VERSION_MINOR "1")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 set(PROJECT_DATADIR "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_SHORTNAME}")
+set(inputdoc "${CMAKE_SOURCE_DIR}/${PROJECT_SHORTNAME}.txt")
+set(htmldoc "${PROJECT_SHORTNAME}.html")
+set(htmlcss "docbook-xsl.css")
+set(mandoc "${PROJECT_SHORTNAME}.1")
 
 option(PROJECT_DEBUG "Compile in Debug profile" OFF)
 
@@ -87,6 +91,15 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CPACK_GENERATOR "${CPACK_GENERATOR};NSIS;ZIP")
     set(CPACK_NSIS_URL_INFO_ABOUT "http://gitorious.org/qpdfpresenterconsole")
     set(CPACK_PACKAGE_EXECUTABLES "${PROJECT_TARGETBIN}" "QPdfPresenterConsole")
+    set(CPACK_NSIS_CREATE_ICONS_EXTRA
+    	"CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Documentation.lnk\\\" \\\"$INSTDIR\\\\share\\\\${htmldoc}\\\"
+    	CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\BeamerNotes.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"$INSTDIR\\\\share\\\\beamer.pdf\\\"
+	")
+    set(CPACK_NSIS_DELETE_ICONS_EXTRA
+    	"!insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
+	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Documentation.lnk\\\"
+    	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\BeamerNotes.lnk\\\"
+	")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -182,6 +195,12 @@ file(	GLOB
         *.ui
 )
 
+file(   GLOB
+        BEAMERNOTES
+        beamer.tex
+        beamer.pdf
+)
+
 configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
@@ -205,16 +224,13 @@ target_link_libraries(
 )
 
 if(ASCIIDOC_FOUND)
-    set(inputdoc "${CMAKE_SOURCE_DIR}/qpdfpresenterconsole.txt")
-    set(htmldoc "qpdfpresenterconsole.html")
-    set(htmlcss "docbook-xsl.css")
-    set(mandoc "qpdfpresenterconsole.1")
     add_custom_target(${htmldoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f xhtml --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
     add_custom_target(${mandoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f manpage --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
     add_dependencies(${PROJECT_TARGETBIN} ${htmldoc} ${mandoc})
 endif(ASCIIDOC_FOUND)
 
 install(FILES ${QM} DESTINATION ${PROJECT_DATADIR})
+install(FILES ${BEAMERNOTES} DESTINATION ${PROJECT_DATADIR})
 install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
