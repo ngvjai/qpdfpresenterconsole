@@ -53,7 +53,9 @@ OTHER_FILES += \
     cmake/mingw64-cross.cmake \
     README.txt \
     LICENSE.txt \
-    .gitignore
+    .gitignore \
+    cmake/FindAsciidoc.cmake \
+    qpdfpresenterconsole.txt
 
 FORMS += \
     optionsdialog.ui

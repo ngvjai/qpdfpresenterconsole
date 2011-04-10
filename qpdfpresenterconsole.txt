@@ -1,0 +1,178 @@
+QPDFPRESENTERCONSOLE(1)
+=======================
+
+
+NAME
+----
+qpdfpresenterconsole - displays PDF presentation in a fancy manner
+
+
+USAGE
+-----
+*QPdfPresenterConsole* ['OPTIONS'] ['FILE']
+
+
+DESCRIPTION
+-----------
+The QPdfPresenterConsole(1) software aims at making Beamer presentation
+more funny than ever, allowing speaker to have better view of its slides
+on the main screen. It reads presentation from the file 'FILE' if given,
+otherwise a file ope dialog will show up to allow the user to open a
+PDF.
+
+You need to have several desktops enabled to make use of the software,
+otherwise it won't start. For example, Windows in Extended Desktop mode
+or any Xorg with XRandR and not in clone mode. There is a notion of main
+screen and projector screen: it's pretty trivial to understand. Think of
+someone giving a talk with his laptop. He will want to have his laptop's
+screen showing him the current slide, the next slide, date/time, how
+much time he has left, notes, etc. This is what we call the "main
+screen". The "projector screen" is the one where you will have only the
+current slide, and which will be displayed to the audience.
+
+Slides are not rendered real-time: doing this would introduce latency,
+and this is bad. Instead, some prerendering is done, but unlike "Pdf
+Presenter Console", not for all slides (did you already tried to do this
+on a huge pdf with many kind of complex TikZ pictures ? Say hello to Out
+of Memory Killer ...), just three:
+ - the previous slide, thus allowing smooth going backward ;
+ - the next slide, thus allowing sooth going forward ;
+ - and the current slide, that gets copied from one or the other.
+At runtime, this means that we just do the necessary, nothing more.
+Prerendering can benefit from multiple cores since we make use of
+Qt::ConcurrentRun to start it.
+
+All the options available are presented below, and some of them are
+changeable at runtime, via the Options dialog which can be trigged by
+pressing down the 'o' key. Also, please note that there is no menu bar,
+so everything is access by keyboard shortcuts.
+
+KEY BINDINGS
+------------
+=== Exiting
+    You can exit properly the application by using the Escape key.
+
+=== Mini/Maximizing main screen
+    You can minimize or maximize (depending on the previous state ...)
+    the main screen window simply via the F key. It can allow you to
+    lock you laptop during a break ...
+
+=== Slides navigation
+    Scrolling slides is easy and has several key binding:
+     - Going to the next slide is done using either Enter, Right, Down
+       or Page Down. Left mouse button click will also work. This will
+       automatically start the presentation timer if you did not started
+       it yet ;
+     - Going to the previous slide is done using either Left, Up, or
+       Page Up. Right mouse button click will also work. This will
+       automatically start the presentation timer if you did not started
+       it yet ;
+     - Going to the first slide is done using Home. This will
+       automatically reset the presentation timer ;
+     - Going to the last slide is done using End ;
+     - Going to a specific slide is done through a dialog box triggered
+       by G key.
+
+=== Start presentation timer
+    You might want to start the presentation timer before starting
+    scrolling slides.
+
+NOTES
+-----
+QPdfPresenterConsole allows displaying PDF-specific embedded notes. They
+will be displayed on the main screen, below both the current and next
+slide. You might want to check with the 'beamer.pdf' and 'beamer.tex'
+files provided with the package.
+
+Technically, those are hidden annotations (subtype text) in the PDF
+file, using an out-of-standard name "BeamerNote". It should allows
+producing PDF file where QPdfPresenterConsole can find the specific
+notes while not perturbing other software (tested with Evince and Adobe
+Reader 9).
+
+Warning: Notes are exploiting Qt's QLabel displaying capabilities. That
+means they can use any HTML that Qt allows. Using LaTeX commands will
+*NOT WORK* (for example \ldots). No strict ruling on display constraints
+is provided for the moment, so you should make sure your notes are not
+too long and/or check before the talk that nothing brokes. No real harm
+here, just unpleasant display and behavior on the main screen.
+
+OPTIONS
+-------
+
+*-d, --duration*='DURATION'::
+    The 'DURATION' parameter defines the length of the presentation, in
+    minutes. Basically, it's the time slot you have in a session. The
+    countdown won't start until you start your presentation, or you
+    press the Space key.
+
+*-e, --emergency*='VALUE'::
+    At which time before the end of the allocated time (as defined by
+    'DURATION') should the user be warned that we are reaching the end
+    of his talk. The 'VALUE' is given in minutes, and when the timer
+    reaches this point, it will change the 'DURATION' time display font
+    to red, in order to attract user's attention that he has not much
+    time left.
+
+*w, slides-width*='PERCENTAGE'::
+    The 'PERCENTAGE' value defines the width of the current (i.e. the
+    one that is currently displayed on the projector screen) slide on
+    the main screen. As per its name, it's a percentage value. Warning:
+    no boundary checking is done on this value, and you should change it
+    carefully, it can break display (for example, you could have parts
+    of the main screen that gets on the projector screen).
+
+*p, page*='PAGE'::
+    Specify at which 'PAGE' the 'FILE' should be open. This can be
+    useful if you are teaching a class and that you have several
+    sessions planned: you can re-open your slides right where you
+    stopped during the previous session.
+
+*m, mainscreen*='MAINSCREENID'::
+    Allows to set the main screen as 'MAINSCREENID'. Values depends on
+    your OS and your screens configuration. Defaults values are adapted
+    when laptop's screen being at the left of the projector screen, be
+    it under Linux or Windows.
+
+*s, projectorscreen*='PROJECTORSCREENID'::
+    Allows to set the main screen as 'PROJECTORSCREENID'. Values depends
+    on your OS and your screens configuration. Defaults values are
+    adapted when laptop's screen being at the left of the projector
+    screen, be it under Linux or Windows.
+
+*'FILE'*::
+    This is the filename to open. If not specified, the application will
+    ask to the user which file it should open, through a file open
+    dialog.
+
+
+EXIT STATUS
+-----------
+*0*::
+    Success.
+
+*1*::
+    Failure.
+
+
+BUGS
+----
+None, it's a perfect software. Please report bugs through Gitorious'
+messages or by mail.
+
+
+AUTHOR
+------
+Written by Alexandre Lissy, <alexandre.lissy@etu.univ-tours.fr>
+
+
+RESOURCES
+---------
+Gitorious: <https://gitorious.org/qpdfpresenterconsole>
+
+
+COPYING
+-------
+Copyright \(C) 2011 Alexandre Lissy. This software is released under
+the terms of the MIT License.
+

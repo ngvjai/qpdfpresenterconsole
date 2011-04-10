@@ -102,8 +102,14 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(PopplerQt4 REQUIRED)
+find_package(Asciidoc)
 
 include(CPack)
+
+if(ASCIIDOC_FOUND)
+    message(STATUS "Found asciidoc: " ${ASCIIDOC_EXECUTABLE})
+    message(STATUS "Found a2x: " ${ASCIIDOC_A2X_EXECUTABLE})
+endif(ASCIIDOC_FOUND)
 
 if(PROJECT_STRIP_BIN)
     message(STATUS "Using Stripper: " ${CMAKE_STRIP})
@@ -198,10 +204,24 @@ target_link_libraries(
         ${POPPLER_QT4_LIBRARIES}
 )
 
+if(ASCIIDOC_FOUND)
+    set(inputdoc "${CMAKE_SOURCE_DIR}/qpdfpresenterconsole.txt")
+    set(htmldoc "qpdfpresenterconsole.html")
+    set(htmlcss "docbook-xsl.css")
+    set(mandoc "qpdfpresenterconsole.1")
+    add_custom_target(${htmldoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f xhtml --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
+    add_custom_target(${mandoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f manpage --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
+    add_dependencies(${PROJECT_TARGETBIN} ${htmldoc} ${mandoc})
+endif(ASCIIDOC_FOUND)
+
 install(FILES ${QM} DESTINATION ${PROJECT_DATADIR})
 install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
+    install(FILES ${CMAKE_BINARY_DIR}/${htmldoc} DESTINATION ${PROJECT_DATADIR})
+    install(FILES ${CMAKE_BINARY_DIR}/${htmlcss} DESTINATION ${PROJECT_DATADIR})
+else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    install(FILES ${CMAKE_BINARY_DIR}/${mandoc} DESTINATION share/man/man1)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(PROJECT_STRIP_BIN)
