@@ -55,7 +55,9 @@ OTHER_FILES += \
     LICENSE.txt \
     .gitignore \
     cmake/FindAsciidoc.cmake \
-    qpdfpresenterconsole.txt
+    qpdfpresenterconsole.txt \
+    QPdfPresenterConsole.png \
+    QPdfPresenterConsole.desktop
 
 FORMS += \
     optionsdialog.ui
