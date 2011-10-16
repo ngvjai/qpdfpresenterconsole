@@ -114,7 +114,7 @@ OPTIONS
     to red, in order to attract user's attention that he has not much
     time left.
 
-*w, slides-width*='PERCENTAGE'::
+*-w, slides-width*='PERCENTAGE'::
     The 'PERCENTAGE' value defines the width of the current (i.e. the
     one that is currently displayed on the projector screen) slide on
     the main screen. As per its name, it's a percentage value. Warning:
@@ -122,19 +122,19 @@ OPTIONS
     carefully, it can break display (for example, you could have parts
     of the main screen that gets on the projector screen).
 
-*p, page*='PAGE'::
+*-p, page*='PAGE'::
     Specify at which 'PAGE' the 'FILE' should be open. This can be
     useful if you are teaching a class and that you have several
     sessions planned: you can re-open your slides right where you
     stopped during the previous session.
 
-*m, mainscreen*='MAINSCREENID'::
+*-m, mainscreen*='MAINSCREENID'::
     Allows to set the main screen as 'MAINSCREENID'. Values depends on
     your OS and your screens configuration. Defaults values are adapted
     when laptop's screen being at the left of the projector screen, be
     it under Linux or Windows.
 
-*s, projectorscreen*='PROJECTORSCREENID'::
+*-s, projectorscreen*='PROJECTORSCREENID'::
     Allows to set the main screen as 'PROJECTORSCREENID'. Values depends
     on your OS and your screens configuration. Defaults values are
     adapted when laptop's screen being at the left of the projector
