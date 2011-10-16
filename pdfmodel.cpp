@@ -6,6 +6,8 @@
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
 {
+    this->ContentPart = 0;
+    this->AnnotationsPart = 1;
     this->params = params;
     this->timer = timer;
     this->document = NULL;
@@ -45,6 +47,7 @@ void PDFModel::finishInit()
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
+    QObject::connect(this->params, SIGNAL(beamerNotesChanged()), SLOT(updateProjectorSize()));
 }
 
 void PDFModel::updateProjectorSize()
@@ -95,9 +98,10 @@ int PDFModel::getNextPage()
     return v;
 }
 
-QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
+QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
 {
     QImage image;
+    int annotscale = 1;
 
     // Access page of the PDF file
     if (page >= this->firstPage && page <= this->lastPage) {
@@ -119,9 +123,33 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
             }
         }
 
+        if (this->params->getBeamerNotes()) {
+            annotscale = 2;
+        }
+
         // Generate a QImage of the rendered page
-        image = pdfPage->renderToImage(scaleFactor.width() * this->dpiX, scaleFactor.height() * this->dpiY);
-        if (image.isNull()) {
+        image = pdfPage->renderToImage(
+                    scaleFactor.width() * this->dpiX * annotscale,
+                    scaleFactor.height() * this->dpiY * annotscale);
+
+        if (!image.isNull()) {
+            if (partie == this->getContentPart()) {
+                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
+                    image = image.copy(0, 0, image.width() / annotscale, image.height());
+                }
+                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
+                    image = image.copy(image.width() / annotscale, 0, image.width() / annotscale, image.height());
+                }
+            }
+
+            if (partie == this->getAnnotationsPart()) {
+                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
+                    image = image.copy(image.width() / annotscale, 0, image.width() / annotscale, image.height());
+                }
+                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
+                    image = image.copy(0, 0, image.width() / annotscale, image.height());
+                }
+            }
         }
 
         // after the usage, the page must be deleted
@@ -133,7 +161,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor)
 
 QImage PDFModel::renderPdfPage(int page)
 {
-    return this->renderPdfPage(page, QSizeF(this->scaleFactor, this->scaleFactor));
+    return this->renderPdfPage(page, QSizeF(this->scaleFactor, this->scaleFactor), PDFModel::ContentPart);
 }
 
 void PDFModel::renderPreviousPage()
@@ -271,6 +299,16 @@ void PDFModel::setPdfFileName(QString file)
 QString PDFModel::getPdfFileName(void)
 {
     return this->pdfFileName;
+}
+
+int PDFModel::getContentPart()
+{
+    return this->ContentPart;
+}
+
+int PDFModel::getAnnotationsPart()
+{
+    return this->AnnotationsPart;
 }
 
 void PDFModel::handleKeyModelSequence(QKeyEvent *ev)

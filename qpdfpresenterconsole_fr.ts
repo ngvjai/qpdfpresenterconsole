@@ -45,16 +45,31 @@
         <source>Projector screen identifier</source>
         <translation>Identifiant du projecteur</translation>
     </message>
+    <message>
+        <location filename="optionsdialog.ui" line="120"/>
+        <source>Slides with Beamer Notes</source>
+        <translation>Diapositives Beamer avec notes</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="130"/>
+        <source>Beamer Notes on Left Screen</source>
+        <translation>Notes Beamer sur l&apos;écran de gauche</translation>
+    </message>
+    <message>
+        <location filename="optionsdialog.ui" line="140"/>
+        <source>Beamer Notes on Right Screen</source>
+        <translation>Notes Beamer sur l&apos;écran de droite</translation>
+    </message>
 </context>
 <context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="13"/>
+        <location filename="pdfmodel.cpp" line="20"/>
         <source>Open PDF file</source>
         <translation>Ouvrir le fichier PDF</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="13"/>
+        <location filename="pdfmodel.cpp" line="20"/>
         <source>PDF Files (*.pdf)</source>
         <translation>Fichiers PDF (*.pdf)</translation>
     </message>
@@ -120,27 +135,27 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="32"/>
+        <location filename="main.cpp" line="39"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="49"/>
+        <location filename="main.cpp" line="29"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="123"/>
+        <location filename="mainscreenpdfview.cpp" line="132"/>
         <source>Going to a specific page number</source>
         <translation>Aller à une page précise</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="124"/>
+        <location filename="mainscreenpdfview.cpp" line="133"/>
         <source>Going to page:</source>
         <translation>Aller à la page :</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="168"/>
+        <location filename="mainscreenpdfview.cpp" line="186"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
@@ -176,12 +191,22 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     </message>
     <message>
         <location filename="parameters.cpp" line="47"/>
+        <source>Enable support for Beamer notes. Default: %1.</source>
+        <translation>Activer la prise en charge des notes Beamer. Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="52"/>
+        <source>Which part of the slides for Beamer notes (left or right screen). Default: %1.</source>
+        <translation>Quelle partie des diapositives contient les notes Beamer (partie droite &apos;right&apos; ou gauche &apos;left&apos;). Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="57"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>
     </message>
     <message>
-        <location filename="optionsdialog.cpp" line="17"/>
+        <location filename="optionsdialog.cpp" line="19"/>
         <source>Parameters management</source>
         <translation>Gestion des paramètres</translation>
     </message>

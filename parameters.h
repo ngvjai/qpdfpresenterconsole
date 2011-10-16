@@ -18,6 +18,8 @@ class Parameters : public QObject
     int openPage;
     int mainScreenId;
     int projectorScreenId;
+    bool beamerNotes;
+    QString beamerNotesPart;
 
     QCommandLine *cmdline;
 
@@ -31,6 +33,8 @@ public:
     void setOpenPage(int v);
     void setMainScreenId(int v);
     void setProjectorScreenId(int v);
+    void setBeamerNotes(bool v);
+    void setBeamerNotesPart(QString v);
     void setDefaultParameters();
 
     int getPresentationLength();
@@ -40,10 +44,13 @@ public:
     int getOpenPage();
     int getMainScreenId();
     int getProjectorScreenId();
+    bool getBeamerNotes();
+    QString getBeamerNotesPart();
 
 signals:
     void mainScreenChanged();
     void projectorScreenChanged();
+    void beamerNotesChanged();
 
 public slots:
     void parseError(const QString & error);

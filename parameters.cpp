@@ -43,6 +43,16 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 'n', "beamernotes",
+            QObject::tr("Enable support for Beamer notes. Default: %1.").arg(DEFAULT_BEAMERNOTES),
+            QCommandLine::Optional
+        },
+        {
+            QCommandLine::Option, 'l', "beamernotespart",
+            QObject::tr("Which part of the slides for Beamer notes (left or right screen). Default: %1.").arg(DEFAULT_BEAMERNOTESPART),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Optional
@@ -76,6 +86,8 @@ void Parameters::setDefaultParameters()
     this->setOpenPage(DEFAULT_PAGE - 1);
     this->setMainScreenId(DEFAULT_MAINSCREEN);
     this->setProjectorScreenId(DEFAULT_PROJECTORSCREEN);
+    this->setBeamerNotes(DEFAULT_BEAMERNOTES);
+    this->setBeamerNotesPart(DEFAULT_BEAMERNOTESPART);
     this->setPdfFileName("");
 }
 
@@ -151,6 +163,28 @@ int Parameters::getProjectorScreenId()
     return this->projectorScreenId;
 }
 
+void Parameters::setBeamerNotes(bool v)
+{
+    this->beamerNotes = v;
+    emit beamerNotesChanged();
+}
+
+bool Parameters::getBeamerNotes()
+{
+    return this->beamerNotes;
+}
+
+void Parameters::setBeamerNotesPart(QString v)
+{
+    this->beamerNotesPart = v;
+    emit beamerNotesChanged();
+}
+
+QString Parameters::getBeamerNotesPart()
+{
+    return this->beamerNotesPart;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -175,6 +209,12 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "projectorscreen") {
          this->setProjectorScreenId(value.toInt());
+     }
+     if (name == "beamernotes") {
+         this->setBeamerNotes(value.toBool());
+     }
+     if (name == "beamernotespart") {
+         this->setBeamerNotesPart(value.toString());
      }
 }
 

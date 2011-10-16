@@ -140,6 +140,16 @@ OPTIONS
     adapted when laptop's screen being at the left of the projector
     screen, be it under Linux or Windows.
 
+*-n, beamernotes*='BEAMERNOTES'::
+    Set to 1 if the PDF file you open is a Beamer with notes. This is
+    the result of the '\setbeameroption{show notes on second screen}'
+    LaTeX option. Default is 0 (stands for disabled).
+
+*-l, beamernotespart*='BEAMERNOTESPART'::
+    Define on which screen Beamer produced the notes. It can be either
+    'left' or 'right', depending on the content of 'show notes on
+    second screen' option in LaTeX source file. Default is 'left'.
+
 *'FILE'*::
     This is the filename to open. If not specified, the application will
     ask to the user which file it should open, through a file open

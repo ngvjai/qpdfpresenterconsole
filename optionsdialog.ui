@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>350</width>
-    <height>226</height>
+    <height>307</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -111,6 +111,33 @@
       <widget class="QLabel" name="lblProjectorScreen">
        <property name="text">
         <string>Projector screen identifier</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QCheckBox" name="chkBeamerNotes">
+       <property name="text">
+        <string>Slides with Beamer Notes</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QRadioButton" name="radBeamerNotesLeft">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Beamer Notes on Left Screen</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QRadioButton" name="radBeamerNotesRight">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Beamer Notes on Right Screen</string>
        </property>
       </widget>
      </item>

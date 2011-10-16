@@ -13,6 +13,8 @@ OptionsDialog::OptionsDialog(QWidget *parent, Parameters *params) :
     this->oldPresentationEmergency = this->params->getPresentationEmergency();
     this->oldPresentationLength = this->params->getPresentationLength();
     this->oldProjectorScreenId = this->params->getProjectorScreenId();
+    this->oldBeamerNotes = this->params->getBeamerNotes();
+    this->oldBeamerNotesPart = this->params->getBeamerNotesPart();
 
     this->setWindowTitle(QObject::tr("Parameters management"));
 
@@ -36,6 +38,9 @@ OptionsDialog::OptionsDialog(QWidget *parent, Parameters *params) :
 
     this->ui->mainScreenIdentifier->setText(QString("%1").arg(this->params->getMainScreenId()));
     this->ui->projectorScreenIdentifier->setText(QString("%1").arg(this->params->getProjectorScreenId()));
+    this->ui->chkBeamerNotes->setChecked(this->params->getBeamerNotes());
+    this->ui->radBeamerNotesRight->setChecked(this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT);
+    this->ui->radBeamerNotesLeft->setChecked(this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT);
 }
 
 OptionsDialog::~OptionsDialog()
@@ -77,6 +82,11 @@ void OptionsDialog::on_buttonBox_accepted()
     this->params->setMainScreenId(this->ui->mainScreenIdentifier->text().toInt());
     this->params->setProjectorScreenId(this->ui->projectorScreenIdentifier->text().toInt());
 
+    this->params->setBeamerNotes(this->ui->chkBeamerNotes->isChecked());
+    this->params->setBeamerNotesPart(
+                this->ui->radBeamerNotesRight->isChecked() ? BEAMER_NOTES_RIGHT : BEAMER_NOTES_LEFT
+    );
+
     emit paramsChanged();
     emit resetPresentationCounter();
 }
@@ -88,6 +98,20 @@ void OptionsDialog::on_buttonBox_rejected()
     this->params->setPresentationLength(this->oldPresentationLength);
     this->params->setProjectorScreenId(this->oldProjectorScreenId);
     this->params->setMainScreenId(this->oldMainScreenId);
+    this->params->setBeamerNotes(this->oldBeamerNotes);
+    this->params->setBeamerNotesPart(this->oldBeamerNotesPart);
 
     emit paramsChanged();
+}
+
+void OptionsDialog::on_chkBeamerNotes_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked) {
+        this->ui->radBeamerNotesRight->setEnabled(true);
+        this->ui->radBeamerNotesLeft->setEnabled(true);
+    }
+    if (arg1 == Qt::Unchecked) {
+        this->ui->radBeamerNotesRight->setEnabled(false);
+        this->ui->radBeamerNotesLeft->setEnabled(false);
+    }
 }

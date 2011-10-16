@@ -48,6 +48,8 @@ set(DEFAULT_OPTION_SLIDESWIDTH 55 CACHE STRING "Default main slide width (prcent
 set(DEFAULT_OPTION_PAGE 1 CACHE STRING "Default first page opened")
 set(DEFAULT_OPTION_MAINSCREEN 1 CACHE STRING "Default main screen identifier")
 set(DEFAULT_OPTION_PROJECTORSCREEN 2 CACHE STRING "Default secondary screen identifier")
+set(DEFAULT_OPTION_BEAMERNOTES false CACHE STRING "Enable Beamer Notes support")
+set(DEFAULT_OPTION_BEAMERNOTESPART \"right\" CACHE STRING "Part of the slides containing the Beamer Notes (right/left)")
 
 # ---- #
 set(CPACK_PACKAGE_CONTACT "Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>")

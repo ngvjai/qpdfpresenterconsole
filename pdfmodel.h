@@ -20,6 +20,9 @@ class PDFModel : public QObject
     Parameters *params;
     PresentationTimer *timer;
 
+    int ContentPart;
+    int AnnotationsPart;
+
     int firstPage;
     int currentPage;
     int lastPage;
@@ -59,6 +62,8 @@ public:
     void gotoLastPage();
     void gotoOpenPage();
 
+    int getContentPart();
+    int getAnnotationsPart();
     int getFirstPage();
     int getPreviousPage();
     int getCurrentPage();
@@ -66,7 +71,7 @@ public:
     int getLastPage();
 
     QImage renderPdfPage(int page);
-    QImage renderPdfPage(int page, QSizeF scaleFactor);
+    QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);
 
     QString getCurrentBeamerNote();
     void setBeamerNote(QString v, int page);

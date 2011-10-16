@@ -199,23 +199,49 @@ void MainScreenPdfView::updateView()
                     )
             );
 
-    this->currentSlide->setPixmap(
-            QPixmap::fromImage(
-                    this->modele->renderPdfPage(
-                            this->modele->getCurrentPage(),
-                            QSizeF(this->f1, this->f1)
-                            )
-                    )
-            );
+    if (!this->params->getBeamerNotes()) {
+        // If we don't have beamer notes, display current and next slide content
+        this->currentSlide->setPixmap(
+                QPixmap::fromImage(
+                        this->modele->renderPdfPage(
+                                this->modele->getCurrentPage(),
+                                QSizeF(this->f1, this->f1),
+                                this->modele->getContentPart()
+                                )
+                        )
+                );
 
-    this->nextSlide->setPixmap(
-            QPixmap::fromImage(
-                    this->modele->renderPdfPage(
-                            this->modele->getNextPage(),
-                            QSizeF(this->f2, this->f2)
-                            )
-                    )
-            );
+        this->nextSlide->setPixmap(
+                QPixmap::fromImage(
+                        this->modele->renderPdfPage(
+                                this->modele->getNextPage(),
+                                QSizeF(this->f2, this->f2),
+                                this->modele->getContentPart()
+                                )
+                        )
+                );
+    } else {
+        // If we have beamer notes, display current slide content and its notes
+        this->currentSlide->setPixmap(
+                QPixmap::fromImage(
+                        this->modele->renderPdfPage(
+                                this->modele->getCurrentPage(),
+                                QSizeF(this->f1, this->f1),
+                                this->modele->getAnnotationsPart()
+                                )
+                        )
+                );
+
+        this->nextSlide->setPixmap(
+                QPixmap::fromImage(
+                        this->modele->renderPdfPage(
+                                this->modele->getCurrentPage(),
+                                QSizeF(this->f2, this->f2),
+                                this->modele->getContentPart()
+                                )
+                        )
+                );
+    }
 
     this->beamerNote->setFixedWidth(this->currentSlide->width() + this->nextSlide->width());
     this->beamerNote->setText(this->modele->getCurrentBeamerNote());
