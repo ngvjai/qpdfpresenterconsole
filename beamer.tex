@@ -1,11 +1,14 @@
 \documentclass{beamer}
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen}
 \newcommand{\beamerannot}[1]{
-	\pdfannot {
-		/Subtype /Text
-		/Name /BeamerNote
-		/H Y
-		/Contents (#1)
-	}
+	\note{#1}
+%%	\pdfannot {
+%%		/Subtype /Text
+%%		/Name /BeamerNote
+%%		/H Y
+%%		/Contents (#1)
+%%	}
 }
 
 \title{Beamer Annotations Example}
@@ -18,52 +21,50 @@
 		\begin{block}{Example}
 		We might discuss some data, that are tricky
 		\end{block}
-		\beamerannot{So let's say that they don't come from us.<br />
-		This should be a new line ...<br />
-		And this line should also be a new one, but very very long so that the text SHOULD wrap and not the QLabel being too wide.<br />
+		\beamerannot{So let's say that they don't come from us.
+		This should be a new line ...
+		And this line should also be a new one, but very very long so that the text SHOULD wrap and not the QLabel being too wide.
 		We should also ask ourselves how much in height we can put as those notes. Maybe it's only a couple of lines, maybe it's a very looooong text ... Who knows ? After all, nobody tested this, so we need to do it now. I think it's becoming long enough. An interesting thing to check is what happens when it's too big in height. Points not to forget:
-		<ul>
-			<li>It should still be readable</li>
-			<li>The speaker must not rely only on those notes</li>
-			<li>It's not intended to be perfect</li>
-		</ul>}
+		\begin{itemize}
+			\item It should still be readable
+			\item The speaker must not rely only on those notes
+			\item It's not intended to be perfect
+		\end{itemize}}
 	\end{frame}
 
 	\begin{frame}\frametitle{Even more text \ldots}
 		\begin{block}{Example}
 		The speaker is bad and puts everything in its notes
 		\end{block}
-		\beamerannot{You have to remember that notes are <strong>only</strong> a way to have an eye on <strong>important</strong> or <strong>critical</strong> informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
-		<ul>
-			<li>You're giving a course to student</li>
-			<li>Good Slides Practices need that you don't write too many on slides</li>
-			<li>You're testing your application like me &hellip;</li>
-			<li>You're having memory loss</li>
-			<li>There's already too many informations on your slides</li>
-			<li>And so on &hellip;</li>
-			<li>Those notes should not make any use of LaTeX!</li>
-			<li>Only Qt's subset of HTML for QLabel is allowed</li>
-			<li>This subset is exposed in the <a href="http://doc.qt.nokia.com/latest/richtext-html-subset.html">Qt Documentation</a></li>
-		</ul>}
+		\beamerannot{You have to remember that notes are \textbf{only} a way to have an eye on \textbf{important} or \textbf{critical} informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
+		\begin{itemize}
+			\item You're giving a course to student
+			\item Good Slides Practices need that you don't write too many on slides
+			\item You're testing your application like me \ldots
+			\item You're having memory loss
+			\item There's already too many informations on your slides
+			\item And so on \ldots
+			\item Those notes should not make any use of LaTeX!
+		\end{itemize}}
 	\end{frame}
 
 	\begin{frame}\frametitle{Pushing limits \ldots}
 		\begin{block}{Example}
 		The previous slide was having enough notes but still being viewable on 1680x1050 laptop \ldots
 		\end{block}
-		\beamerannot{You have to remember that notes are <strong>only</strong> a way to have an eye on <strong>important</strong> or <strong>critical</strong> informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
-		<ul>
-			<li>You're giving a course to student</li>
-			<li>Good Slides Practices need that you don't write too many on slides</li>
-			<li>You're testing your application like me &hellip;</li>
-			<li>You're having memory loss</li>
-			<li>There's already too many informations on your slides</li>
-			<li>And so on &hellip;</li>
-			<li>Those notes should not make any use of LaTeX!</li>
-			<li>Only Qt's subset of HTML for QLabel is allowed</li>
-			<li>This subset is exposed in the <a href="http://doc.qt.nokia.com/latest/richtext-html-subset.html">Qt Documentation</a></li>
-			<li>Now, we're broking limits, to see how it goes</li>
-			<li>Is this text viewable ?</li>
-		</ul>}
+		\beamerannot{You have to remember that notes are \textbf{only} a way to have an eye on \textbf{important} or \textbf{critical} informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
+		\begin{itemize}
+			\item You're giving a course to student
+			\item Good Slides Practices need that you don't write too many on slides
+			\item You're testing your application like me \ldots
+			\item You're having memory loss
+			\item There's already too many informations on your slides
+			\item And so on \ldots
+			\item Those notes should not make any use of LaTeX!
+			\item Now, we're broking limits, to see how it goes
+			\item Is this text viewable ?
+			\item And this one ?
+			\item This one won't, for sure.
+		\end{itemize}}
 	\end{frame}
 \end{document}
