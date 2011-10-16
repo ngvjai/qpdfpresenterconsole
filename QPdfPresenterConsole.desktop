@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=QPdfPresenterConsole
+Comment=PDF-Based presentations console
+Comment[fr]=Console de présentation PDF
+GenericName=Presentation
+GenericName[fr]=Présentations
+Exec=QPdfPresenterConsole
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=QPdfPresenterConsole
+Categories=Qt;Viewer;
+MimeType=application/pdf;application/x-pdf
+StartupNotify=true

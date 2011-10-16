@@ -201,6 +201,16 @@ file(   GLOB
         beamer.pdf
 )
 
+file(	GLOB
+	DESKTOP
+	${PROJECT_TARGETBIN}.desktop
+)
+
+file(	GLOB
+	ICON
+	${PROJECT_TARGETBIN}.png
+)
+
 configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
@@ -238,6 +248,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${CMAKE_BINARY_DIR}/${htmlcss} DESTINATION ${PROJECT_DATADIR})
 else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${CMAKE_BINARY_DIR}/${mandoc} DESTINATION share/man/man1)
+    install(FILES ${DESKTOP} DESTINATION share/applications)
+    install(FILES ${ICON} DESTINATION share/pixmaps)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(PROJECT_STRIP_BIN)
