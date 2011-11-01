@@ -96,12 +96,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CPACK_PACKAGE_EXECUTABLES "${PROJECT_TARGETBIN}" "QPdfPresenterConsole")
     set(CPACK_NSIS_CREATE_ICONS_EXTRA
     	"CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Documentation.lnk\\\" \\\"$INSTDIR\\\\share\\\\${htmldoc}\\\"
-    	CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\BeamerNotes.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"$INSTDIR\\\\share\\\\beamer.pdf\\\"
+        CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\BeamerNotes.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"-n 1 -l left\\\" \\\"$INSTDIR\\\\share\\\\examples\\\\beamernotes\\\\beamer.left.pdf\\\"
+        CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\TextAnnot.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"-t\\\" \\\"$INSTDIR\\\\share\\\\examples\\\\textannot\\\\beamer.pdf\\\"
 	")
     set(CPACK_NSIS_DELETE_ICONS_EXTRA
     	"!insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
 	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Documentation.lnk\\\"
     	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\BeamerNotes.lnk\\\"
+        Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\TextAnnot.lnk\\\"
 	")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
