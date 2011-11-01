@@ -1,0 +1,38 @@
+-2-
+So let's say that they don't come from us.
+This should be a new line ...
+And this line should also be a new one, but very very long so that the text SHOULD wrap and not the QLabel being too wide.
+We should also ask ourselves how much in height we can put as those notes. Maybe it's only a couple of lines, maybe it's a very looooong text ... Who knows ? After all, nobody tested this, so we need to do it now. I think it's becoming long enough. An interesting thing to check is what happens when it's too big in height. Points not to forget:
+<ol>
+	<li>It should still be readable</li>
+	<li>The speaker must not rely only on those notes</li>
+	<li>It's not intended to be perfect</li>
+</ol>
+
+-3-
+You have to remember that notes are <strong>only</strong> a way to have an eye on <strong>important</strong> or <strong>critical</strong> informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
+<ol>
+	<li>You're giving a course to student</li>
+	<li>Good Slides Practices need that you don't write too many on slides</li>
+	<li>You're testing your application like me &hellip;</li>
+	<li>You're having memory loss</li>
+	<li>There's already too many informations on your slides</li>
+	<li>And so on &hellip;</li>
+	<li>Those notes should not make any use of LaTeX!</li>
+</ol>
+
+-4-
+You have to remember that notes are <strong>only</strong> a way to have an eye on <strong>important</strong> or <strong>critical</strong> informations that you don't want in the slides but than you need to talk about. This might be useful in numerous case:
+<ol>
+	<li>You're giving a course to student</li>
+	<li>Good Slides Practices need that you don't write too many on slides</li>
+	<li>You're testing your application like me &hellip;</li>
+	<li>You're having memory loss</li>
+	<li>There's already too many informations on your slides</li>
+	<li>And so on &hellip;</li>
+	<li>Those notes should not make any use of LaTeX!</li>
+	<li>Now, we're broking limits, to see how it goes</li>
+	<li>Is this text viewable ?</li>
+	<li>And this one ?</li>
+	<li>This one won't, for sure.</li>
+</ol>
