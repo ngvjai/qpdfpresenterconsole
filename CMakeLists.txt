@@ -201,7 +201,14 @@ file(	GLOB
 file(   GLOB
         BEAMERNOTES
         beamer.tex
+        beamer.left.pdf
+        beamer.right.pdf
+)
+
+file(   GLOB
+        TEXTANNOT
         beamer.pdf
+        beamer.annot
 )
 
 file(	GLOB
@@ -243,7 +250,8 @@ if(ASCIIDOC_FOUND)
 endif(ASCIIDOC_FOUND)
 
 install(FILES ${QM} DESTINATION ${PROJECT_DATADIR})
-install(FILES ${BEAMERNOTES} DESTINATION ${PROJECT_DATADIR})
+install(FILES ${BEAMERNOTES} DESTINATION ${PROJECT_DATADIR}/examples/beamernotes/)
+install(FILES ${TEXTANNOT} DESTINATION ${PROJECT_DATADIR}/examples/textannot/)
 install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
