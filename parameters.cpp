@@ -53,6 +53,11 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 't', "textannot",
+            QObject::tr("Use annotations from text file. Default: %1.").arg(DEFAULT_TEXTANNOT),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Optional
@@ -88,6 +93,7 @@ void Parameters::setDefaultParameters()
     this->setProjectorScreenId(DEFAULT_PROJECTORSCREEN);
     this->setBeamerNotes(DEFAULT_BEAMERNOTES);
     this->setBeamerNotesPart(DEFAULT_BEAMERNOTESPART);
+    this->setTextAnnot(DEFAULT_TEXTANNOT);
     this->setPdfFileName("");
 }
 
@@ -185,6 +191,20 @@ QString Parameters::getBeamerNotesPart()
     return this->beamerNotesPart;
 }
 
+void Parameters::setTextAnnot(bool v, bool emitSignal)
+{
+    this->textAnnot = v;
+
+    if (emitSignal) {
+        emit this->textAnnotChanged();
+    }
+}
+
+bool Parameters::getTextAnnot()
+{
+    return this->textAnnot;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -215,6 +235,9 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "beamernotespart") {
          this->setBeamerNotesPart(value.toString());
+     }
+     if (name == "textannot") {
+         this->setTextAnnot(value.toBool());
      }
 }
 

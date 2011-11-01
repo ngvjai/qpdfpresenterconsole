@@ -150,6 +150,13 @@ OPTIONS
     'left' or 'right', depending on the content of 'show notes on
     second screen' option in LaTeX source file. Default is 'left'.
 
+*-t, textannot*='TEXTANNOT'::
+    Set to 1 to use text file to read annotations from. Please see below
+    in the *TEXT FILE ANNOTATION* section the file format. Default is 0
+    (stands for disabled). The application will search for a series of text
+    file, using the PDF filename as a basis, and changing extensions with,
+    for example, 'txt' and 'annot'.
+
 *'FILE'*::
     This is the filename to open. If not specified, the application will
     ask to the user which file it should open, through a file open
@@ -163,6 +170,19 @@ EXIT STATUS
 
 *1*::
     Failure.
+
+TEXT FILE ANNOTATION
+--------------------
+If you wish to use text file annotation, please make sure your file complies
+to the following format:
+
+    -SlideNumber-
+    Content (might embed HTML, will be used in Qt context).
+
+    -AnotherSlideNumber-
+    Some other content.
+
+The first silde is 1. Please avoid using too much text, as output might suffer.
 
 
 BUGS

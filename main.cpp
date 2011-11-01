@@ -4,6 +4,7 @@
 #include <QObject>
 #include <stdlib.h>
 #include "mainscreenpdfview.h"
+#include "textannot.h"
 #include "presenterpdf.h"
 #include "pdfmodel.h"
 #include "app.h"

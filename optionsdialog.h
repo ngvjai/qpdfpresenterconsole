@@ -21,6 +21,7 @@ class OptionsDialog : public QDialog
     bool oldBeamerNotes;
     QString oldBeamerNotesPart;
     float oldCurrentSlidePrcentWidth;
+    bool oldTextAnnot;
 
     int getHours(int v);
     int getMinutes(int v);
@@ -42,6 +43,8 @@ private slots:
     void on_buttonBox_accepted();
     void on_sliderSlidesWidth_valueChanged(int value);
     void on_chkBeamerNotes_stateChanged(int arg1);
+    void on_chkTextAnnot_stateChanged(int arg1);
+    void updateTextAnnot();
 };
 
 #endif // OPTIONSDIALOG_H

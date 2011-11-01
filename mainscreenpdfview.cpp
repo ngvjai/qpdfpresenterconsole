@@ -244,7 +244,7 @@ void MainScreenPdfView::updateView()
     }
 
     this->beamerNote->setFixedWidth(this->currentSlide->width() + this->nextSlide->width());
-    this->beamerNote->setText(this->modele->getCurrentBeamerNote());
+    this->beamerNote->setText(this->modele->getCurrentTextAnnot());
 }
 
 void MainScreenPdfView::resetPresentationTimer()

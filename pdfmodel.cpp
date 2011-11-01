@@ -11,6 +11,7 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->params = params;
     this->timer = timer;
     this->document = NULL;
+    this->textannot = NULL;
 
     if (!this->params->getPdfFileName().isEmpty()) {
         this->setPdfFileName(this->params->getPdfFileName());
@@ -43,11 +44,13 @@ void PDFModel::finishInit()
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
     this->updateProjectorSize();
+    this->updateTextAnnot();
 
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
     QObject::connect(this->params, SIGNAL(beamerNotesChanged()), SLOT(updateProjectorSize()));
+    QObject::connect(this->params, SIGNAL(textAnnotChanged()), SLOT(updateTextAnnot()));
 }
 
 void PDFModel::updateProjectorSize()
@@ -59,6 +62,31 @@ void PDFModel::updateProjectorSize()
     this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
     this->scaleFactor = qMin(this->scaleFactorX, this->scaleFactorY);
     this->render();
+}
+
+void PDFModel::updateTextAnnot()
+{
+    if (this->textannot != NULL) {
+        delete this->textannot;
+    } else {
+        if (this->params->getTextAnnot()) {
+            this->mutexTextAnnot.lockForWrite();
+            this->textannot = new TextAnnot(this);
+
+            if (this->textannot->exists(this->getPdfFileName())) {
+                this->textannot->processAnnotations();
+            } else {
+                QString files = this->textannot->expectedFilenames(this->getPdfFileName()).join(";");
+                QString err = QObject::tr("Text file annotations for pdf '%1' not found. Cannot use text file annotations, disabling for now. File(s) expected: %2")
+                            .arg(this->getPdfFileName(), files);
+                QMessageBox::warning(0, APPNAME, err);
+                this->params->setTextAnnot(false, false);
+            }
+
+            this->mutexTextAnnot.unlock();
+            this->updateProjectorSize();
+        }
+    }
 }
 
 PDFModel::~PDFModel()
@@ -111,16 +139,6 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
         Poppler::Page* pdfPage = this->document->page(page);  // Document starts at page 0
 
         if (pdfPage == NULL) {
-        }
-
-        QList<Poppler::Annotation*> annotations = pdfPage->annotations();
-        QList<Poppler::Annotation*>::iterator annIt;
-        for(annIt = annotations.begin(); annIt != annotations.end(); ++annIt) {
-            if ( (*annIt)->subType() == Poppler::TextAnnotation::AText
-                && ((Poppler::TextAnnotation*)(*annIt))->textIcon() == BEAMER_NOTE_NAME ) {
-                Poppler::TextAnnotation *te = (Poppler::TextAnnotation*) (*annIt);
-                this->setBeamerNote(te->contents(), page);
-            }
         }
 
         if (this->params->getBeamerNotes()) {
@@ -265,20 +283,15 @@ QImage& PDFModel::getImgNextPage()
     return this->imgNextPage;
 }
 
-QString PDFModel::getCurrentBeamerNote()
+QString PDFModel::getCurrentTextAnnot()
 {
-    QString s = "";
-    if (this->annotations.contains(this->getCurrentPage())) {
-        s = this->annotations.value(this->getCurrentPage());
+    QString result;
+    if (this->params->getTextAnnot()) {
+        this->mutexTextAnnot.lockForRead();
+        result = this->textannot->getTextAnnot(this->getCurrentPage());
+        this->mutexTextAnnot.unlock();
     }
-    return s;
-}
-
-void PDFModel::setBeamerNote(QString v, int page)
-{
-    if (!this->annotations.contains(page)) {
-        this->annotations.insert(page, v);
-    }
+    return result;
 }
 
 QSizeF PDFModel::getScaleFactor()
@@ -296,7 +309,7 @@ void PDFModel::setPdfFileName(QString file)
     this->pdfFileName = file;
 }
 
-QString PDFModel::getPdfFileName(void)
+QString& PDFModel::getPdfFileName(void)
 {
     return this->pdfFileName;
 }

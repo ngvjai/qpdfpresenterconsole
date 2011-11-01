@@ -11,6 +11,7 @@
 #include <QReadWriteLock>
 #include "parameters.h"
 #include "presentationtimer.h"
+#include "textannot.h"
 #include "app.h"
 
 class PDFModel : public QObject
@@ -19,6 +20,7 @@ class PDFModel : public QObject
     Poppler::Document *document;
     Parameters *params;
     PresentationTimer *timer;
+    TextAnnot *textannot;
 
     int ContentPart;
     int AnnotationsPart;
@@ -34,10 +36,10 @@ class PDFModel : public QObject
     float scaleFactorX;
     float scaleFactorY;
     float scaleFactor;
-    QHash<int, QString> annotations;
     QReadWriteLock mutexPreviousPage;
     QReadWriteLock mutexCurrentPage;
     QReadWriteLock mutexNextPage;
+    QReadWriteLock mutexTextAnnot;
 
     QImage imgPreviousPage;
     QImage imgCurrentPage;
@@ -73,8 +75,8 @@ public:
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);
 
-    QString getCurrentBeamerNote();
-    void setBeamerNote(QString v, int page);
+    QString getCurrentTextAnnot();
+    void setTextAnnot(QString v, int page);
 
     QImage& getImgPreviousPage();
     QImage& getImgCurrentPage();
@@ -83,7 +85,7 @@ public:
     QSizeF getPageSize();
     QSizeF getScaleFactor();
 
-    QString getPdfFileName(void);
+    QString& getPdfFileName(void);
 
 signals:
     void renderingChanged(void);
@@ -94,6 +96,7 @@ public slots:
     void handleKeyModelSequence(QKeyEvent *e);
     void handleMouseModelSequence(QMouseEvent *e);
     void updateProjectorSize();
+    void updateTextAnnot();
 
 };
 

@@ -20,6 +20,7 @@ class Parameters : public QObject
     int projectorScreenId;
     bool beamerNotes;
     QString beamerNotesPart;
+    bool textAnnot;
 
     QCommandLine *cmdline;
 
@@ -36,6 +37,7 @@ public:
     void setBeamerNotes(bool v);
     void setBeamerNotesPart(QString v);
     void setDefaultParameters();
+    void setTextAnnot(bool v, bool emitSignal = true);
 
     int getPresentationLength();
     int getPresentationEmergency();
@@ -46,11 +48,13 @@ public:
     int getProjectorScreenId();
     bool getBeamerNotes();
     QString getBeamerNotesPart();
+    bool getTextAnnot();
 
 signals:
     void mainScreenChanged();
     void projectorScreenChanged();
     void beamerNotesChanged();
+    void textAnnotChanged();
 
 public slots:
     void parseError(const QString & error);

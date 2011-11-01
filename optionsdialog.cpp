@@ -15,6 +15,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, Parameters *params) :
     this->oldProjectorScreenId = this->params->getProjectorScreenId();
     this->oldBeamerNotes = this->params->getBeamerNotes();
     this->oldBeamerNotesPart = this->params->getBeamerNotesPart();
+    this->oldTextAnnot = this->params->getTextAnnot();
 
     this->setWindowTitle(QObject::tr("Parameters management"));
 
@@ -41,6 +42,9 @@ OptionsDialog::OptionsDialog(QWidget *parent, Parameters *params) :
     this->ui->chkBeamerNotes->setChecked(this->params->getBeamerNotes());
     this->ui->radBeamerNotesRight->setChecked(this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT);
     this->ui->radBeamerNotesLeft->setChecked(this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT);
+    this->updateTextAnnot();
+
+    QObject::connect(this->params, SIGNAL(textAnnotChanged()), SLOT(updateTextAnnot()));
 }
 
 OptionsDialog::~OptionsDialog()
@@ -100,6 +104,7 @@ void OptionsDialog::on_buttonBox_rejected()
     this->params->setMainScreenId(this->oldMainScreenId);
     this->params->setBeamerNotes(this->oldBeamerNotes);
     this->params->setBeamerNotesPart(this->oldBeamerNotesPart);
+    this->params->setTextAnnot(this->oldTextAnnot, false);
 
     emit paramsChanged();
 }
@@ -114,4 +119,20 @@ void OptionsDialog::on_chkBeamerNotes_stateChanged(int arg1)
         this->ui->radBeamerNotesRight->setEnabled(false);
         this->ui->radBeamerNotesLeft->setEnabled(false);
     }
+}
+
+void OptionsDialog::on_chkTextAnnot_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked) {
+        this->params->setTextAnnot(true);
+    }
+    if (arg1 == Qt::Unchecked) {
+        this->params->setTextAnnot(false);
+    }
+
+    emit paramsChanged();
+}
+
+void OptionsDialog::updateTextAnnot() {
+    this->ui->chkTextAnnot->setChecked(this->params->getTextAnnot());
 }

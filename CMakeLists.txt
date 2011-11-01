@@ -50,6 +50,7 @@ set(DEFAULT_OPTION_MAINSCREEN 1 CACHE STRING "Default main screen identifier")
 set(DEFAULT_OPTION_PROJECTORSCREEN 2 CACHE STRING "Default secondary screen identifier")
 set(DEFAULT_OPTION_BEAMERNOTES false CACHE STRING "Enable Beamer Notes support")
 set(DEFAULT_OPTION_BEAMERNOTESPART \"right\" CACHE STRING "Part of the slides containing the Beamer Notes (right/left)")
+set(DEFAULT_OPTION_TEXTANNOT false CACHE STRING "Enable text file annotations support")
 
 # ---- #
 set(CPACK_PACKAGE_CONTACT "Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>")
