@@ -1,6 +1,7 @@
 #include "textannot.h"
 #include <QFileInfo>
 #include <QStringList>
+#include <QTextStream>
 
 TextAnnot::TextAnnot(QObject *parent) :
     QObject(parent)
@@ -46,8 +47,27 @@ void TextAnnot::processAnnotations(void)
     QFile source(this->annotationsFile);
     int fd;
 
-    if (source.exists() && source.open(fd, QIODevice::ReadOnly)) {
-
+    if (source.exists() && source.open(QIODevice::ReadOnly)) {
+        int currentPage = 0;
+        int currentReadPage = -1;
+        QString annot;
+        QString line;
+        do {
+            line = QString(source.readLine()).trimmed();
+            QRegExp slideNumber("^-(\\d+)-$");
+            if (!line.isEmpty()) {
+                if (line.contains(slideNumber)) {
+                    if (!annot.isEmpty()) {
+                        this->setTextAnnot(currentPage, annot);
+                    }
+                    currentReadPage = slideNumber.cap(1).toInt();
+                    currentPage = currentReadPage - 1;
+                    annot = "";
+                } else {
+                    annot.append(line);
+                }
+            }
+        } while (!source.atEnd());
     }
 
     source.close();
