@@ -20,7 +20,7 @@ set(PROJECT_DATADIR "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_SHORTNAME}")
 set(inputdoc "${CMAKE_SOURCE_DIR}/${PROJECT_SHORTNAME}.txt")
 set(htmldoc "${PROJECT_SHORTNAME}.html")
 set(htmlcss "docbook-xsl.css")
-set(mandoc "${PROJECT_SHORTNAME}.1")
+set(mandoc "${PROJECT_TARGETBIN}.1")
 
 option(PROJECT_DEBUG "Compile in Debug profile" OFF)
 
