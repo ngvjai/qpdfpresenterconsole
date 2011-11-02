@@ -1,0 +1,20 @@
+Source: qpdfpresenterconsole
+Section: graphics
+Priority: extra
+Maintainer: Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>
+Build-Depends: cdbs, debhelper (>= 8.0.0), cmake, asciidoc, libqt4-dev
+Standards-Version: 3.9.2
+Homepage: https://gitorious.org/qpdfpresenterconsole
+Vcs-Git: git://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole.git
+Vcs-Browser: https://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole/trees/master
+
+Package: qpdfpresenterconsole
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Beamer-targetted presentation tool.
+ QPdfPresenterConsole is a software inspired by both Apple's
+ Keynote and Pdf Presenter Console
+ [http://westhoffswelt.de/projects/pdf_presenter_console.html]
+ written using Qt4. Thus, it is easy to use, extend and
+ port.  Currently, it runs smoothly on any Linux which has
+ XRandR capabilities, and Windows 7 at least.
