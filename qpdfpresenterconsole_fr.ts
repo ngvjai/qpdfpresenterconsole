@@ -60,16 +60,21 @@
         <source>Beamer Notes on Right Screen</source>
         <translation>Notes Beamer sur l&apos;écran de droite</translation>
     </message>
+    <message>
+        <location filename="optionsdialog.ui" line="147"/>
+        <source>Use annotations in text file</source>
+        <translation>Utiliser les annotations contenues dans un fichier texte</translation>
+    </message>
 </context>
 <context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="20"/>
+        <location filename="pdfmodel.cpp" line="21"/>
         <source>Open PDF file</source>
         <translation>Ouvrir le fichier PDF</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="20"/>
+        <location filename="pdfmodel.cpp" line="21"/>
         <source>PDF Files (*.pdf)</source>
         <translation>Fichiers PDF (*.pdf)</translation>
     </message>
@@ -135,12 +140,12 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="39"/>
+        <location filename="main.cpp" line="40"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="29"/>
+        <location filename="main.cpp" line="30"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
@@ -201,14 +206,24 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     </message>
     <message>
         <location filename="parameters.cpp" line="57"/>
+        <source>Use annotations from text file. Default: %1.</source>
+        <translation>Utiliser les annotations contenues dans un fichier texte. Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="62"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>
     </message>
     <message>
-        <location filename="optionsdialog.cpp" line="19"/>
+        <location filename="optionsdialog.cpp" line="20"/>
         <source>Parameters management</source>
         <translation>Gestion des paramètres</translation>
+    </message>
+    <message>
+        <location filename="pdfmodel.cpp" line="80"/>
+        <source>Text file annotations for pdf &apos;%1&apos; not found. Cannot use text file annotations, disabling for now. File(s) expected: %2</source>
+        <translation>Annotations contenues dans un fichier texte introuvable pour le document PDF &apos;%1&apos;. Impossible de les utiliser, désactivation pour le moment. Fichier(s) attendu(s) : %2</translation>
     </message>
 </context>
 </TS>
