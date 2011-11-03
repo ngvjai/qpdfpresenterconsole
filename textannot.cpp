@@ -45,7 +45,6 @@ QStringList TextAnnot::expectedFilenames(QString file) {
 void TextAnnot::processAnnotations(void)
 {
     QFile source(this->annotationsFile);
-    int fd;
 
     if (source.exists() && source.open(QIODevice::ReadOnly)) {
         int currentPage = 0;
