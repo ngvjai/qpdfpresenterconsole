@@ -2,7 +2,7 @@ Source: qpdfpresenterconsole
 Section: graphics
 Priority: extra
 Maintainer: Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>
-Build-Depends: cdbs, debhelper (>= 8.0.0), cmake, asciidoc, libxml2-utils, libqt4-dev, libpoppler-qt4-dev
+Build-Depends: cdbs, debhelper (>= 8.0.0), cmake, asciidoc, docbook-xsl, docbook-xml, xsltproc, libxml2-utils, libqt4-dev, libpoppler-qt4-dev
 Standards-Version: 3.9.2
 Homepage: https://gitorious.org/qpdfpresenterconsole
 Vcs-Git: git://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole.git
