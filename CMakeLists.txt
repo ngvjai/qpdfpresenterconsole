@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH
 
 set(PROJECT_TARGETBIN "qpdfpresenterconsole")
 set(PROJECT_SHORTNAME "qpdfpresenterconsole")
+set(PROJECT_FULLNAME "QPdfPresenterConsole")
 set(PROJECT_VERSION_MAJOR "2")
 set(PROJECT_VERSION_MINOR "2")
 set(PROJECT_VERSION_PATCH "0")
@@ -215,12 +216,12 @@ file(   GLOB
 
 file(	GLOB
 	DESKTOP
-	${PROJECT_TARGETBIN}.desktop
+	${PROJECT_FULLNAME}.desktop
 )
 
 file(	GLOB
 	ICON
-	${PROJECT_TARGETBIN}.png
+	${PROJECT_FULLNAME}.png
 )
 
 configure_file(
