@@ -10,7 +10,7 @@ set(CMAKE_MODULE_PATH
 	"${CMAKE_MODULE_PATH}"
 )
 
-set(PROJECT_TARGETBIN "QPdfPresenterConsole")
+set(PROJECT_TARGETBIN "qpdfpresenterconsole")
 set(PROJECT_SHORTNAME "qpdfpresenterconsole")
 set(PROJECT_VERSION_MAJOR "2")
 set(PROJECT_VERSION_MINOR "1")
