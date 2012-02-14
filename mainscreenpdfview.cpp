@@ -4,13 +4,14 @@
 #include <QInputDialog>
 #include "optionsdialog.h"
 
-MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer) :
+MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer, ScreenSaverInhibit *screensaverinhibiter) :
     QMainWindow(parent)
 {
     this->modele = modele;
     this->params = params;
     this->pTimer = timer;
     this->options = NULL;
+    this->screensaver = screensaverinhibiter;
 
     QGridLayout *glayout = new QGridLayout();
     QWidget *fake = new QWidget(this);
@@ -90,7 +91,15 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
                      this->pTimer, SLOT(startCounterIfNeeded()));
     QObject::connect(this->params, SIGNAL(mainScreenChanged()), SLOT(moveToScreen()));
 
+    QObject::connect(this, SIGNAL(presentationStarted()),
+                     this->screensaver, SLOT(dontAllowScreenSaver()));
+    QObject::connect(this, SIGNAL(presentationMode()),
+                     this->screensaver, SLOT(dontAllowScreenSaver()));
+    QObject::connect(this, SIGNAL(desktopMode()),
+                     this->screensaver, SLOT(allowScreenSaver()));
+
     this->moveToScreen();
+    emit presentationMode();
 }
 
 void MainScreenPdfView::moveToScreen()
@@ -120,8 +129,10 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
         case Qt::Key_F:
             if (this->maximized) {
                 this->showNormal();
+                emit desktopMode();
             } else {
                 this->showFullScreen();
+                emit presentationMode();
             }
             break;
 

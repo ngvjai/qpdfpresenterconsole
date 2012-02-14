@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     presentationtimer.cpp \
     qcommandline.cpp \
     optionsdialog.cpp \
-    textannot.cpp
+    textannot.cpp \
+    screensaverinhibit.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -38,7 +39,8 @@ HEADERS += \
     presentationtimer.h \
     qcommandline.h \
     optionsdialog.h \
-    textannot.h
+    textannot.h \
+    screensaverinhibit.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS

@@ -2,11 +2,11 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QMessageBox>
 #include <QObject>
-#include <stdlib.h>
 #include "mainscreenpdfview.h"
 #include "textannot.h"
 #include "presenterpdf.h"
 #include "pdfmodel.h"
+#include "screensaverinhibit.h"
 #include "app.h"
 
 int main(int argc, char *argv[])
@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     }
 
     PresentationTimer presentationTimer(0, &params);
+    ScreenSaverInhibit screensaverinhibiter(0);
 
     PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
     if(!pdf.pdfLoaded()) {
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer);
+    MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer, &screensaverinhibiter);
     PresenterPdf presenterPdf(0, &pdf, &params);
 
     pdf.gotoOpenPage();

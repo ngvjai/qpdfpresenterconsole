@@ -10,12 +10,14 @@
 #include "parameters.h"
 #include "presentationtimer.h"
 #include "optionsdialog.h"
+#include "screensaverinhibit.h"
 
 class MainScreenPdfView : public QMainWindow
 {
     Q_OBJECT
     PDFModel *modele;
     Parameters *params;
+    ScreenSaverInhibit *screensaver;
     QLabel *slides;
     QLabel *timer;
     QLabel *currentDate;
@@ -31,12 +33,14 @@ class MainScreenPdfView : public QMainWindow
     float f1, f2;
 
 public:
-    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0);
+    explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0, ScreenSaverInhibit *screensaver = 0);
 
 signals:
     void keyPressed(QKeyEvent *e);
     void mousePressed(QMouseEvent *e);
     void presentationStarted();
+    void presentationMode();
+    void desktopMode();
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);

@@ -120,7 +120,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(CPACK_STRIP_FILES "${PROJECT_TARGETBIN}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui QtDBus REQUIRED)
 find_package(PopplerQt4 REQUIRED)
 find_package(Asciidoc REQUIRED)
 
