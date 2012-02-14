@@ -2,9 +2,8 @@
 #define SCREENSAVERINHIBIT_H
 
 #include <QObject>
-#ifdef HAVE_QTDBUS
-#include <QtDBus>
-#endif
+#include <iostream>
+#include "screensaverinhibiters.h"
 
 class ScreenSaverInhibit : public QObject
 {
@@ -15,12 +14,14 @@ class ScreenSaverInhibit : public QObject
 
 public:
     explicit ScreenSaverInhibit(QObject *parent = 0);
+    void handleScreenSaverInhibition(void);
 
 signals:
 
 public slots:
     void allowScreenSaver(void);
     void dontAllowScreenSaver(void);
+
 
 };
 

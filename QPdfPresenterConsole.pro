@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     qcommandline.cpp \
     optionsdialog.cpp \
     textannot.cpp \
-    screensaverinhibit.cpp
+    screensaverinhibit.cpp \
+    screensaverinhibiters.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -40,7 +41,8 @@ HEADERS += \
     qcommandline.h \
     optionsdialog.h \
     textannot.h \
-    screensaverinhibit.h
+    screensaverinhibit.h \
+    screensaverinhibiters.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
