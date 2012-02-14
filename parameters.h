@@ -12,6 +12,7 @@ class Parameters : public QObject
     Q_OBJECT
 
     QString pdfFileName;
+    bool checkMultiDisplay;
     int presentationLength;
     int presentationEmergency;
     float currentSlidePrcentWidth;
@@ -38,6 +39,7 @@ public:
     void setBeamerNotesPart(QString v);
     void setDefaultParameters();
     void setTextAnnot(bool v, bool emitSignal = true);
+    void setCheckMultiDisplay(bool v);
 
     int getPresentationLength();
     int getPresentationEmergency();
@@ -49,6 +51,7 @@ public:
     bool getBeamerNotes();
     QString getBeamerNotesPart();
     bool getTextAnnot();
+    bool getCheckMultiDisplay();
 
 signals:
     void mainScreenChanged();

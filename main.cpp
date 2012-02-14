@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     Parameters params((QObject*)desktop);
 
     bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
-    if (!hasMultipleScreens) {
+    if (params.getCheckMultiDisplay() && !hasMultipleScreens) {
         QMessageBox::critical(0,
                               QObject::tr(APPNAME),
                               QObject::tr("No multiscreen enabled. Quitting.")

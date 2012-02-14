@@ -52,6 +52,7 @@ set(DEFAULT_OPTION_PROJECTORSCREEN 2 CACHE STRING "Default secondary screen iden
 set(DEFAULT_OPTION_BEAMERNOTES false CACHE STRING "Enable Beamer Notes support")
 set(DEFAULT_OPTION_BEAMERNOTESPART \"right\" CACHE STRING "Part of the slides containing the Beamer Notes (right/left)")
 set(DEFAULT_OPTION_TEXTANNOT false CACHE STRING "Enable text file annotations support")
+set(DEFAULT_OPTION_CHECKMULTIDISPLAY true CACHE STRING "Enable checking the presence of multiple screen at runtime")
 
 # ---- #
 set(CPACK_PACKAGE_CONTACT "Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>")

@@ -140,7 +140,7 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="40"/>
+        <location filename="main.cpp" line="41"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
@@ -150,17 +150,17 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="132"/>
+        <location filename="mainscreenpdfview.cpp" line="143"/>
         <source>Going to a specific page number</source>
         <translation>Aller à une page précise</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="133"/>
+        <location filename="mainscreenpdfview.cpp" line="144"/>
         <source>Going to page:</source>
         <translation>Aller à la page :</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="186"/>
+        <location filename="mainscreenpdfview.cpp" line="197"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
@@ -211,6 +211,11 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     </message>
     <message>
         <location filename="parameters.cpp" line="62"/>
+        <source>Check the presence of multiple screen. Default: %1.</source>
+        <translation>Vérifier la présence de plusieurs écrans. Par défaut, %1.</translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="67"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>

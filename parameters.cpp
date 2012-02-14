@@ -58,6 +58,11 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 'c', "checkmultidisplay",
+            QObject::tr("Check the presence of multiple screen. Default: %1.").arg(DEFAULT_CHECKMULTIDISPLAY),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Optional
@@ -205,6 +210,16 @@ bool Parameters::getTextAnnot()
     return this->textAnnot;
 }
 
+void Parameters::setCheckMultiDisplay(bool v)
+{
+    this->checkMultiDisplay = v;
+}
+
+bool Parameters::getCheckMultiDisplay()
+{
+    return this->checkMultiDisplay;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -238,6 +253,9 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "textannot") {
          this->setTextAnnot(value.toBool());
+     }
+     if (name == "checkmultidisplay") {
+         this->setCheckMultiDisplay(value.toBool());
      }
 }
 
