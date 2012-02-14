@@ -157,6 +157,10 @@ OPTIONS
     file, using the PDF filename as a basis, and changing extensions with,
     for example, 'txt' and 'annot'.
 
+*-c, checkmultidisplay*='CHECKMULTIPLEDISPLAY'::
+    Set to 1 to enable presence of multiple screens checking. Default is 1
+    (stands for enabled). Turning this off is only useful for debug, often.
+
 *'FILE'*::
     This is the filename to open. If not specified, the application will
     ask to the user which file it should open, through a file open
