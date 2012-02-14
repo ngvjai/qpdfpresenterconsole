@@ -120,7 +120,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(CPACK_STRIP_FILES "${PROJECT_TARGETBIN}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-find_package(Qt4 COMPONENTS QtCore QtGui QtDBus REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 COMPONENTS QtDBus)
 find_package(PopplerQt4 REQUIRED)
 find_package(Asciidoc REQUIRED)
 
@@ -130,6 +131,13 @@ if(ASCIIDOC_FOUND)
     message(STATUS "Found asciidoc: " ${ASCIIDOC_EXECUTABLE})
     message(STATUS "Found a2x: " ${ASCIIDOC_A2X_EXECUTABLE})
 endif(ASCIIDOC_FOUND)
+
+if(QT_QTDBUS_FOUND)
+    set(HAVE_DBUS 1)
+    message(STATUS "QtDBus ready platform, using.")
+else(QT_QTDBUS_FOUND)
+    message(STATUS "Not QtDBus ready platform, disabling.")
+endif(QT_QTDBUS_FOUND)
 
 if(PROJECT_STRIP_BIN)
     message(STATUS "Using Stripper: " ${CMAKE_STRIP})

@@ -2,7 +2,9 @@
 #define SCREENSAVERINHIBIT_H
 
 #include <QObject>
+#ifdef HAVE_QTDBUS
 #include <QtDBus>
+#endif
 
 class ScreenSaverInhibit : public QObject
 {
