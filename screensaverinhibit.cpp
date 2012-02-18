@@ -72,23 +72,6 @@ void ScreenSaverInhibit::setScreenSaverDesinhibited()
 
 void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetStatus)
 {
-#ifdef HAVE_DBUS
-    static FreedesktopInhibiter fdi;
-    if(fdi.canHandle()) {
-        switch(targetStatus) {
-            case SCREENSAVER_INHIBITED:
-                fdi.inhibit();
-                break;
-            case SCREENSAVER_NON_INHIBITED:
-                fdi.desinhibit();
-                break;
-        }
-        goto inhibitok;
-    } else {
-        std::cerr << "Freedesktop inhibiter not valid." << std::endl;
-    }
-#endif
-
 #ifdef Q_OS_UNIX || Q_OS_LINUX
     static XDGInhibiter xdgi;
     if (xdgi.canHandle()) {
@@ -103,6 +86,23 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
         goto inhibitok;
     } else {
         std::cerr << "XDG inhibiter not valid." << std::endl;
+    }
+#endif
+
+#ifdef HAVE_DBUS
+    static FreedesktopInhibiter fdi;
+    if(fdi.canHandle()) {
+        switch(targetStatus) {
+            case SCREENSAVER_INHIBITED:
+                fdi.inhibit();
+                break;
+            case SCREENSAVER_NON_INHIBITED:
+                fdi.desinhibit();
+                break;
+        }
+        goto inhibitok;
+    } else {
+        std::cerr << "Freedesktop inhibiter not valid." << std::endl;
     }
 #endif
 
