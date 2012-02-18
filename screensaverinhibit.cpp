@@ -79,6 +79,9 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
             case SCREENSAVER_INHIBITED:
                 fdi.inhibit();
                 break;
+            case SCREENSAVER_NON_INHIBITED:
+                fdi.desinhibit();
+                break;
         }
         goto inhibitok;
     } else {
@@ -92,6 +95,9 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
         switch(targetStatus) {
             case SCREENSAVER_INHIBITED:
                 xdgi.inhibit();
+                break;
+            case SCREENSAVER_NON_INHIBITED:
+                xdgi.desinhibit();
                 break;
         }
         goto inhibitok;
