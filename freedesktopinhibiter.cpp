@@ -1,5 +1,6 @@
 #include "freedesktopinhibiter.h"
 
+#ifdef HAVE_DBUS
 FreedesktopInhibiter::FreedesktopInhibiter(void)
 {
     this->dbus = new QDBusInterface("org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver");
@@ -26,3 +27,4 @@ void FreedesktopInhibiter::desinhibit()
 {
     this->dbus->call(QString("Uninhibit"), this->cookie);
 }
+#endif

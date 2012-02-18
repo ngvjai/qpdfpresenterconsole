@@ -1,9 +1,11 @@
 #ifndef FREEDESKTOPINHIBITER_H
 #define FREEDESKTOPINHIBITER_H
 
+#include "app.h"
 #include "screensaverinhibiters.h"
 
 #include <QApplication>
+#ifdef HAVE_DBUS
 #include <QtDBus/QDBusInterface>
 #include <QtDBus/QDBusReply>
 
@@ -21,5 +23,6 @@ public:
     virtual void desinhibit();
 
 };
+#endif
 
 #endif
