@@ -250,6 +250,7 @@ void Parameters::optionFound(const QString &name, const QVariant &value)
      }
      if (name == "beamernotespart") {
          this->setBeamerNotesPart(value.toString());
+         this->setBeamerNotes(true);
      }
      if (name == "textannot") {
          this->setTextAnnot(value.toBool());

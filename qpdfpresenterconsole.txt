@@ -149,6 +149,8 @@ OPTIONS
     Define on which screen Beamer produced the notes. It can be either
     'left' or 'right', depending on the content of 'show notes on
     second screen' option in LaTeX source file. Default is 'left'.
+    Passing this option will automatically enable the 'BEAMERNOTES'
+    option.
 
 *-t, textannot*='TEXTANNOT'::
     Set to 1 to use text file to read annotations from. Please see below
