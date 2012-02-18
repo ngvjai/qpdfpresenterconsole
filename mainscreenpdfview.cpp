@@ -125,6 +125,7 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
         switch(ev->key())
         {
         case Qt::Key_Escape:
+            this->screensaver->allowScreenSaver();
             QCoreApplication::quit();
             break;
 
