@@ -1,6 +1,7 @@
 #include "screensaverinhibit.h"
 #include "freedesktopinhibiter.h"
 #include "xdginhibiter.h"
+#include "windowsinhibiter.h"
 
 #include <QDebug>
 
@@ -81,6 +82,20 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
 #endif
 
 #ifdef Q_WS_WIN
+    static WindowsInhibiter wi;
+    if(wi.canHandle()) {
+        switch(targetStatus) {
+            case SCREENSAVER_INHIBITED:
+                wi.inhibit();
+                break;
+            case SCREENSAVER_NON_INHIBITED:
+                wi.desinhibit();
+                break;
+        }
+        goto inhibitok;
+    } else {
+        std::cerr << "Windows inhibiter not valid." << std::endl;
+    }
 #endif
 
 exit:
