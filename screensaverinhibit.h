@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <iostream>
+#include "app.h"
 #include "screensaverinhibiters.h"
 
 class ScreenSaverInhibit : public QObject

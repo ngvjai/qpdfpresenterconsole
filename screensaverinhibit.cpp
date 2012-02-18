@@ -35,12 +35,14 @@ void ScreenSaverInhibit::handleScreenSaverInhibition()
         return;
     }
 
+#ifdef HAVE_DBUS
     FreedesktopInhibiter fdi;
     if(fdi.canHandle()) {
         fdi.inhibit();
     } else {
-        std::cerr << "Freedesktop inhibiter not valid." << std::cerr;
+        std::cerr << "Freedesktop inhibiter not valid." << std::endl;
     }
+#endif
 
     return;
 }
