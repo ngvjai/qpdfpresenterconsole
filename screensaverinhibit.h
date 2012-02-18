@@ -9,16 +9,12 @@
 class ScreenSaverInhibit : public QObject
 {
     Q_OBJECT
-    bool canInhibit;
     ScreenSaverStatus status;
-    void setCanInhibit(bool);
-    bool getCanInhibit(void);
     void setStatus(ScreenSaverStatus status);
     ScreenSaverStatus getStatus(void);
 
 public:
     explicit ScreenSaverInhibit(QObject *parent = 0);
-    void handleScreenSaverInhibition(void);
     void switchScreenSaverInhibition(ScreenSaverStatus targetStatus);
     void setScreenSaverInhibited();
     void setScreenSaverDesinhibited();

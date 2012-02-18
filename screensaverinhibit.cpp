@@ -2,22 +2,12 @@
 #include "freedesktopinhibiter.h"
 #include "xdginhibiter.h"
 
+#include <QDebug>
+
 ScreenSaverInhibit::ScreenSaverInhibit(QObject *parent) :
     QObject(parent)
 {
-    this->canInhibit = false;
     this->setStatus(SCREENSAVER_NON_INHIBITED);
-}
-
-void ScreenSaverInhibit::setCanInhibit(bool v)
-{
-    this->canInhibit = v;
-    this->handleScreenSaverInhibition();
-}
-
-bool ScreenSaverInhibit::getCanInhibit()
-{
-    return this->canInhibit;
 }
 
 void ScreenSaverInhibit::setStatus(ScreenSaverStatus status)
@@ -32,47 +22,31 @@ ScreenSaverStatus ScreenSaverInhibit::getStatus()
 
 void ScreenSaverInhibit::allowScreenSaver()
 {
-    this->setCanInhibit(true);
+    this->setScreenSaverDesinhibited();
 }
 
 void ScreenSaverInhibit::dontAllowScreenSaver()
 {
-    this->setCanInhibit(false);
-}
-
-void ScreenSaverInhibit::handleScreenSaverInhibition()
-{
-    ScreenSaverStatus current = this->getStatus();
-
-    if (this->getCanInhibit()) {
-        std::cerr << "Screen saver allowed, no inhibition." << std::endl;
-        return;
-    }
-
-    if (current == SCREENSAVER_INHIBITED) {
-        this->setScreenSaverDesinhibited();
-    }
-
-    if (current == SCREENSAVER_NON_INHIBITED) {
-        this->setScreenSaverInhibited();
-    }
-
-    return;
+    this->setScreenSaverInhibited();
 }
 
 void ScreenSaverInhibit::setScreenSaverInhibited()
 {
+    qDebug() << "Screensaver inhibition allowed.";
     this->switchScreenSaverInhibition(SCREENSAVER_INHIBITED);
 }
 
 void ScreenSaverInhibit::setScreenSaverDesinhibited()
 {
+    qDebug() << "Screensaver inhibition not allowed.";
     this->switchScreenSaverInhibition(SCREENSAVER_NON_INHIBITED);
 }
 
 void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetStatus)
 {
-#ifdef Q_OS_UNIX || Q_OS_LINUX
+    qDebug() << "Screensaver target status:" << targetStatus;
+
+#ifdef Q_OS_UNIX
     static XDGInhibiter xdgi;
     if (xdgi.canHandle()) {
         switch(targetStatus) {
