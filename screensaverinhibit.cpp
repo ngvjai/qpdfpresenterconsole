@@ -6,6 +6,7 @@ ScreenSaverInhibit::ScreenSaverInhibit(QObject *parent) :
     QObject(parent)
 {
     this->canInhibit = false;
+    this->setStatus(SCREENSAVER_NON_INHIBITED);
 }
 
 void ScreenSaverInhibit::setCanInhibit(bool v)
