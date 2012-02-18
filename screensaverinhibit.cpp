@@ -80,6 +80,9 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
     }
 #endif
 
+#ifdef Q_WS_WIN
+#endif
+
 exit:
     return;
 
