@@ -2,10 +2,11 @@
 #define SCREENSAVERINHIBITERS_H
 
 #include <QObject>
-#include "app.h"
-#ifdef HAVE_DBUS
-#include <QtDBus/QDBusConnection>
-#endif
+
+enum ScreenSaverStatus {
+    SCREENSAVER_INHIBITED,
+    SCREENSAVER_NON_INHIBITED
+};
 
 class ScreenSaverInhibiters : public QObject
 {
@@ -13,8 +14,9 @@ class ScreenSaverInhibiters : public QObject
 
 public:
     explicit ScreenSaverInhibiters(QObject *parent = 0);
-    static void FreedesktopInhibiter();
-    static void GnomeInhibiter();
+    virtual bool canHandle(void) = 0;
+    virtual void inhibit(void) = 0;
+    virtual void desinhibit(void) = 0;
 
 signals:
 

@@ -1,4 +1,5 @@
 #include "screensaverinhibit.h"
+#include "freedesktopinhibiter.h"
 
 ScreenSaverInhibit::ScreenSaverInhibit(QObject *parent) :
     QObject(parent)
@@ -34,16 +35,11 @@ void ScreenSaverInhibit::handleScreenSaverInhibition()
         return;
     }
 
-    try {
-        ScreenSaverInhibiters::FreedesktopInhibiter();
-    } catch (...) {
-        std::cerr << "No support for Freedesktop screensaver inhibition" << std::endl;
-    }
-
-    try {
-        ScreenSaverInhibiters::GnomeInhibiter();
-    } catch (...) {
-        std::cerr << "No support for Gnome screensaver inhibition" << std::endl;
+    FreedesktopInhibiter fdi;
+    if(fdi.canHandle()) {
+        fdi.inhibit();
+    } else {
+        std::cerr << "Freedesktop inhibiter not valid." << std::cerr;
     }
 
     return;

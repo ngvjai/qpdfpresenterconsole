@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     optionsdialog.cpp \
     textannot.cpp \
     screensaverinhibit.cpp \
-    screensaverinhibiters.cpp
+    screensaverinhibiters.cpp \
+    freedesktopinhibiter.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -42,7 +43,8 @@ HEADERS += \
     optionsdialog.h \
     textannot.h \
     screensaverinhibit.h \
-    screensaverinhibiters.h
+    screensaverinhibiters.h \
+    freedesktopinhibiter.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS

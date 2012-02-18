@@ -22,7 +22,6 @@ public slots:
     void allowScreenSaver(void);
     void dontAllowScreenSaver(void);
 
-
 };
 
 #endif // SCREENSAVERINHIBIT_H
