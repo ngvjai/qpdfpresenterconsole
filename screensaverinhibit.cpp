@@ -40,6 +40,7 @@ void ScreenSaverInhibit::handleScreenSaverInhibition()
     FreedesktopInhibiter fdi;
     if(fdi.canHandle()) {
         fdi.inhibit();
+        return;
     } else {
         std::cerr << "Freedesktop inhibiter not valid." << std::endl;
     }
