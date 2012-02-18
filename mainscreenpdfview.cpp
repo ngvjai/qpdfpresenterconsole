@@ -13,6 +13,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->options = NULL;
     this->screensaver = screensaverinhibiter;
 
+    this->setWindowTitle("MainScreenPdfView");
+
     QGridLayout *glayout = new QGridLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
