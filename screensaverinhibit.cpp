@@ -1,5 +1,6 @@
 #include "screensaverinhibit.h"
 #include "freedesktopinhibiter.h"
+#include "xdginhibiter.h"
 
 ScreenSaverInhibit::ScreenSaverInhibit(QObject *parent) :
     QObject(parent)
@@ -41,6 +42,16 @@ void ScreenSaverInhibit::handleScreenSaverInhibition()
         fdi.inhibit();
     } else {
         std::cerr << "Freedesktop inhibiter not valid." << std::endl;
+    }
+#endif
+
+#ifdef Q_OS_UNIX || Q_OS_LINUX
+    XDGInhibiter xdgi;
+    if (xdgi.canHandle()) {
+        xdgi.inhibit();
+        return;
+    } else {
+        std::cerr << "XDG inhibiter not valid." << std::endl;
     }
 #endif
 

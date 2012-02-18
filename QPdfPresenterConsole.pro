@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     textannot.cpp \
     screensaverinhibit.cpp \
     screensaverinhibiters.cpp \
-    freedesktopinhibiter.cpp
+    freedesktopinhibiter.cpp \
+    xdginhibiter.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -44,7 +45,8 @@ HEADERS += \
     textannot.h \
     screensaverinhibit.h \
     screensaverinhibiters.h \
-    freedesktopinhibiter.h
+    freedesktopinhibiter.h \
+    xdginhibiter.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
