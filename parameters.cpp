@@ -99,6 +99,7 @@ void Parameters::setDefaultParameters()
     this->setBeamerNotes(DEFAULT_BEAMERNOTES);
     this->setBeamerNotesPart(DEFAULT_BEAMERNOTESPART);
     this->setTextAnnot(DEFAULT_TEXTANNOT);
+    this->setCheckMultiDisplay(DEFAULT_CHECKMULTIDISPLAY);
     this->setPdfFileName("");
 }
 
