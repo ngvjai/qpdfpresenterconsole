@@ -1,4 +1,5 @@
 #include "windowsinhibiter.h"
+#include <QDebug>
 
 #ifdef Q_WS_WIN
 /**
@@ -16,13 +17,21 @@ WindowsInhibiter::WindowsInhibiter()
 
 bool WindowsInhibiter::canHandle()
 {
+    return true;
 }
 
 void WindowsInhibiter::inhibit()
 {
+    this->previousState = (void *)SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+    if (this->previousState == NULL) {
+        qDebug() << "SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED) returned NULL";
+    } else {
+        qDebug() << "SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED) returned something NOT NULL (good!)";
+    }
 }
 
 void WindowsInhibiter::desinhibit()
 {
+    SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
 }
 #endif

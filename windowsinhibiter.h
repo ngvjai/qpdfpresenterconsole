@@ -6,6 +6,7 @@
 #ifdef Q_WS_WIN
 class WindowsInhibiter : public ScreenSaverInhibiters
 {
+    void *previousState;
 public:
     explicit WindowsInhibiter();
     virtual bool canHandle();
