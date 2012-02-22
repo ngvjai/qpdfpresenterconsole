@@ -3,6 +3,7 @@
 
 #include <QString>
 
+#define ORGNAME "@PROJECT_FULLNAME@"
 #define APPNAME "@PROJECT_TARGETBIN@"
 #define SHORTNAME "@PROJECT_SHORTNAME@"
 #define APPVERS "@PROJECT_VERSION@"
@@ -11,6 +12,7 @@
 #define BEAMER_NOTES_RIGHT "right"
 #define BEAMER_NOTES_LEFT "left"
 
+const QString orgname = ORGNAME;
 const QString appname = APPNAME;
 const QString appvers = APPVERS;
 
