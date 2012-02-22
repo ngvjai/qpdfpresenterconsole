@@ -138,12 +138,12 @@ Mandatory arguments to long options are mandatory for short options too.
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="30"/>
+        <location filename="main.cpp" line="33"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="41"/>
+        <location filename="main.cpp" line="44"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -219,6 +219,11 @@ Mandatory arguments to long options are mandatory for short options too.
     </message>
     <message>
         <location filename="parameters.cpp" line="67"/>
+        <source>Config file to load parameters from. Any other command line parameter will be ignored. Default: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="72"/>
         <source>PDF file of the presentation.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -140,12 +140,12 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="41"/>
+        <location filename="main.cpp" line="44"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="30"/>
+        <location filename="main.cpp" line="33"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
@@ -216,6 +216,11 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     </message>
     <message>
         <location filename="parameters.cpp" line="67"/>
+        <source>Config file to load parameters from. Any other command line parameter will be ignored. Default: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="parameters.cpp" line="72"/>
         <source>PDF file of the presentation.</source>
         <oldsource>PDF file of the presentation</oldsource>
         <translation>Fichier PDF de la présentation.</translation>
