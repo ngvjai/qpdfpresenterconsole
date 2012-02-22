@@ -217,7 +217,7 @@ Les arguments nécessaires aux options longues le sont également pour les optio
     <message>
         <location filename="parameters.cpp" line="67"/>
         <source>Config file to load parameters from. Any other command line parameter will be ignored. Default: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de configuration à utiliser pour charger les paramètres. Tous les autres paramètres passés seront ignorés. Par défault, %1.</translation>
     </message>
     <message>
         <location filename="parameters.cpp" line="72"/>
