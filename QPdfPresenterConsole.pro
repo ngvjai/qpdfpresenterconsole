@@ -18,6 +18,9 @@ LIBS        += -lpoppler-qt4
 
 TRANSLATIONS += \
     qpdfpresenterconsole_fr.ts
+    qpdfpresenterconsole_es.ts
+    qpdfpresenterconsole_de.ts
+    qpdfpresenterconsole_it.ts
 
 SOURCES += main.cpp \
     mainscreenpdfview.cpp \
