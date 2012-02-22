@@ -150,17 +150,17 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="143"/>
+        <location filename="mainscreenpdfview.cpp" line="146"/>
         <source>Going to a specific page number</source>
         <translation>Aller à une page précise</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="144"/>
+        <location filename="mainscreenpdfview.cpp" line="147"/>
         <source>Going to page:</source>
         <translation>Aller à la page :</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="197"/>
+        <location filename="mainscreenpdfview.cpp" line="200"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
