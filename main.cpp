@@ -11,6 +11,9 @@
 
 int main(int argc, char *argv[])
 {
+    int retval = 0;
+
+    QCoreApplication::setOrganizationName(orgname);
     QCoreApplication::setApplicationName(appname);
     QCoreApplication::setApplicationVersion(appvers);
     QApplication app(argc, argv);
@@ -57,5 +60,7 @@ int main(int argc, char *argv[])
     presenterPdf.showFullScreen();
     mainScreen.showFullScreen();
 
-    return app.exec();
+    retval = app.exec();
+    params.saveSettingsOnClose();
+    return retval;
 }

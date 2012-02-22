@@ -63,12 +63,20 @@ Parameters::Parameters(QObject *parent) :
             QCommandLine::Optional
         },
         {
+            QCommandLine::Option, 'f', "configfile",
+            QObject::tr("Config file to load parameters from. Any other command line parameter will be ignored. Default: %1.").arg(DEFAULT_CONFIGFILE),
+            QCommandLine::Optional
+        },
+        {
             QCommandLine::Param, QChar(), "file",
             QObject::tr("PDF file of the presentation."),
             QCommandLine::Optional
         },
         QCOMMANDLINE_CONFIG_ENTRY_END
       };
+
+    this->setDefaultParameters();
+    this->loadSettingsOnStartup();
 
     cmdline = new QCommandLine(this);
     cmdline->setConfig(conf);
@@ -84,22 +92,89 @@ Parameters::Parameters(QObject *parent) :
     connect(cmdline, SIGNAL(parseError(const QString &)),
             this, SLOT(parseError(const QString &)));
 
-    this->setDefaultParameters();
     cmdline->parse();
+
+    if (!this->getConfigFile().isEmpty()) {
+        this->loadConfigFile();
+    }
+}
+
+void Parameters::loadSettingsOnStartup()
+{
+    QSettings settings;
+    this->loadSettings(settings);
+}
+
+void Parameters::loadConfigFile()
+{
+    QSettings settings(this->getConfigFile(), QSettings::IniFormat);
+    this->loadSettings(settings);
+}
+
+void Parameters::saveSettingsOnClose()
+{
+    if (this->getConfigFile().isEmpty()) {
+        this->saveSettings();
+    }
+}
+
+void Parameters::saveSettings()
+{
+    QSettings settings;
+
+    settings.setValue("checkMultiDisplay", this->getCheckMultiDisplay());
+    settings.setValue("presentationLength", this->getPresentationLength());
+    settings.setValue("presentationEmergency", this->getPresentationEmergency());
+    settings.setValue("currentSlidePrcentWidth", this->getCurrentSlidePrcentWidth());
+    settings.setValue("openPage", this->getOpenPage());
+    settings.setValue("mainScreenId", this->getMainScreenId());
+    settings.setValue("projectorScreenId", this->getProjectorScreenId());
+    settings.setValue("beamerNotes", this->getBeamerNotes());
+    settings.setValue("beamerNotesPart", this->getBeamerNotesPart());
+    settings.setValue("textAnnot", this->getTextAnnot());
+
+    settings.sync();
+}
+
+void Parameters::loadSettings(QSettings &settings)
+{
+    settings.sync();
+
+    this->setCheckMultiDisplay(
+                settings.value("checkMultiDisplay", DEFAULT_CHECKMULTIDISPLAY).toBool());
+    this->setPresentationLength(
+                settings.value("presentationLength", DEFAULT_PRESENTATIONLENGTH).toInt());
+    this->setPresentationEmergency(
+                settings.value("presentationEmergency", DEFAULT_PRESENTATIONEMERGENCY).toInt());
+    this->setCurrentSlidePrcentWidth(
+                settings.value("currentSlidePrcentWidth", DEFAULT_CURRENTSLIDEPRCENTWIDTH).toFloat());
+    this->setOpenPage(
+                settings.value("openPage", DEFAULT_OPENPAGE).toInt());
+    this->setMainScreenId(
+                settings.value("mainScreenId", DEFAULT_MAINSCREEN).toInt());
+    this->setProjectorScreenId(
+                settings.value("projectorScreenId", DEFAULT_PROJECTORSCREEN).toInt());
+    this->setBeamerNotes(
+                settings.value("beamerNotes", DEFAULT_BEAMERNOTES).toBool());
+    this->setBeamerNotesPart(
+                settings.value("beamerNotesPart", DEFAULT_BEAMERNOTESPART).toString());
+    this->setTextAnnot(
+                settings.value("textAnnot", DEFAULT_TEXTANNOT).toBool());
 }
 
 void Parameters::setDefaultParameters()
 {
-    this->setCurrentSlidePrcentWidth(DEFAULT_SLIDESWIDTH / 100.0);
-    this->setPresentationLength(1000*60*DEFAULT_DURATION); /* in msecs */
-    this->setPresentationEmergency(1000*60*DEFAULT_EMERGENCY);
-    this->setOpenPage(DEFAULT_PAGE - 1);
+    this->setCurrentSlidePrcentWidth(DEFAULT_CURRENTSLIDEPRCENTWIDTH);
+    this->setPresentationLength(DEFAULT_PRESENTATIONLENGTH); /* in msecs */
+    this->setPresentationEmergency(DEFAULT_PRESENTATIONEMERGENCY);
+    this->setOpenPage(DEFAULT_OPENPAGE);
     this->setMainScreenId(DEFAULT_MAINSCREEN);
     this->setProjectorScreenId(DEFAULT_PROJECTORSCREEN);
     this->setBeamerNotes(DEFAULT_BEAMERNOTES);
     this->setBeamerNotesPart(DEFAULT_BEAMERNOTESPART);
     this->setTextAnnot(DEFAULT_TEXTANNOT);
     this->setCheckMultiDisplay(DEFAULT_CHECKMULTIDISPLAY);
+    this->setConfigFile(DEFAULT_CONFIGFILE);
     this->setPdfFileName("");
 }
 
@@ -221,6 +296,16 @@ bool Parameters::getCheckMultiDisplay()
     return this->checkMultiDisplay;
 }
 
+void Parameters::setConfigFile(QString v)
+{
+    this->configfile = v;
+}
+
+QString Parameters::getConfigFile()
+{
+    return this->configfile;
+}
+
 void Parameters::switchFound(const QString &name)
 {
     // qWarning() << "Switch:" << name;
@@ -228,44 +313,47 @@ void Parameters::switchFound(const QString &name)
 
 void Parameters::optionFound(const QString &name, const QVariant &value)
 {
-     if (name == "emergency") {
-         this->setPresentationEmergency(1000*60*(value.toInt()));
-     }
-     if (name == "duration") {
-         this->setPresentationLength(1000*60*(value.toInt()));
-     }
-     if (name == "slides-width") {
-         this->setCurrentSlidePrcentWidth(value.toInt() / 100.0);
-     }
-     if (name == "page") {
-         this->setOpenPage(value.toInt() - 1);
-     }
-     if (name == "mainscreen") {
-         this->setMainScreenId(value.toInt());
-     }
-     if (name == "projectorscreen") {
-         this->setProjectorScreenId(value.toInt());
-     }
-     if (name == "beamernotes") {
-         this->setBeamerNotes(value.toBool());
-     }
-     if (name == "beamernotespart") {
-         this->setBeamerNotesPart(value.toString());
-         this->setBeamerNotes(true);
-     }
-     if (name == "textannot") {
-         this->setTextAnnot(value.toBool());
-     }
-     if (name == "checkmultidisplay") {
-         this->setCheckMultiDisplay(value.toBool());
-     }
+    if (name == "configfile") {
+        this->setConfigFile(value.toString());
+    }
+    if (name == "emergency") {
+        this->setPresentationEmergency(1000*60*(value.toInt()));
+    }
+    if (name == "duration") {
+        this->setPresentationLength(1000*60*(value.toInt()));
+    }
+    if (name == "slides-width") {
+        this->setCurrentSlidePrcentWidth(value.toInt() / 100.0);
+    }
+    if (name == "page") {
+        this->setOpenPage(value.toInt() - 1);
+    }
+    if (name == "mainscreen") {
+        this->setMainScreenId(value.toInt());
+    }
+    if (name == "projectorscreen") {
+        this->setProjectorScreenId(value.toInt());
+    }
+    if (name == "beamernotes") {
+        this->setBeamerNotes(value.toBool());
+    }
+    if (name == "beamernotespart") {
+        this->setBeamerNotesPart(value.toString());
+        this->setBeamerNotes(true);
+    }
+    if (name == "textannot") {
+        this->setTextAnnot(value.toBool());
+    }
+    if (name == "checkmultidisplay") {
+        this->setCheckMultiDisplay(value.toBool());
+    }
 }
 
 void Parameters::paramFound(const QString &name, const QVariant &value)
 {
-     if (name == "file") {
-         this->setPdfFileName(value.toString());
-     }
+    if (name == "file") {
+        this->setPdfFileName(value.toString());
+    }
 }
 
 void Parameters::parseError(const QString &error)

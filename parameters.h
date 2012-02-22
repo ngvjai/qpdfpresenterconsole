@@ -5,6 +5,8 @@
 #include <QStringList>
 #include <QVariant>
 #include <QCoreApplication>
+#include <QSettings>
+#include <QList>
 #include "qcommandline.h"
 
 class Parameters : public QObject
@@ -23,10 +25,17 @@ class Parameters : public QObject
     QString beamerNotesPart;
     bool textAnnot;
 
+    QString configfile;
+
     QCommandLine *cmdline;
 
 public:
     explicit Parameters(QObject *parent = 0);
+
+    void loadSettingsOnStartup();
+    void saveSettings();
+    void loadSettings(QSettings &settings);
+    void loadConfigFile();
 
     void setPresentationLength(int v);
     void setPresentationEmergency(int v);
@@ -40,6 +49,7 @@ public:
     void setDefaultParameters();
     void setTextAnnot(bool v, bool emitSignal = true);
     void setCheckMultiDisplay(bool v);
+    void setConfigFile(QString v);
 
     int getPresentationLength();
     int getPresentationEmergency();
@@ -52,6 +62,7 @@ public:
     QString getBeamerNotesPart();
     bool getTextAnnot();
     bool getCheckMultiDisplay();
+    QString getConfigFile();
 
 signals:
     void mainScreenChanged();
@@ -64,6 +75,7 @@ public slots:
     void switchFound(const QString & name);
     void optionFound(const QString & name, const QVariant & value);
     void paramFound(const QString & name, const QVariant & value);
+    void saveSettingsOnClose();
 };
 
 #endif // PARAMETERS_H
