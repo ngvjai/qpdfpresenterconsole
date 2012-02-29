@@ -73,6 +73,7 @@ public:
     int getCurrentPage();
     int getNextPage();
     int getLastPage();
+    QList<Poppler::Link*> getGotoLinks();
 
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
@@ -87,6 +88,8 @@ public:
 
     QSizeF getPageSize();
     QSizeF getScaleFactor();
+    float getDpiX();
+    float getDpiY();
 
     QString& getPdfFileName(void);
 

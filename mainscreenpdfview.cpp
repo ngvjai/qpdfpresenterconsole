@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QInputDialog>
 #include "optionsdialog.h"
+#include "slidewidget.h"
+#include <iostream>
 
 MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Parameters *params, PresentationTimer *timer, ScreenSaverInhibit *screensaverinhibiter) :
     QMainWindow(parent)
@@ -19,7 +21,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
-    this->currentSlide = new QLabel(this);
+    this->currentSlide = new SlideWidget(this, modele);
     this->nextSlide = new QLabel(this);
     this->currentDate = new QLabel(this);
     this->emergencyDate = new QLabel(this);
@@ -92,7 +94,6 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this, SIGNAL(presentationStarted()),
                      this->pTimer, SLOT(startCounterIfNeeded()));
     QObject::connect(this->params, SIGNAL(mainScreenChanged()), SLOT(moveToScreen()));
-
     QObject::connect(this, SIGNAL(presentationStarted()),
                      this->screensaver, SLOT(dontAllowScreenSaver()));
     QObject::connect(this, SIGNAL(presentationMode()),

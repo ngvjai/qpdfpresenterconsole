@@ -227,12 +227,12 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                 }
             }
 
+            this->gotoLinks.clear();
             QList<Poppler::Link*> links = pdfPage->links();
             QList<Poppler::Link*>::iterator lit;
             for (lit = links.begin(); lit != links.end(); ++lit) {
                 Poppler::Link* link = (*lit);
                 if (link->linkType() == Poppler::Link::Goto) {
-                    std::cerr << "ALink::" << link->linkArea().x() << std::endl;
                     this->gotoLinks.append(link);
                 }
             }
@@ -385,6 +385,21 @@ int PDFModel::getContentPart()
 int PDFModel::getAnnotationsPart()
 {
     return this->AnnotationsPart;
+}
+
+float PDFModel::getDpiX()
+{
+    return this->dpiX;
+}
+
+float PDFModel::getDpiY()
+{
+    return this->dpiY;
+}
+
+QList<Poppler::Link*> PDFModel::getGotoLinks()
+{
+    return this->gotoLinks;
 }
 
 void PDFModel::handleKeyModelSequence(QKeyEvent *ev)

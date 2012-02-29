@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     screensaverinhibiters.cpp \
     freedesktopinhibiter.cpp \
     xdginhibiter.cpp \
-    windowsinhibiter.cpp
+    windowsinhibiter.cpp \
+    slidewidget.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -51,7 +52,8 @@ HEADERS += \
     screensaverinhibiters.h \
     freedesktopinhibiter.h \
     xdginhibiter.h \
-    windowsinhibiter.h
+    windowsinhibiter.h \
+    slidewidget.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
