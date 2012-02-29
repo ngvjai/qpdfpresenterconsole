@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QFileDialog>
 #include <QtConcurrentRun>
+#include <QPainter>
 
 #include <iostream>
 
@@ -183,6 +184,11 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
     return image;
 }
 
+bool PDFModel::isVideoFile(Poppler::EmbeddedFile *file)
+{
+    return true;
+}
+
 void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
 {
     if (pdfPage) {
@@ -190,6 +196,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
             QList<Poppler::Annotation*> annotations = pdfPage->annotations();
             QList<Poppler::Annotation*>::iterator it;
 
+            this->videos.clear();
             for (it = annotations.begin(); it != annotations.end(); ++it) {
                 Poppler::Annotation* annot = (*it);
 
@@ -217,8 +224,9 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                     case Poppler::Annotation::AFileAttachment:
                         {
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
-                            Poppler::EmbeddedFile* file = fileannot->embeddedFile();
-                            std::cerr << "AFileAttachment:" << file->data().size() << std::endl;
+                            if (this->isVideoFile(fileannot->embeddedFile())) {
+                                this->videos.append(fileannot);
+                            }
                         }
                         break;
 
@@ -400,6 +408,11 @@ float PDFModel::getDpiY()
 QList<Poppler::Link*> PDFModel::getGotoLinks()
 {
     return this->gotoLinks;
+}
+
+QList<Poppler::FileAttachmentAnnotation*> PDFModel::getVideos()
+{
+    return this->videos;
 }
 
 void PDFModel::handleKeyModelSequence(QKeyEvent *ev)

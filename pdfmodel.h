@@ -23,6 +23,7 @@ class PDFModel : public QObject
     TextAnnot *textannot;
 
     QList<Poppler::Link*> gotoLinks;
+    QList<Poppler::FileAttachmentAnnotation*> videos;
 
     int ContentPart;
     int AnnotationsPart;
@@ -74,7 +75,9 @@ public:
     int getNextPage();
     int getLastPage();
     QList<Poppler::Link*> getGotoLinks();
+    QList<Poppler::FileAttachmentAnnotation*> getVideos();
 
+    bool isVideoFile(Poppler::EmbeddedFile *file);
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);
