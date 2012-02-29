@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QtConcurrentRun>
 
+#include <iostream>
+
 PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer) :
     QObject(parent)
 {
@@ -166,6 +168,48 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
                 }
                 if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
                     image = image.copy(0, 0, image.width() / annotscale, image.height());
+                }
+            }
+        }
+
+        if (!pdfPage->annotations().isEmpty()) {
+            QList<Poppler::Annotation*> annotations = pdfPage->annotations();
+            QList<Poppler::Annotation*>::iterator it;
+
+            for (it = annotations.begin(); it != annotations.end(); ++it) {
+                Poppler::Annotation* annot = (*it);
+
+                switch(annot->subType()) {
+                    /**
+                      * Does not appear to be set by Beamer:
+                      * \include{movie15}
+                      * [...]
+                      * \begin{figure}[ht]
+                      *     \includemovie[
+                      *     poster,
+                      *     text={\small(haha.mp4)}
+                      *     ]{6cm}{6cm}{haha.mp4}
+                      *     \end{figure}
+                      **/
+                    case Poppler::Annotation::AMovie:
+                        {
+                            Poppler::MovieAnnotation* movannot = (Poppler::MovieAnnotation*) annot;
+                            Poppler::MovieObject* movobj = movannot->movie();
+                            std::cerr << "AMovie::" << movannot->movieTitle().toStdString() << std::endl;
+                            std::cerr << "MovieObject::" << movobj->url().toStdString() << std::endl;
+                        }
+                        break;
+
+                    case Poppler::Annotation::AFileAttachment:
+                        {
+                            Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
+                            Poppler::EmbeddedFile* file = fileannot->embeddedFile();
+                            std::cerr << "AFileAttachment:" << file->data().size() << std::endl;
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
