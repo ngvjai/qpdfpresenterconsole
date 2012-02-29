@@ -22,6 +22,8 @@ class PDFModel : public QObject
     PresentationTimer *timer;
     TextAnnot *textannot;
 
+    QList<Poppler::Link*> gotoLinks;
+
     int ContentPart;
     int AnnotationsPart;
 
@@ -72,6 +74,7 @@ public:
     int getNextPage();
     int getLastPage();
 
+    void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);
 

@@ -172,6 +172,20 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
             }
         }
 
+        if (page == this->getCurrentPage()) {
+            this->processCurrentPageAnnotations(pdfPage);
+        }
+
+        // after the usage, the page must be deleted
+        delete pdfPage;
+    }
+
+    return image;
+}
+
+void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
+{
+    if (pdfPage) {
         if (!pdfPage->annotations().isEmpty()) {
             QList<Poppler::Annotation*> annotations = pdfPage->annotations();
             QList<Poppler::Annotation*>::iterator it;
@@ -212,13 +226,18 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
                         break;
                 }
             }
+
+            QList<Poppler::Link*> links = pdfPage->links();
+            QList<Poppler::Link*>::iterator lit;
+            for (lit = links.begin(); lit != links.end(); ++lit) {
+                Poppler::Link* link = (*lit);
+                if (link->linkType() == Poppler::Link::Goto) {
+                    std::cerr << "ALink::" << link->linkArea().x() << std::endl;
+                    this->gotoLinks.append(link);
+                }
+            }
         }
-
-        // after the usage, the page must be deleted
-        delete pdfPage;
     }
-
-    return image;
 }
 
 QImage PDFModel::renderPdfPage(int page)
