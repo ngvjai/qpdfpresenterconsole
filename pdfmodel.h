@@ -77,7 +77,7 @@ public:
     QList<Poppler::Link*> getGotoLinks();
     QList<Poppler::FileAttachmentAnnotation*> getVideos();
 
-    bool isVideoFile(Poppler::EmbeddedFile *file);
+    bool isMediaFile(Poppler::EmbeddedFile *file);
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);

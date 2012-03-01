@@ -184,9 +184,19 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
     return image;
 }
 
-bool PDFModel::isVideoFile(Poppler::EmbeddedFile *file)
+bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
 {
-    return true;
+    bool retval = false;
+
+    if (file->mimeType().contains(this->mediaFiles)) {
+        retval = true;
+    }
+
+    if (file->description().contains(this->mediaFiles)) {
+        retval = true;
+    }
+
+    return retval;
 }
 
 void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
@@ -224,7 +234,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                     case Poppler::Annotation::AFileAttachment:
                         {
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
-                            if (this->isVideoFile(fileannot->embeddedFile())) {
+                            if (this->isMediaFile(fileannot->embeddedFile())) {
                                 this->videos.append(fileannot);
                             }
                         }
