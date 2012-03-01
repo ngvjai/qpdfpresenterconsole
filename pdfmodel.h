@@ -23,10 +23,10 @@ class PDFModel : public QObject
     PresentationTimer *timer;
     TextAnnot *textannot;
 
-    QRegExp mediaFiles;
+    QRegExp detectMediaFiles;
 
     QList<Poppler::Link*> gotoLinks;
-    QList<Poppler::FileAttachmentAnnotation*> videos;
+    QList<Poppler::FileAttachmentAnnotation*> mediaFiles;
 
     int ContentPart;
     int AnnotationsPart;
@@ -78,7 +78,7 @@ public:
     int getNextPage();
     int getLastPage();
     QList<Poppler::Link*> getGotoLinks();
-    QList<Poppler::FileAttachmentAnnotation*> getVideos();
+    QList<Poppler::FileAttachmentAnnotation*> getMediaFiles();
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
     void processCurrentPageAnnotations(Poppler::Page* page);

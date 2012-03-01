@@ -33,7 +33,7 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
     }
 
     /* Check for multimedia stuff */
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getVideos()) {
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
         if (this->modele->isMediaFile(fa->embeddedFile()) && fa->boundary().contains(scaledPos)) {
             this->setCursor(Qt::PointingHandCursor);
             this->setToolTip(fa->embeddedFile()->name());
@@ -60,7 +60,7 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
 void SlideWidget::paintEvent(QPaintEvent *ev)
 {
     QLabel::paintEvent(ev);
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getVideos()) {
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
         QPointF b1(fa->boundary().left() * this->width(), fa->boundary().top() * this->height());
         QPointF b2(fa->boundary().right() * this->width(), fa->boundary().bottom() * this->height());
         QRectF bounds(b1, b2);

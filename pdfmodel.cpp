@@ -16,7 +16,7 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->document = NULL;
     this->textannot = NULL;
 
-    this->mediaFiles = QRegExp("(video|audio)/.*");
+    this->detectMediaFiles = QRegExp("(video|audio)/.*");
 
     if (!this->params->getPdfFileName().isEmpty()) {
         this->setPdfFileName(this->params->getPdfFileName());
@@ -190,11 +190,11 @@ bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
 {
     bool retval = false;
 
-    if (file->mimeType().contains(this->mediaFiles)) {
+    if (file->mimeType().contains(this->detectMediaFiles)) {
         retval = true;
     }
 
-    if (file->description().contains(this->mediaFiles)) {
+    if (file->description().contains(this->detectMediaFiles)) {
         retval = true;
     }
 
@@ -208,7 +208,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
             QList<Poppler::Annotation*> annotations = pdfPage->annotations();
             QList<Poppler::Annotation*>::iterator it;
 
-            this->videos.clear();
+            this->mediaFiles.clear();
             for (it = annotations.begin(); it != annotations.end(); ++it) {
                 Poppler::Annotation* annot = (*it);
 
@@ -237,7 +237,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                         {
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
                             if (this->isMediaFile(fileannot->embeddedFile())) {
-                                this->videos.append(fileannot);
+                                this->mediaFiles.append(fileannot);
                             }
                         }
                         break;
@@ -422,9 +422,9 @@ QList<Poppler::Link*> PDFModel::getGotoLinks()
     return this->gotoLinks;
 }
 
-QList<Poppler::FileAttachmentAnnotation*> PDFModel::getVideos()
+QList<Poppler::FileAttachmentAnnotation*> PDFModel::getMediaFiles()
 {
-    return this->videos;
+    return this->mediaFiles;
 }
 
 void PDFModel::handleKeyModelSequence(QKeyEvent *ev)
