@@ -22,10 +22,21 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
     QPointF scaledPos = this->computeScaledPos(ev->pos());
 
     this->setCursor(Qt::ArrowCursor);
+    this->setToolTip("");
 
+    /* Check for links */
     foreach(Poppler::Link* link, this->modele->getGotoLinks()) {
         if (link->linkArea().contains(scaledPos)) {
             this->setCursor(Qt::PointingHandCursor);
+            break;
+        }
+    }
+
+    /* Check for multimedia stuff */
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getVideos()) {
+        if (this->modele->isMediaFile(fa->embeddedFile()) && fa->boundary().contains(scaledPos)) {
+            this->setCursor(Qt::PointingHandCursor);
+            this->setToolTip(fa->embeddedFile()->name());
             break;
         }
     }

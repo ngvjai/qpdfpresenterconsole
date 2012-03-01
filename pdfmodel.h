@@ -9,6 +9,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QReadWriteLock>
+#include <QRegExp>
 #include "parameters.h"
 #include "presentationtimer.h"
 #include "textannot.h"
@@ -21,6 +22,8 @@ class PDFModel : public QObject
     Parameters *params;
     PresentationTimer *timer;
     TextAnnot *textannot;
+
+    QRegExp mediaFiles;
 
     QList<Poppler::Link*> gotoLinks;
     QList<Poppler::FileAttachmentAnnotation*> videos;

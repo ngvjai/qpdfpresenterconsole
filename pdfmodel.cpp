@@ -16,6 +16,8 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->document = NULL;
     this->textannot = NULL;
 
+    this->mediaFiles = QRegExp("(video|audio)/.*");
+
     if (!this->params->getPdfFileName().isEmpty()) {
         this->setPdfFileName(this->params->getPdfFileName());
         this->finishInit();
