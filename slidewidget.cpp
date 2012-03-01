@@ -1,5 +1,4 @@
 #include "slidewidget.h"
-#include <iostream>
 
 SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     QLabel(parent)
@@ -7,11 +6,15 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     this->parent = parent;
     this->modele = modele;
     this->video = new QLabel(this);
+    this->video->hide();
     this->setMouseTracking(true);
+    this->video->setMouseTracking(true);
+
+    this->mmee = new MouseMoveEventEater(this);
+
+    this->video->installEventFilter(mmee);
 
     this->vlc_playing = false;
-    this->video->hide();
-
     this->vlc_instance = libvlc_new(0, NULL);
 
     QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
@@ -32,6 +35,7 @@ QPointF SlideWidget::computeScaledPos(QPoint pos)
 
 void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 {
+    ev->accept();
     QPointF scaledPos = this->computeScaledPos(ev->pos());
 
     this->setCursor(Qt::ArrowCursor);
@@ -57,6 +61,7 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 
 void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
 {
+    ev->accept();
     QPointF scaledPos = this->computeScaledPos(ev->pos());
 
     foreach(Poppler::Link* link, this->modele->getGotoLinks()) {

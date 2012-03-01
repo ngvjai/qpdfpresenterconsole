@@ -7,6 +7,7 @@
 #include <QDir>
 #include <vlc/vlc.h>
 #include "pdfmodel.h"
+#include "mousemoveeventeater.h"
 
 class SlideWidget : public QLabel
 {
@@ -14,6 +15,7 @@ class SlideWidget : public QLabel
     PDFModel *modele;
     QWidget *parent;
     QLabel *video;
+    MouseMoveEventEater *mmee;
 
     bool vlc_playing;
     libvlc_instance_t *vlc_instance;

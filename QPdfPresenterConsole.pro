@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     freedesktopinhibiter.cpp \
     xdginhibiter.cpp \
     windowsinhibiter.cpp \
-    slidewidget.cpp
+    slidewidget.cpp \
+    mousemoveeventeater.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -56,7 +57,8 @@ HEADERS += \
     freedesktopinhibiter.h \
     xdginhibiter.h \
     windowsinhibiter.h \
-    slidewidget.h
+    slidewidget.h \
+    mousemoveeventeater.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS
