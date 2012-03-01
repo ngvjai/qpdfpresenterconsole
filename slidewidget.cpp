@@ -61,21 +61,13 @@ void SlideWidget::paintEvent(QPaintEvent *ev)
 {
     QLabel::paintEvent(ev);
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getVideos()) {
-        QRectF bounds(
-            QPointF(
-                        fa->boundary().left() * this->width(),
-                        fa->boundary().top() * this->height()
-            ),
-            QPointF(
-                        fa->boundary().right() * this->width(),
-                        fa->boundary().bottom() * this->height()
-            )
-        );
-
-        Poppler::EmbeddedFile *ef = fa->embeddedFile();
+        QPointF b1(fa->boundary().left() * this->width(), fa->boundary().top() * this->height());
+        QPointF b2(fa->boundary().right() * this->width(), fa->boundary().bottom() * this->height());
+        QRectF bounds(b1, b2);
 
         QPainter painter(this);
         painter.setPen(Qt::blue);
         painter.drawRect(bounds);
+        painter.fillRect(bounds, QBrush(QColor(Qt::blue)));
     }
 }
