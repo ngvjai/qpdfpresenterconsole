@@ -15,7 +15,9 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 INCLUDEPATH += /usr/include/poppler/qt4
+INCLUDEPATH += /usr/include
 LIBS        += -lpoppler-qt4
+LIBS        += -lvlc
 
 TRANSLATIONS += \
     qpdfpresenterconsole_fr.ts

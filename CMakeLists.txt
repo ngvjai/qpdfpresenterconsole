@@ -125,6 +125,7 @@ find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 find_package(Qt4 COMPONENTS QtDBus)
 find_package(PopplerQt4 REQUIRED)
 find_package(Asciidoc REQUIRED)
+find_package(LIBVLC REQUIRED)
 
 include(CPack)
 
@@ -187,7 +188,8 @@ include(${QT_USE_FILE})
 
 include_directories(
 	${QT_INCLUDE_DIR}
-	${POPPLER_QT4_INCLUDE_DIR}
+        ${POPPLER_QT4_INCLUDE_DIR}
+        ${LIBVLC_INCLUDE_DIR}
 	${CMAKE_BINARY_DIR}
 )
 
@@ -254,6 +256,7 @@ target_link_libraries(
         ${PROJECT_TARGETBIN}
 	${QT_LIBRARIES}
         ${POPPLER_QT4_LIBRARIES}
+        ${LIBVLC_LIBRARY}
 )
 
 if(ASCIIDOC_FOUND)
