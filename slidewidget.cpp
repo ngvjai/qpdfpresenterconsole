@@ -14,7 +14,7 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
 
     this->vlc_instance = libvlc_new(0, NULL);
 
-    QObject::connect(this->modele, SIGNAL(renderingChanged()), SLOT(updateView()));
+    QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
 }
 
 SlideWidget::~SlideWidget()
@@ -128,11 +128,6 @@ void SlideWidget::updateView()
 
         this->video->move(b1.toPoint());
         this->video->resize(bounds.width(), bounds.height());
-
-        /*QPainter painter(this);
-        painter.setPen(Qt::red);
-        painter.drawRect(bounds);
-        painter.fillRect(bounds, QBrush(QColor(Qt::red)));*/
     }
 
     this->video->show();

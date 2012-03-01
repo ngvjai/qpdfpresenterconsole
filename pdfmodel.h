@@ -106,6 +106,7 @@ signals:
     void renderingChanged(void);
     void presentationStarted(void);
     void presentationReset(void);
+    void mediaFilesReady(void);
 
 public slots:
     void handleKeyModelSequence(QKeyEvent *e);

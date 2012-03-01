@@ -213,6 +213,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
             QList<Poppler::Annotation*> annotations = pdfPage->annotations();
             QList<Poppler::Annotation*>::iterator it;
 
+            bool mediaFilesChanged = false;
             this->mediaFiles.clear();
             for (it = annotations.begin(); it != annotations.end(); ++it) {
                 Poppler::Annotation* annot = (*it);
@@ -247,6 +248,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                                 this->mediaContent.insert(
                                             fileannot->embeddedFile()->name(),
                                             fileannot->embeddedFile()->data());
+                                mediaFilesChanged = true;
                             }
                         }
                         break;
@@ -254,6 +256,10 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                     default:
                         break;
                 }
+            }
+
+            if (mediaFilesChanged) {
+                emit mediaFilesReady();
             }
 
             this->gotoLinks.clear();
