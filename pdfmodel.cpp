@@ -243,6 +243,10 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
                             if (this->isMediaFile(fileannot->embeddedFile())) {
                                 this->mediaFiles.append(fileannot);
+                                // insert (name, *data), QByteArray should do no copy.
+                                this->mediaContent.insert(
+                                            fileannot->embeddedFile()->name(),
+                                            fileannot->embeddedFile()->data());
                             }
                         }
                         break;
