@@ -1,7 +1,7 @@
 #include "slidewidget.h"
 #include <iostream>
 
-SlideWidget::SlideWidget(MainScreenPdfView *parent, PDFModel *modele) :
+SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     QLabel(parent)
 {
     this->parent = parent;

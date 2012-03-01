@@ -6,6 +6,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QLayout>
+#include "slidewidget.h"
 #include "pdfmodel.h"
 #include "parameters.h"
 
