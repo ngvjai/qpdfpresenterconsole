@@ -27,6 +27,7 @@ class PDFModel : public QObject
 
     QList<Poppler::Link*> gotoLinks;
     QList<Poppler::FileAttachmentAnnotation*> mediaFiles;
+    QHash<QString, QByteArray> mediaContent;
 
     int ContentPart;
     int AnnotationsPart;
@@ -79,8 +80,10 @@ public:
     int getLastPage();
     QList<Poppler::Link*> getGotoLinks();
     QList<Poppler::FileAttachmentAnnotation*> getMediaFiles();
+    QHash<QString, QByteArray> getMediaContent();
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
+    bool hasMediaFile();
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);

@@ -186,6 +186,11 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
     return image;
 }
 
+bool PDFModel::hasMediaFile()
+{
+    return !this->mediaFiles.isEmpty();
+}
+
 bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
 {
     bool retval = false;
@@ -425,6 +430,11 @@ QList<Poppler::Link*> PDFModel::getGotoLinks()
 QList<Poppler::FileAttachmentAnnotation*> PDFModel::getMediaFiles()
 {
     return this->mediaFiles;
+}
+
+QHash<QString, QByteArray> PDFModel::getMediaContent()
+{
+    return this->mediaContent;
 }
 
 void PDFModel::handleKeyModelSequence(QKeyEvent *ev)
