@@ -5,9 +5,9 @@
 #include <QPainter>
 #include <QFile>
 #include <QDir>
-#include <vlc/vlc.h>
 #include "pdfmodel.h"
 #include "mousemoveeventeater.h"
+#include "mediaplayer.h"
 
 class SlideWidget : public QLabel
 {
@@ -16,11 +16,6 @@ class SlideWidget : public QLabel
     QWidget *parent;
     QLabel *video;
     MouseMoveEventEater *mmee;
-
-    bool vlc_playing;
-    libvlc_instance_t *vlc_instance;
-    libvlc_media_player_t *vlc_media_player;
-    libvlc_media_t *vlc_media;
 
     QPointF computeScaledPos(QPoint pos);
 

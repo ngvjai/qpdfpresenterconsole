@@ -14,15 +14,11 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
 
     this->video->installEventFilter(mmee);
 
-    this->vlc_playing = false;
-    this->vlc_instance = libvlc_new(0, NULL);
-
     QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
 }
 
 SlideWidget::~SlideWidget()
 {
-    libvlc_release(this->vlc_instance);
 }
 
 QPointF SlideWidget::computeScaledPos(QPoint pos)
@@ -76,43 +72,7 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
 
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
         if (this->modele->isMediaFile(fa->embeddedFile()) && fa->boundary().contains(scaledPos)) {
-            QString fname = QDir::tempPath() + QDir::separator() + appname + "_" + fa->embeddedFile()->name();
-            if (this->vlc_playing) {
-                this->vlc_playing = false;
-                libvlc_media_player_stop(this->vlc_media_player);
-                libvlc_media_player_release(this->vlc_media_player);
-                libvlc_release(this->vlc_instance);
-                QFile::remove(fname);
-            } else {
-                QByteArray data(this->modele->getMediaContent().value(fa->embeddedFile()->name()));
-                QFile media(fname);
-                if (media.open(QIODevice::WriteOnly)) {
-                    media.write(data);
-                    media.close();
-
-                    this->vlc_media = libvlc_media_new_path(this->vlc_instance, fname.toLocal8Bit().data());
-                    this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
-                    libvlc_media_release(this->vlc_media);
-#ifdef Q_WS_WIN
-                    libvlc_media_player_set_drawable(
-                                this->vlc_media_player,
-                                reinterpret_cast<unsigned int>(this->video->winId()));
-#endif
-#ifdef Q_WS_MAC
-                    libvlc_media_player_set_drawable(
-                                this->vlc_media_player,
-                                this->video->winId());
-#endif
-#ifdef Q_WS_X11
-                    libvlc_media_player_set_xwindow(
-                                this->vlc_media_player,
-                                this->video->winId());
-#endif
-                    libvlc_media_player_play (this->vlc_media_player);
-
-                    this->vlc_playing = true;
-                }
-            }
+            this->modele->startMediaPlayer();
             break;
         }
     }
@@ -135,5 +95,6 @@ void SlideWidget::updateView()
         this->video->resize(bounds.width(), bounds.height());
     }
 
+    this->modele->addMediaPlayerTarget(this->video);
     this->video->show();
 }

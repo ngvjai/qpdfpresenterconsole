@@ -10,10 +10,12 @@
 #include <QMouseEvent>
 #include <QReadWriteLock>
 #include <QRegExp>
+#include <QFile>
 #include "parameters.h"
 #include "presentationtimer.h"
 #include "textannot.h"
 #include "app.h"
+#include "mediaplayer.h"
 
 class PDFModel : public QObject
 {
@@ -28,6 +30,7 @@ class PDFModel : public QObject
     QList<Poppler::Link*> gotoLinks;
     QList<Poppler::FileAttachmentAnnotation*> mediaFiles;
     QHash<QString, QByteArray> mediaContent;
+    MediaPlayer* player;
 
     int ContentPart;
     int AnnotationsPart;
@@ -81,6 +84,12 @@ public:
     QList<Poppler::Link*> getGotoLinks();
     QList<Poppler::FileAttachmentAnnotation*> getMediaFiles();
     QHash<QString, QByteArray> getMediaContent();
+    QString getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa);
+    void createMediaPlayer(Poppler::FileAttachmentAnnotation *fa);
+    void addMediaPlayerTarget(QWidget *widget);
+    void startMediaPlayer();
+    void stopMediaPlayer();
+    void pauseMediaPlayer();
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
     bool hasMediaFile();

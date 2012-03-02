@@ -97,6 +97,10 @@ void PDFModel::updateTextAnnot()
 PDFModel::~PDFModel()
 {
     delete this->document;
+
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->mediaFiles) {
+        QFile::remove(this->getMediaTempFileName(fa));
+    }
 }
 
 bool PDFModel::pdfLoaded()
@@ -206,6 +210,58 @@ bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
     return retval;
 }
 
+QString PDFModel::getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa)
+{
+    QString retval = "";
+
+    if (fa) {
+        retval = QDir::tempPath() + QDir::separator() + appname + "_" + fa->embeddedFile()->name();
+    }
+
+    return retval;
+}
+
+void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
+{
+    if (fa) {
+        if (!this->player) {
+            this->player = new MediaPlayer(this);
+        }
+
+        QString fname = this->getMediaTempFileName(fa);
+        QByteArray data(this->getMediaContent().value(fa->embeddedFile()->name()));
+        QFile media(fname);
+
+        if (media.open(QIODevice::WriteOnly)) {
+            media.write(data);
+            media.close();
+            this->player->setFile(fname);
+        }
+    }
+}
+
+void PDFModel::addMediaPlayerTarget(QWidget *widget)
+{
+    if (widget) {
+        this->player->pushTargetWidget(widget);
+    }
+}
+
+void PDFModel::startMediaPlayer()
+{
+    this->player->play();
+}
+
+void PDFModel::stopMediaPlayer()
+{
+    this->player->stop();
+}
+
+void PDFModel::pauseMediaPlayer()
+{
+    this->player->pause();
+}
+
 void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
 {
     if (pdfPage) {
@@ -249,6 +305,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                                             fileannot->embeddedFile()->name(),
                                             fileannot->embeddedFile()->data());
                                 mediaFilesChanged = true;
+                                this->createMediaPlayer(fileannot);
                             }
                         }
                         break;
