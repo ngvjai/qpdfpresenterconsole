@@ -123,6 +123,10 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this, SIGNAL(desktopMode()),
                      this->screensaver, SLOT(allowScreenSaver()));
 
+    QObject::connect(this->playAction, SIGNAL(triggered()), this->modele, SLOT(startMediaPlayer()));
+    QObject::connect(this->pauseAction, SIGNAL(triggered()), this->modele, SLOT(pauseMediaPlayer()));
+    QObject::connect(this->stopAction, SIGNAL(triggered()), this->modele, SLOT(stopMediaPlayer()));
+
     this->moveToScreen();
     emit presentationMode();
 }

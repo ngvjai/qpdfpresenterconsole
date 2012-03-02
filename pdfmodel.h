@@ -88,9 +88,6 @@ public:
     QString getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa);
     void createMediaPlayer(Poppler::FileAttachmentAnnotation *fa);
     void addMediaPlayerTarget(QWidget *widget);
-    void startMediaPlayer();
-    void stopMediaPlayer();
-    void pauseMediaPlayer();
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
     bool hasMediaFile();
@@ -123,6 +120,9 @@ public slots:
     void handleMouseModelSequence(QMouseEvent *e);
     void updateProjectorSize();
     void updateTextAnnot();
+    void startMediaPlayer();
+    void stopMediaPlayer();
+    void pauseMediaPlayer();
 
 };
 
