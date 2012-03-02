@@ -194,7 +194,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
 
 bool PDFModel::hasMediaFile()
 {
-    return !this->mediaFiles.isEmpty();
+    return (this->nbMediaFilesInPage.value(this->getCurrentPage()) > 0);
 }
 
 bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
@@ -267,8 +267,8 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
             QList<Poppler::Annotation*> annotations = pdfPage->annotations();
             QList<Poppler::Annotation*>::iterator it;
 
-            bool mediaFilesChanged = false;
             this->mediaFiles.clear();
+            this->nbMediaFilesInPage.insert(this->getCurrentPage(), 0);
             for (it = annotations.begin(); it != annotations.end(); ++it) {
                 Poppler::Annotation* annot = (*it);
 
@@ -298,11 +298,13 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
                             if (this->isMediaFile(fileannot->embeddedFile())) {
                                 this->mediaFiles.append(fileannot);
+                                this->nbMediaFilesInPage.insert(
+                                            this->getCurrentPage(),
+                                            this->nbMediaFilesInPage.value(this->getCurrentPage()) + 1);
                                 // insert (name, *data), QByteArray should do no copy.
                                 this->mediaContent.insert(
                                             fileannot->embeddedFile()->name(),
                                             fileannot->embeddedFile()->data());
-                                mediaFilesChanged = true;
                                 this->createMediaPlayer(fileannot);
                             }
                         }
@@ -313,9 +315,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                 }
             }
 
-            if (mediaFilesChanged) {
-                emit mediaFilesReady();
-            }
+            emit mediaFilesReady();
 
             this->gotoLinks.clear();
             QList<Poppler::Link*> links = pdfPage->links();

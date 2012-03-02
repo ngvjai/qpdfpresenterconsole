@@ -29,6 +29,7 @@ class PDFModel : public QObject
 
     QList<Poppler::Link*> gotoLinks;
     QList<Poppler::FileAttachmentAnnotation*> mediaFiles;
+    QHash<int, int> nbMediaFilesInPage;
     QHash<QString, QByteArray> mediaContent;
     MediaPlayer* player;
 
