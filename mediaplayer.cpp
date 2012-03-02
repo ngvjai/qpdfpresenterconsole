@@ -78,9 +78,11 @@ void MediaPlayer::play()
         this->preparePlayer();
     }
 
-    libvlc_media_player_play(this->vlc_media_player);
-    this->vlc_playing = true;
-    emit playbackStarted();
+    if (!this->vlc_playing) {
+        libvlc_media_player_play(this->vlc_media_player);
+        this->vlc_playing = true;
+        emit playbackStarted();
+    }
 }
 
 void MediaPlayer::pause()
