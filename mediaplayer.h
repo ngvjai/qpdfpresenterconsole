@@ -14,8 +14,7 @@ class MediaPlayer : public QObject
     libvlc_instance_t *vlc_instance;
     libvlc_media_player_t *vlc_media_player;
     libvlc_media_t *vlc_media;
-
-    QList<QWidget*> widgets;
+    QWidget *targetWidget;
 
     void preparePlayer();
 
@@ -25,7 +24,7 @@ public:
     static MediaPlayer& getInstance(QObject *parent);
 
     void setFile(QString file);
-    void pushTargetWidget(QWidget* widget);
+    void setTargetWidget(QWidget * widget);
 
     void play();
     void pause();

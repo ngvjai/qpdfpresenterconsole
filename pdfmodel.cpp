@@ -52,6 +52,8 @@ void PDFModel::finishInit()
     this->updateTextAnnot();
 
     this->player = new MediaPlayer(this);
+    this->video = new QLabel();
+    this->player->setTargetWidget(this->video);
 
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
@@ -241,7 +243,14 @@ void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
 void PDFModel::addMediaPlayerTarget(QWidget *widget)
 {
     if (widget) {
-        this->player->pushTargetWidget(widget);
+        this->pushTargetWidget(widget);
+    }
+}
+
+void PDFModel::pushTargetWidget(QWidget *widget)
+{
+    if (!this->videoTargets.contains(widget)) {
+        this->videoTargets.append(widget);
     }
 }
 

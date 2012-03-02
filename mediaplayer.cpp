@@ -29,32 +29,28 @@ void MediaPlayer::setFile(QString file)
     }
 }
 
-void MediaPlayer::pushTargetWidget(QWidget *widget)
+void MediaPlayer::setTargetWidget(QWidget *widget)
 {
-    if (!this->widgets.contains(widget)) {
-        this->widgets.append(widget);
-    }
+    this->targetWidget = widget;
 }
 
 void MediaPlayer::preparePlayer()
 {
-    foreach(QWidget* widget, this->widgets) {
 #ifdef Q_WS_WIN
-                libvlc_media_player_set_drawable(
-                            this->vlc_media_player,
-                            reinterpret_cast<unsigned int>(widget->winId()));
+    libvlc_media_player_set_drawable(
+                this->vlc_media_player,
+                reinterpret_cast<unsigned int>(this->targetWidget->winId()));
 #endif
 #ifdef Q_WS_MAC
-                libvlc_media_player_set_drawable(
-                            this->vlc_media_player,
-                            widget->winId());
+    libvlc_media_player_set_drawable(
+                this->vlc_media_player,
+                this->targetWidget->winId());
 #endif
 #ifdef Q_WS_X11
-                libvlc_media_player_set_xwindow(
-                            this->vlc_media_player,
-                            widget->winId());
+    libvlc_media_player_set_xwindow(
+                this->vlc_media_player,
+                this->targetWidget->winId());
 #endif
-    }
 }
 
 void MediaPlayer::startPlayback()

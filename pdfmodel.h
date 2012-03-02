@@ -11,6 +11,7 @@
 #include <QReadWriteLock>
 #include <QRegExp>
 #include <QFile>
+#include <QLabel>
 #include "parameters.h"
 #include "presentationtimer.h"
 #include "textannot.h"
@@ -24,6 +25,7 @@ class PDFModel : public QObject
     Parameters *params;
     PresentationTimer *timer;
     TextAnnot *textannot;
+    QLabel *video;
 
     QRegExp detectMediaFiles;
 
@@ -32,6 +34,7 @@ class PDFModel : public QObject
     QHash<int, int> nbMediaFilesInPage;
     QHash<QString, QByteArray> mediaContent;
     MediaPlayer* player;
+    QList<QWidget*> videoTargets;
 
     int ContentPart;
     int AnnotationsPart;
@@ -88,6 +91,7 @@ public:
     QString getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa);
     void createMediaPlayer(Poppler::FileAttachmentAnnotation *fa);
     void addMediaPlayerTarget(QWidget *widget);
+    void pushTargetWidget(QWidget* widget);
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
     bool hasMediaFile();
