@@ -34,18 +34,18 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->playAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
     this->pauseAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
     this->stopAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
-    this->previousAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipBackward), tr("Previous"), this);
-    this->nextAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipForward), tr("Next"), this);
+    // this->previousAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipBackward), tr("Previous"), this);
+    // this->nextAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipForward), tr("Next"), this);
     this->playAction->setShortcut(tr("Ctrl+P"));
     this->pauseAction->setShortcut(tr("Ctrl+A"));
     this->stopAction->setShortcut(tr("Ctrl+S"));
-    this->nextAction->setShortcut(tr("Ctrl+N"));
-    this->previousAction->setShortcut(tr("Ctrl+R"));
+    // this->nextAction->setShortcut(tr("Ctrl+N"));
+    // this->previousAction->setShortcut(tr("Ctrl+R"));
     this->mediabar->addAction(this->playAction);
     this->mediabar->addAction(this->pauseAction);
     this->mediabar->addAction(this->stopAction);
-    this->mediabar->addAction(this->previousAction);
-    this->mediabar->addAction(this->nextAction);
+    // this->mediabar->addAction(this->previousAction);
+    // this->mediabar->addAction(this->nextAction);
     this->mediabar->hide();
 
     this->timer->setStyleSheet(
