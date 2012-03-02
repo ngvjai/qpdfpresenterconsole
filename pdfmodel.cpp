@@ -217,7 +217,7 @@ QString PDFModel::getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa)
     QString retval = "";
 
     if (fa) {
-        retval = QDir::tempPath() + QDir::separator() + appname + "_" + fa->embeddedFile()->name();
+        retval = QString(QDir::tempPath() + QDir::separator() + appname + "_" + fa->embeddedFile()->name());
     }
 
     return retval;
