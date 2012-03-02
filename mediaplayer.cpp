@@ -1,11 +1,11 @@
 #include "mediaplayer.h"
+#include <iostream>
 
 MediaPlayer::MediaPlayer(QObject *parent) :
     QObject(parent)
 {
     this->vlc_playing = false;
     this->vlc_ready = false;
-    this->vlc_instance = libvlc_new(0, NULL);
 }
 
 MediaPlayer::~MediaPlayer()
@@ -23,15 +23,15 @@ MediaPlayer& MediaPlayer::getInstance(QObject *parent)
 void MediaPlayer::setFile(QString file)
 {
     if (!file.isEmpty()) {
-        this->vlc_media = libvlc_media_new_path(this->vlc_instance, file.toStdString().c_str());
-        this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
-        libvlc_media_release(this->vlc_media);
+        this->mediaFile = file;
     }
 }
 
-void MediaPlayer::setTargetWidget(QWidget *widget)
+void MediaPlayer::pushTargetWidget(QWidget *widget)
 {
-    this->targetWidget = widget;
+    if (!this->videoTargets.contains(widget)) {
+        this->videoTargets.append(widget);
+    }
 }
 
 void MediaPlayer::preparePlayer()
@@ -47,10 +47,23 @@ void MediaPlayer::preparePlayer()
                 this->targetWidget->winId());
 #endif
 #ifdef Q_WS_X11
-    libvlc_media_player_set_xwindow(
-                this->vlc_media_player,
-                this->targetWidget->winId());
+    QString win1 = QString("%1").arg(this->videoTargets[0]->winId());
+    QString win2 = QString("%1").arg(this->videoTargets[1]->winId());
+    QString clone = QString("--vout=clone{vout=x11{xid=%1},vout=x11{xid=%2}}").arg(win1, win2);
 #endif
+
+    const char *vlc_argv[] = {
+        "--vout-filter=clone",
+        "--clone-count=2",
+        clone.toStdString().c_str(),
+    };
+
+    std::cerr << clone.toStdString().c_str() << std::endl;
+
+    this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
+    this->vlc_media = libvlc_media_new_path(this->vlc_instance, this->mediaFile.toStdString().c_str());
+    this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
+    libvlc_media_release(this->vlc_media);
 }
 
 void MediaPlayer::startPlayback()

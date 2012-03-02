@@ -25,7 +25,6 @@ class PDFModel : public QObject
     Parameters *params;
     PresentationTimer *timer;
     TextAnnot *textannot;
-    QLabel *video;
 
     QRegExp detectMediaFiles;
 
@@ -34,7 +33,6 @@ class PDFModel : public QObject
     QHash<int, int> nbMediaFilesInPage;
     QHash<QString, QByteArray> mediaContent;
     MediaPlayer* player;
-    QList<QWidget*> videoTargets;
 
     int ContentPart;
     int AnnotationsPart;
