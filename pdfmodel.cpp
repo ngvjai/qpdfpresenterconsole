@@ -51,6 +51,8 @@ void PDFModel::finishInit()
     this->updateProjectorSize();
     this->updateTextAnnot();
 
+    this->player = new MediaPlayer(this);
+
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
@@ -224,10 +226,6 @@ QString PDFModel::getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa)
 void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
 {
     if (fa) {
-        if (!this->player) {
-            this->player = new MediaPlayer(this);
-        }
-
         QString fname = this->getMediaTempFileName(fa);
         QByteArray data(this->getMediaContent().value(fa->embeddedFile()->name()));
         QFile media(fname);
