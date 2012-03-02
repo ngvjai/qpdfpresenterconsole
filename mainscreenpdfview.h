@@ -5,6 +5,8 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QLabel>
+#include <QAction>
+#include <QToolBar>
 #include <QTimer>
 #include "pdfmodel.h"
 #include "parameters.h"
@@ -26,6 +28,13 @@ class MainScreenPdfView : public QMainWindow
     QLabel *currentSlide;
     QLabel *nextSlide;
     QLabel *beamerNote;
+
+    QAction *playAction;
+    QAction *pauseAction;
+    QAction *stopAction;
+    QAction *nextAction;
+    QAction *previousAction;
+    QToolBar *mediabar;
 
     OptionsDialog *options;
     PresentationTimer *pTimer;

@@ -2,6 +2,7 @@
 #include <QtGui/QGridLayout>
 #include <QApplication>
 #include <QInputDialog>
+#include <QStyle>
 #include "optionsdialog.h"
 #include "slidewidget.h"
 #include <iostream>
@@ -18,6 +19,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->setWindowTitle("MainScreenPdfView");
 
     QGridLayout *glayout = new QGridLayout();
+    QHBoxLayout *medialayout = new QHBoxLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
@@ -26,6 +28,25 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->currentDate = new QLabel(this);
     this->emergencyDate = new QLabel(this);
     this->beamerNote = new QLabel(this);
+    this->mediabar = new QToolBar(this);
+
+    /* media playback stuff */
+    this->playAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
+    this->pauseAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
+    this->stopAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
+    this->previousAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipBackward), tr("Previous"), this);
+    this->nextAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipForward), tr("Next"), this);
+    this->playAction->setShortcut(tr("Ctrl+P"));
+    this->pauseAction->setShortcut(tr("Ctrl+A"));
+    this->stopAction->setShortcut(tr("Ctrl+S"));
+    this->nextAction->setShortcut(tr("Ctrl+N"));
+    this->previousAction->setShortcut(tr("Ctrl+R"));
+    this->mediabar->addAction(this->playAction);
+    this->mediabar->addAction(this->pauseAction);
+    this->mediabar->addAction(this->stopAction);
+    this->mediabar->addAction(this->previousAction);
+    this->mediabar->addAction(this->nextAction);
+    this->mediabar->hide();
 
     this->timer->setStyleSheet(
             this->timer->styleSheet()
@@ -67,9 +88,10 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     glayout->addWidget(this->emergencyDate, 0, 1, Qt::AlignCenter);
     glayout->addWidget(this->currentSlide,  1, 0, Qt::AlignCenter);
     glayout->addWidget(this->nextSlide,     1, 1, Qt::AlignCenter);
-    glayout->addWidget(this->beamerNote,    2, 0, 1, -1, Qt::AlignCenter);
-    glayout->addWidget(this->slides,        3, 0, Qt::AlignCenter);
-    glayout->addWidget(this->timer,         3, 1, Qt::AlignCenter);
+    glayout->addWidget(this->mediabar,      2, 0, Qt::AlignCenter);
+    glayout->addWidget(this->beamerNote,    3, 0, 1, -1, Qt::AlignCenter);
+    glayout->addWidget(this->slides,        4, 0, Qt::AlignCenter);
+    glayout->addWidget(this->timer,         4, 1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
@@ -260,6 +282,12 @@ void MainScreenPdfView::updateView()
 
     this->beamerNote->setFixedWidth(this->currentSlide->width() + this->nextSlide->width());
     this->beamerNote->setText(this->modele->getCurrentTextAnnot());
+
+    if (this->modele->hasMediaFile()) {
+        this->mediabar->show();
+    } else {
+        this->mediabar->hide();
+    }
 }
 
 void MainScreenPdfView::resetPresentationTimer()
