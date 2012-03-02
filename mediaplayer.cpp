@@ -22,9 +22,11 @@ MediaPlayer& MediaPlayer::getInstance(QObject *parent)
 
 void MediaPlayer::setFile(QString file)
 {
-    this->vlc_media = libvlc_media_new_path(this->vlc_instance, file.toUtf8().data());
-    this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
-    libvlc_media_release(this->vlc_media);
+    if (!file.isEmpty()) {
+        this->vlc_media = libvlc_media_new_path(this->vlc_instance, file.toStdString().c_str());
+        this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
+        libvlc_media_release(this->vlc_media);
+    }
 }
 
 void MediaPlayer::pushTargetWidget(QWidget *widget)
