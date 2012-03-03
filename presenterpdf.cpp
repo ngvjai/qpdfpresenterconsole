@@ -6,6 +6,8 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params
     this->modele = modele;
     this->params = params;
 
+    this->setWindowTitle("PresenterPdf");
+
     this->imgLabel = new SlideWidget(this, modele);
     this->imgLabel->setAlignment(Qt::AlignCenter);
     this->setCentralWidget(this->imgLabel);
