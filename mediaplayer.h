@@ -12,8 +12,8 @@ class MediaPlayer : public QObject
     bool vlc_ready;
     bool vlc_playing;
     libvlc_instance_t *vlc_instance;
-    libvlc_media_player_t *vlc_media_player;
     libvlc_media_t *vlc_media;
+    QList<libvlc_media_player_t*>vlc_media_players;
     QList<QWidget*> videoTargets;
     QString mediaFile;
 

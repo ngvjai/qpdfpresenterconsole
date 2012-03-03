@@ -36,34 +36,42 @@ void MediaPlayer::pushTargetWidget(QWidget *widget)
 
 void MediaPlayer::preparePlayer()
 {
+    const char *vlc_argv[] = {
+        "--verbose=0",
+    };
+
+    this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
+    this->vlc_media = libvlc_media_new_path(this->vlc_instance, this->mediaFile.toStdString().c_str());
+
+    foreach(QWidget* vidWidget, this->videoTargets) {
+        libvlc_media_player_t *vlc_mp = libvlc_media_player_new_from_media(this->vlc_media);
 #ifdef Q_WS_WIN
-    libvlc_media_player_set_drawable(
+        libvlc_media_player_set_drawable(
                 this->vlc_media_player,
                 reinterpret_cast<unsigned int>(this->targetWidget->winId()));
 #endif
 #ifdef Q_WS_MAC
-    libvlc_media_player_set_drawable(
+        libvlc_media_player_set_drawable(
                 this->vlc_media_player,
                 this->targetWidget->winId());
 #endif
 #ifdef Q_WS_X11
-    QString win1 = QString("%1").arg(this->videoTargets[0]->winId());
-    QString win2 = QString("%1").arg(this->videoTargets[1]->winId());
-    QString clone = QString("--vout=clone{vout=x11{xid=%1},vout=x11{xid=%2}}").arg(win1, win2);
+    // QString win1 = QString("%1").arg(this->videoTargets[0]->winId());
+    // QString win2 = QString("%1").arg(this->videoTargets[1]->winId());
+    // QString clone = QString("--vout=clone{vout=x11{xid=%1},vout=x11{xid=%2}}").arg(win1, win2);
+        libvlc_media_player_set_xwindow(
+                vlc_mp,
+                vidWidget->winId());
 #endif
-
-    const char *vlc_argv[] = {
-        "--vout-filter=clone",
-        "--clone-count=2",
-        clone.toStdString().c_str(),
-    };
-
-    std::cerr << clone.toStdString().c_str() << std::endl;
-
-    this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
-    this->vlc_media = libvlc_media_new_path(this->vlc_instance, this->mediaFile.toStdString().c_str());
-    this->vlc_media_player = libvlc_media_player_new_from_media(this->vlc_media);
+        this->vlc_media_players.append(vlc_mp);
+    }
     libvlc_media_release(this->vlc_media);
+
+    //        "--vout-filter=clone",
+    //        "--clone-count=2",
+    //        clone.toStdString().c_str(),
+
+    //    std::cerr << clone.toStdString().c_str() << std::endl;
 }
 
 void MediaPlayer::startPlayback()
@@ -88,7 +96,9 @@ void MediaPlayer::play()
     }
 
     if (!this->vlc_playing) {
-        libvlc_media_player_play(this->vlc_media_player);
+        foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
+            libvlc_media_player_play(vlc_mp);
+        }
         this->vlc_playing = true;
         emit playbackStarted();
     }
@@ -96,14 +106,18 @@ void MediaPlayer::play()
 
 void MediaPlayer::pause()
 {
-    libvlc_media_player_pause(this->vlc_media_player);
+    foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
+        libvlc_media_player_pause(vlc_mp);
+    }
     this->vlc_playing = true;
     emit playbackPaused();
 }
 
 void MediaPlayer::stop()
 {
-    libvlc_media_player_stop(this->vlc_media_player);
+    foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
+        libvlc_media_player_stop(vlc_mp);
+    }
     this->vlc_playing = false;
     emit playbackStopped();
 }
