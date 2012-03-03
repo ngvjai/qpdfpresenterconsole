@@ -159,6 +159,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(PROJECT_QT4_WINDEPS
         "${WINQTDIR}/bin/QtCore4.dll"
         "${WINQTDIR}/bin/QtGui4.dll"
+        "${WINQTDIR}/bin/QtSvg4.dll"
     )
     set(PROJECT_POPPLER_QT4_WINDEPS
         "${WINQTDIR}/bin/QtXml4.dll"
@@ -176,11 +177,19 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         "${WINOTHERDEPS}/libxml2.dll"
         "${WINOTHERDEPS}/libzlib1.dll"
     )
+    set(PROJECT_LIBVLC_WINDEPS
+        "${WINLIBVLCDIR}/libvlc.dll"
+        "${WINLIBVLCDIR}/libvlccore.dll"
+    )
+    set(PROJECT_LIBVLC_PLUGINS_WINDEPS
+        "${WINLIBVLCDIR}/plugins/"
+    )
     set(PROJECT_WINDEPS
         ${PROJECT_BASE_WINDEPS}
         ${PROJECT_QT4_WINDEPS}
         ${PROJECT_POPPLER_QT4_WINDEPS}
         ${PROJECT_POPPLER_QT4_DEPS_WINDEPS}
+        ${PROJECT_LIBVLC_WINDEPS}
     )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
@@ -271,6 +280,7 @@ install(FILES ${TEXTANNOT} DESTINATION ${PROJECT_DATADIR}/examples/textannot/)
 install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
+    install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_WINDEPS} DESTINATION bin/plugins/)
     install(FILES ${CMAKE_BINARY_DIR}/${htmldoc} DESTINATION ${PROJECT_DATADIR})
     install(FILES ${CMAKE_BINARY_DIR}/${htmlcss} DESTINATION ${PROJECT_DATADIR})
 else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")

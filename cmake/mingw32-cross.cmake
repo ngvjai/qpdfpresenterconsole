@@ -9,8 +9,12 @@ SET(CMAKE_RC_COMPILER i586-mingw32msvc-windres)
 # here is the target environment located
 SET(CMAKE_FIND_ROOT_PATH
     /usr/i586-mingw32msvc
+# Path to the directory containing qmake.exe
     ${WINQTDIR}
+# Path to the directory containing poppler for windows (from KDE4 for example)
     ${WINPOPPLERDIR}
+# Path to the content of the extracted VLC SDK archive
+    ${WINLIBVLCDIR}/sdk/
 )
 
 # adjust the default behaviour of the FIND_XXX() commands:
