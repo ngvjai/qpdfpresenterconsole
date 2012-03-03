@@ -47,9 +47,9 @@ void MediaPlayer::preparePlayer()
     foreach(QWidget* vidWidget, this->videoTargets) {
         libvlc_media_player_t *vlc_mp = libvlc_media_player_new_from_media(this->vlc_media);
 #ifdef Q_WS_WIN
-        libvlc_media_player_set_drawable(
-                this->vlc_media_player,
-                reinterpret_cast<unsigned int>(this->targetWidget->winId()));
+        libvlc_media_player_set_hwnd(
+                vlc_mp,
+                vidWidget->winId());
 #endif
 #ifdef Q_WS_MAC
         libvlc_media_player_set_drawable(
