@@ -42,10 +42,23 @@ void MediaPlayer::preparePlayer()
     };
 
     this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
+    if (!this->vlc_instance) {
+        std::cerr << "[vlc_instance] VLC Error:" << libvlc_errmsg() << std::endl;
+        return;
+    }
+
     this->vlc_media = libvlc_media_new_path(this->vlc_instance, this->mediaFile.toStdString().c_str());
+    if (!this->vlc_media) {
+        std::cerr << "[vlc_media] VLC Error:" << libvlc_errmsg() << std::endl;
+        return;
+    }
 
     foreach(QWidget* vidWidget, this->videoTargets) {
         libvlc_media_player_t *vlc_mp = libvlc_media_player_new_from_media(this->vlc_media);
+        if (!vlc_mp) {
+            std::cerr << "[vlc_mp] VLC Error:" << libvlc_errmsg() << std::endl;
+            return;
+        }
 #ifdef Q_WS_WIN
         libvlc_media_player_set_hwnd(
                 vlc_mp,
