@@ -2,6 +2,39 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="de_DE">
 <context>
+    <name>MainScreenPdfView</name>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="34"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="35"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="36"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="39"/>
+        <source>Ctrl+P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="40"/>
+        <source>Ctrl+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="41"/>
+        <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OptionsDialog</name>
     <message>
         <location filename="optionsdialog.ui" line="14"/>
@@ -69,12 +102,12 @@
 <context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="21"/>
+        <location filename="pdfmodel.cpp" line="26"/>
         <source>Open PDF file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="21"/>
+        <location filename="pdfmodel.cpp" line="26"/>
         <source>PDF Files (*.pdf)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -148,17 +181,17 @@ Mandatory arguments to long options are mandatory for short options too.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="146"/>
+        <location filename="mainscreenpdfview.cpp" line="173"/>
         <source>Going to a specific page number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="147"/>
+        <location filename="mainscreenpdfview.cpp" line="174"/>
         <source>Going to page:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="200"/>
+        <location filename="mainscreenpdfview.cpp" line="227"/>
         <source>Slide %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -228,7 +261,7 @@ Mandatory arguments to long options are mandatory for short options too.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="80"/>
+        <location filename="pdfmodel.cpp" line="87"/>
         <source>Text file annotations for pdf &apos;%1&apos; not found. Cannot use text file annotations, disabling for now. File(s) expected: %2</source>
         <translation type="unfinished"></translation>
     </message>
