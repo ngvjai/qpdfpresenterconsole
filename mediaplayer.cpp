@@ -38,6 +38,7 @@ void MediaPlayer::preparePlayer()
 {
     const char *vlc_argv[] = {
         "--verbose=0",
+        "--no-video-title-show",
     };
 
     this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
