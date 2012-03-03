@@ -81,7 +81,8 @@ OTHER_FILES += \
     cmake/FindAsciidoc.cmake \
     qpdfpresenterconsole.txt \
     QPdfPresenterConsole.png \
-    QPdfPresenterConsole.desktop
+    QPdfPresenterConsole.desktop \
+    cmake/FindLIBVLC.cmake
 
 FORMS += \
     optionsdialog.ui
