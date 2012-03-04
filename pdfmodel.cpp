@@ -367,6 +367,7 @@ void PDFModel::render()
 void PDFModel::gotoSpecificPage(int page)
 {
     if (page >= this->firstPage && page <= this->lastPage) {
+        emit stopMediaPlayer();
         this->currentPage = page;
         this->render();
     }
@@ -375,6 +376,7 @@ void PDFModel::gotoSpecificPage(int page)
 void PDFModel::gotoNextPage()
 {
     if (this->getCurrentPage() != this->getLastPage()) {
+        emit stopMediaPlayer();
         this->currentPage = this->getNextPage();
 
         this->mutexPreviousPage.lockForRead(); this->mutexCurrentPage.lockForRead();
@@ -393,6 +395,7 @@ void PDFModel::gotoNextPage()
 void PDFModel::gotoPreviousPage()
 {
     if (this->getCurrentPage() != this->getFirstPage()) {
+        emit stopMediaPlayer();
         this->currentPage = this->getPreviousPage();
 
         this->mutexNextPage.lockForRead(); this->mutexCurrentPage.lockForRead();
