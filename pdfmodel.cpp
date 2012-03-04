@@ -304,6 +304,13 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                         {
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
                             if (this->isMediaFile(fileannot->embeddedFile())) {
+                                /* std::cerr << "PdfModel:" << this << " "
+                                          << "Page:" << this->getCurrentPage() << " "
+                                          << "fname:" << fileannot->embeddedFile()->name().toStdString() << " "
+                                          << "boundary()::{"
+                                          << "x=" << fileannot->boundary().topLeft().x() << " "
+                                          << "y=" << fileannot->boundary().bottomRight().y()
+                                          << "}" <<  std::endl; */
                                 this->mediaFiles.append(fileannot);
                                 this->nbMediaFilesInPage.insert(
                                             this->getCurrentPage(),
@@ -312,7 +319,6 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                                 this->mediaContent.insert(
                                             fileannot->embeddedFile()->name(),
                                             fileannot->embeddedFile()->data());
-                                this->createMediaPlayer(fileannot);
                             }
                         }
                         break;
