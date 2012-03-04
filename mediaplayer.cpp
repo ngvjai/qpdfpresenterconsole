@@ -86,6 +86,8 @@ void MediaPlayer::preparePlayer()
     //        clone.toStdString().c_str(),
 
     //    std::cerr << clone.toStdString().c_str() << std::endl;
+
+    this->vlc_ready = true;
 }
 
 void MediaPlayer::startPlayback()
