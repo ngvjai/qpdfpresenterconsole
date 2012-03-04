@@ -23,7 +23,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
-    this->currentSlide = new SlideWidget(this, modele);
+    this->currentSlide = new SlideWidget(this, modele, params);
     this->nextSlide = new QLabel(this);
     this->currentDate = new QLabel(this);
     this->emergencyDate = new QLabel(this);

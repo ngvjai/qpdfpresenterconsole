@@ -1,11 +1,13 @@
 #include "slidewidget.h"
 #include <iostream>
 
-SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
+SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele, Parameters *params) :
     QLabel(parent)
 {
     this->parent = parent;
     this->modele = modele;
+    this->params = params;
+
     this->mediaFilesReady = false;
     this->video = new QLabel(this);
     this->video->hide();

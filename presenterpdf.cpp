@@ -8,7 +8,7 @@ PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params
 
     this->setWindowTitle("PresenterPdf");
 
-    this->imgLabel = new SlideWidget(this, modele);
+    this->imgLabel = new SlideWidget(this, modele, params);
     this->imgLabel->setAlignment(Qt::AlignCenter);
     this->setCentralWidget(this->imgLabel);
     this->setStyleSheet("background-color: black;");
