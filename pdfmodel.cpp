@@ -65,9 +65,18 @@ void PDFModel::updateProjectorSize()
     this->projectorSize = QApplication::desktop()->screenGeometry(this->params->getProjectorScreenId());
     this->dpiX = 72.0;
     this->dpiY = 72.0;
+
     this->scaleFactorX = this->projectorSize.width() / this->pageSize.width();
     this->scaleFactorY = this->projectorSize.height() / this->pageSize.height();
-    this->scaleFactor = qMin(this->scaleFactorX, this->scaleFactorY);
+
+    if (this->params->getBeamerNotes()) {
+        this->annotScale = 2;
+        this->scaleFactor = (1.0 * this->scaleFactorY) / this->getAnnotScale();
+    } else {
+        this->annotScale = 1;
+        this->scaleFactor = this->scaleFactorY;
+    }
+
     this->render();
 }
 
@@ -140,7 +149,6 @@ int PDFModel::getNextPage()
 QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
 {
     QImage image;
-    int annotscale = 1;
 
     // Access page of the PDF file
     if (page >= this->firstPage && page <= this->lastPage) {
@@ -152,31 +160,30 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
         if (pdfPage == NULL) {
         }
 
-        if (this->params->getBeamerNotes()) {
-            annotscale = 2;
-        }
-
         // Generate a QImage of the rendered page
         image = pdfPage->renderToImage(
-                    scaleFactor.width() * this->dpiX * annotscale,
-                    scaleFactor.height() * this->dpiY * annotscale);
+                    scaleFactor.width() * this->dpiX * this->getAnnotScale(),
+                    scaleFactor.height() * this->dpiY * this->getAnnotScale());
 
         if (!image.isNull()) {
+            int imageWidth = image.width() / this->getAnnotScale();
+            int imageHeight = image.height();
+
             if (partie == this->getContentPart()) {
                 if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
-                    image = image.copy(0, 0, image.width() / annotscale, image.height());
+                    image = image.copy(0, 0, imageWidth, imageHeight);
                 }
                 if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
-                    image = image.copy(image.width() / annotscale, 0, image.width() / annotscale, image.height());
+                    image = image.copy(imageWidth, 0, imageWidth, imageHeight);
                 }
             }
 
             if (partie == this->getAnnotationsPart()) {
                 if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
-                    image = image.copy(image.width() / annotscale, 0, image.width() / annotscale, image.height());
+                    image = image.copy(imageWidth, 0, imageWidth, imageHeight);
                 }
                 if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
-                    image = image.copy(0, 0, image.width() / annotscale, image.height());
+                    image = image.copy(0, 0, imageWidth, imageHeight);
                 }
             }
         }
@@ -488,6 +495,11 @@ float PDFModel::getDpiX()
 float PDFModel::getDpiY()
 {
     return this->dpiY;
+}
+
+int PDFModel::getAnnotScale()
+{
+    return this->annotScale;
 }
 
 QList<Poppler::Link*> PDFModel::getGotoLinks()

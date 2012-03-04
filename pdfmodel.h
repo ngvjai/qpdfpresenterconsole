@@ -42,6 +42,7 @@ class PDFModel : public QObject
     int lastPage;
     int dpiX;
     int dpiY;
+    int annotScale;
     QString pdfFileName;
     QRect projectorSize;
     QSizeF pageSize;
@@ -108,6 +109,7 @@ public:
     QSizeF getScaleFactor();
     float getDpiX();
     float getDpiY();
+    int getAnnotScale();
 
     QString& getPdfFileName(void);
 
