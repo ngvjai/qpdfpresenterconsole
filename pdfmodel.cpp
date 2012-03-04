@@ -322,6 +322,8 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                 }
             }
 
+            emit mediaFilesReady();
+
             this->gotoLinks.clear();
             QList<Poppler::Link*> links = pdfPage->links();
             QList<Poppler::Link*>::iterator lit;

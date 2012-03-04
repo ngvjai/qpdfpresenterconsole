@@ -15,6 +15,8 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     this->mmee = new MouseMoveEventEater(this);
 
     this->video->installEventFilter(mmee);
+
+    QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
 }
 
 SlideWidget::~SlideWidget()
