@@ -112,9 +112,11 @@ void SlideWidget::paintEvent(QPaintEvent *ev)
         p.setPen(Qt::darkGreen);
     }
 
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
-        QRectF scaledArea = this->scalePdfArea(fa->boundary());
-        p.drawRect(scaledArea);
+    if (this->modele->hasMediaFile()) {
+        foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
+            QRectF scaledArea = this->scalePdfArea(fa->boundary());
+            p.drawRect(scaledArea);
+        }
     }
 
     p.end();
