@@ -6,6 +6,7 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
 {
     this->parent = parent;
     this->modele = modele;
+    this->mediaFilesReady = false;
     this->video = new QLabel(this);
     this->video->hide();
     this->setMouseTracking(true);
@@ -15,7 +16,8 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
 
     this->video->installEventFilter(mmee);
 
-    QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
+    QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(registerMediaFilesReady()));
+    QObject::connect(this, SIGNAL(displayMediaFles()), SLOT(updateView()));
 }
 
 SlideWidget::~SlideWidget()
@@ -40,7 +42,7 @@ QRectF SlideWidget::getContentRect(int margin)
             this->pixmap()->rect().y() + deltaToAdd.height() + margin),
         QPointF(
             this->pixmap()->rect().width() + deltaToAdd.width() - margin,
-            this->pixmap()->rect().height() - margin)
+            this->pixmap()->rect().height() + deltaToAdd.height() - margin)
     );
 }
 
@@ -75,11 +77,12 @@ QRectF SlideWidget::scalePdfArea(QRectF area)
                 );
 }
 
-#ifdef HAVE_DEBUG
 void SlideWidget::paintEvent(QPaintEvent *ev)
 {
+    ev->accept();
     QLabel::paintEvent(ev);
 
+#ifdef HAVE_DEBUG
     QPainter p(this);
 
     p.setPen(Qt::blue);
@@ -97,9 +100,25 @@ void SlideWidget::paintEvent(QPaintEvent *ev)
         p.drawRect(scaledArea);
     }
 
+    if (this->parent->windowTitle() == "MainScreenPdfView") {
+        p.setPen(Qt::darkRed);
+    }
+    if (this->parent->windowTitle() == "PresenterPdf") {
+        p.setPen(Qt::darkGreen);
+    }
+
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
+        QRectF scaledArea = this->scalePdfArea(fa->boundary());
+        p.drawRect(scaledArea);
+    }
+
     p.end();
-}
 #endif
+
+    if (this->mediaFilesReady) {
+        emit displayMediaFles();
+    }
+}
 
 void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 {
@@ -151,6 +170,13 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
             this->modele->startMediaPlayer();
             break;
         }
+    }
+}
+
+void SlideWidget::registerMediaFilesReady()
+{
+    if (!this->mediaFilesReady) {
+        this->mediaFilesReady = true;
     }
 }
 

@@ -16,6 +16,7 @@ class SlideWidget : public QLabel
     QWidget *parent;
     QLabel *video;
     MouseMoveEventEater *mmee;
+    bool mediaFilesReady;
 
     QPointF computeScaledPos(QPoint pos);
     QPointF computeScaledPdfPos(QPointF pos);
@@ -30,14 +31,14 @@ public:
     QRectF getContentRect(int margin = 0);
 
 protected:
-#ifdef HAVE_DEBUG
     void paintEvent(QPaintEvent *ev);
-#endif
 
 signals:
+    void displayMediaFles();
 
 public slots:
     void updateView();
+    void registerMediaFilesReady();
 
 };
 
