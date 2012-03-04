@@ -18,12 +18,21 @@ class SlideWidget : public QLabel
     MouseMoveEventEater *mmee;
 
     QPointF computeScaledPos(QPoint pos);
+    QPointF computeScaledPdfPos(QPointF pos);
+    QRectF scalePdfArea(QRectF area);
 
 public:
     explicit SlideWidget(QWidget *parent = 0, PDFModel *modele = 0);
     ~SlideWidget();
     void mouseMoveEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);
+    QSize getDeltaToAdd();
+    QRectF getContentRect(int margin = 0);
+
+protected:
+#ifdef HAVE_DEBUG
+    void paintEvent(QPaintEvent *ev);
+#endif
 
 signals:
 

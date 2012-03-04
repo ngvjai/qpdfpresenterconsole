@@ -1,4 +1,5 @@
 #include "slidewidget.h"
+#include <iostream>
 
 SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     QLabel(parent)
@@ -21,13 +22,84 @@ SlideWidget::~SlideWidget()
 {
 }
 
-QPointF SlideWidget::computeScaledPos(QPoint pos)
+QSize SlideWidget::getDeltaToAdd()
 {
-    return QPointF(
-                (pos.x() / (1.0 * this->width())),
-                (pos.y() / (1.0 * this->height()))
+    return QSize(
+        (this->contentsRect().width() - this->pixmap()->rect().width()) / 2,
+        (this->contentsRect().height() - this->pixmap()->rect().height()) / 2
     );
 }
+
+QRectF SlideWidget::getContentRect(int margin)
+{
+    QSize deltaToAdd = this->getDeltaToAdd();
+
+    return QRectF(
+        QPointF(
+            this->pixmap()->rect().x() + deltaToAdd.width() + margin,
+            this->pixmap()->rect().y() + deltaToAdd.height() + margin),
+        QPointF(
+            this->pixmap()->rect().width() + deltaToAdd.width() - margin,
+            this->pixmap()->rect().height() - margin)
+    );
+}
+
+QPointF SlideWidget::computeScaledPos(QPoint pos)
+{
+    /* QRectF cRect = this->getContentRect();
+
+    return QPointF(
+                pos.x() * (cRect.width() * this->modele->getAnnotScale()),
+                pos.y() * cRect.height()
+    );
+    */
+    return QPointF(pos);
+}
+
+QPointF SlideWidget::computeScaledPdfPos(QPointF pos)
+{
+    QRectF cRect = this->getContentRect();
+    QSize delta = this->getDeltaToAdd();
+
+    return QPointF(
+                delta.width() + pos.x() * cRect.width() * this->modele->getAnnotScale(),
+                delta.height() + pos.y() * cRect.height()
+                );
+}
+
+QRectF SlideWidget::scalePdfArea(QRectF area)
+{
+    return QRectF(
+                this->computeScaledPdfPos(area.topLeft()),
+                this->computeScaledPdfPos(area.bottomRight())
+                );
+}
+
+#ifdef HAVE_DEBUG
+void SlideWidget::paintEvent(QPaintEvent *ev)
+{
+    QLabel::paintEvent(ev);
+
+    QPainter p(this);
+
+    p.setPen(Qt::blue);
+    p.drawRect(this->getContentRect(5));
+
+    if (this->parent->windowTitle() == "MainScreenPdfView") {
+        p.setPen(Qt::red);
+    }
+    if (this->parent->windowTitle() == "PresenterPdf") {
+        p.setPen(Qt::green);
+    }
+
+    foreach(Poppler::Link* link, this->modele->getGotoLinks()) {
+        QRectF scaledArea = this->scalePdfArea(link->linkArea());
+        p.drawRect(scaledArea);
+    }
+
+    p.end();
+}
+#endif
 
 void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 {
@@ -39,7 +111,8 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 
     /* Check for links */
     foreach(Poppler::Link* link, this->modele->getGotoLinks()) {
-        if (link->linkArea().contains(scaledPos)) {
+        QRectF scaledArea = this->scalePdfArea(link->linkArea());
+        if (scaledArea.contains(scaledPos)) {
             this->setCursor(Qt::PointingHandCursor);
             break;
         }
@@ -47,7 +120,8 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
 
     /* Check for multimedia stuff */
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
-        if (this->modele->isMediaFile(fa->embeddedFile()) && fa->boundary().contains(scaledPos)) {
+        QRectF scaledArea = this->scalePdfArea(fa->boundary());
+        if (this->modele->isMediaFile(fa->embeddedFile()) && scaledArea.contains(scaledPos)) {
             this->setCursor(Qt::PointingHandCursor);
             this->setToolTip(fa->embeddedFile()->name());
             break;
@@ -61,7 +135,8 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
     QPointF scaledPos = this->computeScaledPos(ev->pos());
 
     foreach(Poppler::Link* link, this->modele->getGotoLinks()) {
-        if (link->linkArea().contains(scaledPos)) {
+        QRectF scaledArea = this->scalePdfArea(link->linkArea());
+        if (scaledArea.contains(scaledPos)) {
             const Poppler::LinkGoto *gotoLink = dynamic_cast<const Poppler::LinkGoto*>(link);
             Poppler::LinkDestination dest = gotoLink->destination();
             /* pageNumber() is [1;...] */
@@ -71,7 +146,8 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
     }
 
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
-        if (this->modele->isMediaFile(fa->embeddedFile()) && fa->boundary().contains(scaledPos)) {
+        QRectF scaledArea = this->scalePdfArea(fa->boundary());
+        if (this->modele->isMediaFile(fa->embeddedFile()) && scaledArea.contains(scaledPos)) {
             this->modele->startMediaPlayer();
             break;
         }
@@ -86,13 +162,9 @@ void SlideWidget::updateView()
     }
 
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
-        QPointF b1(fa->boundary().left() * this->width(), fa->boundary().top() * this->height());
-        QPointF b2(fa->boundary().right() * this->width(), fa->boundary().bottom() * this->height());
-
-        QRectF bounds(b1, b2);
-
-        this->video->move(b1.toPoint());
-        this->video->resize(bounds.width(), bounds.height());
+        QRectF scaledArea = this->scalePdfArea(fa->boundary());
+        this->video->move(scaledArea.topLeft().toPoint());
+        this->video->resize(scaledArea.size().toSize());
     }
 
     this->modele->addMediaPlayerTarget(this->video);
