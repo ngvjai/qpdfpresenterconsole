@@ -108,10 +108,6 @@ void PDFModel::updateTextAnnot()
 PDFModel::~PDFModel()
 {
     delete this->document;
-
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->mediaFiles) {
-        QFile::remove(this->getMediaTempFileName(fa));
-    }
 }
 
 bool PDFModel::pdfLoaded()
@@ -254,12 +250,16 @@ void PDFModel::addMediaPlayerTarget(QWidget *widget)
 
 void PDFModel::startMediaPlayer()
 {
+    this->createMediaPlayer(this->getMediaFiles().first());
     this->player->play();
 }
 
 void PDFModel::stopMediaPlayer()
 {
     this->player->stop();
+    foreach(Poppler::FileAttachmentAnnotation *fa, this->mediaFiles) {
+        QFile::remove(this->getMediaTempFileName(fa));
+    }
 }
 
 void PDFModel::pauseMediaPlayer()
