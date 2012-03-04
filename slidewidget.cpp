@@ -87,7 +87,7 @@ void SlideWidget::paintEvent(QPaintEvent *ev)
     ev->accept();
     QLabel::paintEvent(ev);
 
-#ifdef HAVE_DEBUG
+#ifdef HAVE_DEBUG_AREA
     QPainter p(this);
 
     p.setPen(Qt::blue);

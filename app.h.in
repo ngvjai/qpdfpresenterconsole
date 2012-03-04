@@ -36,5 +36,6 @@ const QString appvers = APPVERS;
 
 #cmakedefine HAVE_DBUS
 #cmakedefine HAVE_DEBUG
+#cmakedefine HAVE_DEBUG_AREA
 
 #endif // APP_H
