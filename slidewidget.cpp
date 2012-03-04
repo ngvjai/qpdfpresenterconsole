@@ -185,11 +185,17 @@ void SlideWidget::updateView()
         return;
     }
 
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
+    if (this->parent->windowTitle() == "MainScreenPdfView" && this->params->getBeamerNotes()) {
+        this->video->hide();
+        return;
+    }
+
+    // foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
+    Poppler::FileAttachmentAnnotation *fa = this->modele->getMediaFiles().first();
         QRectF scaledArea = this->scalePdfArea(fa->boundary());
         this->video->move(scaledArea.topLeft().toPoint());
         this->video->resize(scaledArea.size().toSize());
-    }
+    // }
 
     this->modele->addMediaPlayerTarget(this->video);
     this->video->show();
