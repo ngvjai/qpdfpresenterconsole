@@ -31,14 +31,13 @@ public:
     QRectF getContentRect(int margin = 0);
 
 protected:
+    void resizeEvent(QResizeEvent *ev);
     void paintEvent(QPaintEvent *ev);
 
 signals:
-    void displayMediaFles();
 
 public slots:
     void updateView();
-    void registerMediaFilesReady();
 
 };
 

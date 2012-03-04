@@ -15,13 +15,16 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele) :
     this->mmee = new MouseMoveEventEater(this);
 
     this->video->installEventFilter(mmee);
-
-    QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(registerMediaFilesReady()));
-    QObject::connect(this, SIGNAL(displayMediaFles()), SLOT(updateView()));
 }
 
 SlideWidget::~SlideWidget()
 {
+}
+
+void SlideWidget::resizeEvent(QResizeEvent *ev)
+{
+    ev->accept();
+    this->updateView();
 }
 
 QSize SlideWidget::getDeltaToAdd()
@@ -114,10 +117,6 @@ void SlideWidget::paintEvent(QPaintEvent *ev)
 
     p.end();
 #endif
-
-    if (this->mediaFilesReady) {
-        emit displayMediaFles();
-    }
 }
 
 void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
@@ -170,13 +169,6 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
             this->modele->startMediaPlayer();
             break;
         }
-    }
-}
-
-void SlideWidget::registerMediaFilesReady()
-{
-    if (!this->mediaFilesReady) {
-        this->mediaFilesReady = true;
     }
 }
 
