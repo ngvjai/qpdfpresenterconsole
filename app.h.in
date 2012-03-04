@@ -35,5 +35,6 @@ const QString appvers = APPVERS;
 #define DEFAULT_PRESENTATIONEMERGENCY   1000*60*DEFAULT_EMERGENCY
 
 #cmakedefine HAVE_DBUS
+#cmakedefine HAVE_DEBUG
 
 #endif // APP_H
