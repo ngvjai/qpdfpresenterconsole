@@ -71,8 +71,6 @@ public:
     bool pdfLoaded();
     void render();
     void gotoSpecificPage(int page);
-    void gotoNextPage();
-    void gotoPreviousPage();
     void gotoFirstPage();
     void gotoLastPage();
     void gotoOpenPage();
@@ -128,6 +126,8 @@ public slots:
     void startMediaPlayer();
     void stopMediaPlayer();
     void pauseMediaPlayer();
+    void gotoNextPage();
+    void gotoPreviousPage();
 
 };
 
