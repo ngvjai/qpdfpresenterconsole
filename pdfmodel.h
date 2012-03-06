@@ -122,6 +122,7 @@ signals:
 public slots:
     void handleKeyModelSequence(QKeyEvent *e);
     void handleMouseModelSequence(QMouseEvent *e);
+    void handleMouseWheelModelSequence(QWheelEvent *e);
     void updateProjectorSize();
     void updateTextAnnot();
     void startMediaPlayer();

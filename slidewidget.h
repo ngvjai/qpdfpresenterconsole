@@ -35,8 +35,10 @@ public:
 protected:
     void resizeEvent(QResizeEvent *ev);
     void paintEvent(QPaintEvent *ev);
+    void wheelEvent(QWheelEvent *ev);
 
 signals:
+    void mouseWheelEvent(QWheelEvent *ev);
 
 public slots:
     void updateView();

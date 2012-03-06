@@ -581,3 +581,15 @@ void PDFModel::handleMouseModelSequence(QMouseEvent *ev)
         }
     }
 }
+
+void PDFModel::handleMouseWheelModelSequence(QWheelEvent *ev)
+{
+    /* delta < 0 if scroll goes down */
+    if (ev->delta() < 0) {
+        emit presentationStarted();
+        this->gotoNextPage();
+    } else {
+        emit presentationStarted();
+        this->gotoPreviousPage();
+    }
+}

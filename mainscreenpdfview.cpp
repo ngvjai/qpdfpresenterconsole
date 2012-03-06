@@ -113,6 +113,8 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
                      this->modele, SLOT(handleKeyModelSequence(QKeyEvent*)));
     QObject::connect(this, SIGNAL(mousePressed(QMouseEvent*)),
                      this->modele, SLOT(handleMouseModelSequence(QMouseEvent*)));
+    QObject::connect(this, SIGNAL(mouseWheelEvent(QWheelEvent*)),
+                     this->modele, SLOT(handleMouseWheelModelSequence(QWheelEvent*)));
     QObject::connect(this, SIGNAL(presentationStarted()),
                      this->pTimer, SLOT(startCounterIfNeeded()));
     QObject::connect(this->params, SIGNAL(mainScreenChanged()), SLOT(moveToScreen()));
@@ -325,4 +327,9 @@ void MainScreenPdfView::timerEvent(QTimerEvent *ev)
                     Qt::DefaultLocaleShortDate
                     )
             );
+}
+
+void MainScreenPdfView::wheelEvent(QWheelEvent *ev)
+{
+    emit mouseWheelEvent(ev);
 }

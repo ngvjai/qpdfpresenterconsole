@@ -60,13 +60,13 @@ KEY BINDINGS
 === Slides navigation
     Scrolling slides is easy and has several key binding:
      - Going to the next slide is done using either Enter, Right, Down
-       or Page Down. Left mouse button click will also work. This will
-       automatically start the presentation timer if you did not started
-       it yet ;
+       or Page Down. Left mouse button click will also work. Scrolling
+       down the wheel mouse is okay also. This will automatically start
+       the presentation timer if you did not started it yet ;
      - Going to the previous slide is done using either Left, Up, or
-       Page Up. Right mouse button click will also work. This will
-       automatically start the presentation timer if you did not started
-       it yet ;
+       Page Up. Right mouse button click will also work, and you can
+       also scroll up the wheel mouse. This will automatically start the
+       presentation timer if you did not started it yet ;
      - Going to the first slide is done using Home. This will
        automatically reset the presentation timer ;
      - Going to the last slide is done using End ;

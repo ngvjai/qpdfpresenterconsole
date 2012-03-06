@@ -44,12 +44,16 @@ class MainScreenPdfView : public QMainWindow
 public:
     explicit MainScreenPdfView(QWidget *parent = 0, PDFModel *modele = 0, Parameters *params = 0, PresentationTimer *timer = 0, ScreenSaverInhibit *screensaver = 0);
 
+protected:
+    void wheelEvent(QWheelEvent *ev);
+
 signals:
     void keyPressed(QKeyEvent *e);
     void mousePressed(QMouseEvent *e);
     void presentationStarted();
     void presentationMode();
     void desktopMode();
+    void mouseWheelEvent(QWheelEvent *ev);
 
 public slots:
     void keyReleaseEvent(QKeyEvent *ev);

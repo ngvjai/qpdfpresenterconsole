@@ -19,6 +19,8 @@ SlideWidget::SlideWidget(QWidget *parent, PDFModel *modele, Parameters *params) 
     this->video->installEventFilter(mmee);
 
     QObject::connect(this->modele, SIGNAL(mediaFilesReady()), SLOT(updateView()));
+    QObject::connect(this, SIGNAL(mouseWheelEvent(QWheelEvent*)),
+                     this->modele, SLOT(handleMouseWheelModelSequence(QWheelEvent*)));
 }
 
 SlideWidget::~SlideWidget()
@@ -176,6 +178,11 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
             break;
         }
     }
+}
+
+void SlideWidget::wheelEvent(QWheelEvent *ev)
+{
+    emit mouseWheelEvent(ev);
 }
 
 void SlideWidget::updateView()
