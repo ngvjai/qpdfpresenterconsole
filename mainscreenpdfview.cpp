@@ -20,6 +20,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     QGridLayout *glayout = new QGridLayout();
     QHBoxLayout *medialayout = new QHBoxLayout();
+    QHBoxLayout *barlayout = new QHBoxLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
     this->timer = new QLabel(this);
@@ -29,6 +30,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->emergencyDate = new QLabel(this);
     this->beamerNote = new QLabel(this);
     this->mediabar = new QToolBar(this);
+    this->controlbar = new QToolBar(this);
 
     /* media playback stuff */
     this->playAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
@@ -47,6 +49,46 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     // this->mediabar->addAction(this->previousAction);
     // this->mediabar->addAction(this->nextAction);
     this->mediabar->hide();
+
+    QAction *actPrevious = new QAction(
+                this->style()->standardIcon(QStyle::SP_MediaSkipBackward),
+                tr("Previous slide"),
+                this);
+    QAction *actNext = new QAction(
+                this->style()->standardIcon(QStyle::SP_MediaSkipForward),
+                tr("Next slide"),
+                this);
+    QAction *actOptions = new QAction(
+                this->style()->standardIcon(QStyle::SP_DialogApplyButton),
+                tr("Options"),
+                this);
+    QAction *actHelp = new QAction(
+                this->style()->standardIcon(QStyle::SP_DialogHelpButton),
+                tr("Help"),
+                this);
+    QAction *actGoto = new QAction(
+                this->style()->standardIcon(QStyle::SP_FileLinkIcon),
+                tr("Goto slide"),
+                this);
+    QAction *actMode = new QAction(
+                this->style()->standardIcon(QStyle::SP_DesktopIcon),
+                tr("Presentation/Desktop Mode"),
+                this);
+    QAction *actQuit = new QAction(
+                this->style()->standardIcon(QStyle::SP_BrowserStop),
+                tr("Quit"),
+                this);
+
+    /* toolbar */
+    this->controlbar->addAction(actPrevious);
+    this->controlbar->addAction(actNext);
+    this->controlbar->addSeparator();
+    this->controlbar->addAction(actOptions);
+    this->controlbar->addAction(actHelp);
+    this->controlbar->addSeparator();
+    this->controlbar->addAction(actGoto);
+    this->controlbar->addAction(actMode);
+    this->controlbar->addAction(actQuit);
 
     this->timer->setStyleSheet(
             this->timer->styleSheet()
@@ -92,6 +134,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     glayout->addWidget(this->beamerNote,    3, 0, 1, -1, Qt::AlignCenter);
     glayout->addWidget(this->slides,        4, 0, Qt::AlignCenter);
     glayout->addWidget(this->timer,         4, 1, Qt::AlignCenter);
+    glayout->addWidget(this->controlbar,    5, 0, 1, -1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
@@ -129,6 +172,14 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this->pauseAction, SIGNAL(triggered()), this->modele, SLOT(pauseMediaPlayer()));
     QObject::connect(this->stopAction, SIGNAL(triggered()), this->modele, SLOT(stopMediaPlayer()));
 
+    QObject::connect(actPrevious, SIGNAL(triggered()), this->modele, SLOT(gotoPreviousPage()));
+    QObject::connect(actNext, SIGNAL(triggered()), this->modele, SLOT(gotoNextPage()));
+    QObject::connect(actOptions, SIGNAL(triggered()), SLOT(showOptionsDialog()));
+    QObject::connect(actGoto, SIGNAL(triggered()), SLOT(showGotoDialog()));
+    QObject::connect(actMode, SIGNAL(triggered()), SLOT(switchDesktopPresentationMode()));
+    QObject::connect(actHelp, SIGNAL(triggered()), SLOT(showHelpDialog()));
+    QObject::connect(actQuit, SIGNAL(triggered()), SLOT(leaveApplication()));
+
     this->moveToScreen();
     emit presentationMode();
 }
@@ -146,6 +197,55 @@ void MainScreenPdfView::moveToScreen()
     this->updateView();
 }
 
+void MainScreenPdfView::leaveApplication()
+{
+    this->screensaver->allowScreenSaver();
+    QCoreApplication::quit();
+}
+
+void MainScreenPdfView::switchDesktopPresentationMode()
+{
+    if (this->maximized) {
+        this->showNormal();
+        emit desktopMode();
+    } else {
+        this->showFullScreen();
+        emit presentationMode();
+    }
+}
+
+void MainScreenPdfView::showGotoDialog()
+{
+    bool ok;
+    int p = QInputDialog::getInt(0,
+                             QObject::tr("Going to a specific page number"),
+                             QObject::tr("Going to page:"),
+                             this->modele->getCurrentPage() + 1,
+                             this->modele->getFirstPage() + 1,
+                             this->modele->getLastPage() + 1,
+                             1, &ok);
+    if (ok) {
+        this->modele->gotoSpecificPage(p - 1);
+    }
+}
+
+void MainScreenPdfView::showOptionsDialog()
+{
+    if (!this->options) {
+        this->options = new OptionsDialog(0, this->params);
+        QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(updateView()));
+        QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(timerUpdated()));
+        QObject::connect(this->options, SIGNAL(resetPresentationCounter()), SLOT(resetPresentationTimer()));
+    }
+
+    this->options->show();
+}
+
+void MainScreenPdfView::showHelpDialog()
+{
+    /* TODO: implement */
+}
+
 void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
 {
     if (ev->isAutoRepeat()) {
@@ -154,44 +254,19 @@ void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)
         switch(ev->key())
         {
         case Qt::Key_Escape:
-            this->screensaver->allowScreenSaver();
-            QCoreApplication::quit();
+            this->leaveApplication();
             break;
 
         case Qt::Key_F:
-            if (this->maximized) {
-                this->showNormal();
-                emit desktopMode();
-            } else {
-                this->showFullScreen();
-                emit presentationMode();
-            }
+            this->switchDesktopPresentationMode();
             break;
 
         case Qt::Key_G:
-            {
-                bool ok;
-                int p = QInputDialog::getInt(0,
-                                         QObject::tr("Going to a specific page number"),
-                                         QObject::tr("Going to page:"),
-                                         this->modele->getCurrentPage() + 1,
-                                         this->modele->getFirstPage() + 1,
-                                         this->modele->getLastPage() + 1,
-                                         1, &ok);
-                if (ok) {
-                    this->modele->gotoSpecificPage(p - 1);
-                }
-            }
+            this->showGotoDialog();
             break;
 
         case Qt::Key_O:
-            if (!this->options) {
-                this->options = new OptionsDialog(0, this->params);
-                QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(updateView()));
-                QObject::connect(this->options, SIGNAL(paramsChanged()), SLOT(timerUpdated()));
-                QObject::connect(this->options, SIGNAL(resetPresentationCounter()), SLOT(resetPresentationTimer()));
-            }
-            this->options->show();
+            this->showOptionsDialog();
             break;
 
         case Qt::Key_Space:

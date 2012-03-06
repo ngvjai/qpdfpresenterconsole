@@ -35,6 +35,7 @@ class MainScreenPdfView : public QMainWindow
     QAction *nextAction;
     QAction *previousAction;
     QToolBar *mediabar;
+    QToolBar *controlbar;
 
     OptionsDialog *options;
     PresentationTimer *pTimer;
@@ -64,6 +65,13 @@ public slots:
     void timerEvent(QTimerEvent *ev);
     void resizeEvent(QResizeEvent *ev);
     void moveToScreen(void);
+
+    /* toolbar slots */
+    void leaveApplication();
+    void switchDesktopPresentationMode();
+    void showHelpDialog();
+    void showGotoDialog();
+    void showOptionsDialog();
 
 };
 
