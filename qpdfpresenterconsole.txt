@@ -44,38 +44,43 @@ Qt::ConcurrentRun to start it.
 
 All the options available are presented below, and some of them are
 changeable at runtime, via the Options dialog which can be trigged by
-pressing down the 'o' key. Also, please note that there is no menu bar,
+pressing down the *o* key. Also, please note that there is no menu bar,
 so everything is access by keyboard shortcuts.
 
 KEY BINDINGS
 ------------
+
+=== General informations
+    Key bindinds are actions that can be triggered by hitting specific
+    keyboard keys: keys will be specified between stars: *KeyName*.
+
 === Exiting
-    You can exit properly the application by using the Escape key.
+    You can exit properly the application by using the *Escape* key.
 
 === Mini/Maximizing main screen
     You can minimize or maximize (depending on the previous state ...)
-    the main screen window simply via the F key. It can allow you to
+    the main screen window simply via the *f* key. It can allow you to
     lock you laptop during a break ...
 
 === Slides navigation
     Scrolling slides is easy and has several key binding:
-     - Going to the next slide is done using either Enter, Right, Down
-       or Page Down. Left mouse button click will also work. Scrolling
+     - Going to the next slide is done using either *Enter*, *Right*, *Down*
+       or *Page Down*. Left mouse button click will also work. Scrolling
        down the wheel mouse is okay also. This will automatically start
        the presentation timer if you did not started it yet ;
-     - Going to the previous slide is done using either Left, Up, or
-       Page Up. Right mouse button click will also work, and you can
+     - Going to the previous slide is done using either *Left*, *Up*, or
+       *Page Up*. Right mouse button click will also work, and you can
        also scroll up the wheel mouse. This will automatically start the
        presentation timer if you did not started it yet ;
-     - Going to the first slide is done using Home. This will
+     - Going to the first slide is done using *Home*. This will
        automatically reset the presentation timer ;
-     - Going to the last slide is done using End ;
+     - Going to the last slide is done using *End* ;
      - Going to a specific slide is done through a dialog box triggered
-       by G key.
+       by *g* key.
 
 === Start presentation timer
     You might want to start the presentation timer before starting
-    scrolling slides.
+    scrolling slides. You can do this by hitting the *Space* key.
 
 NOTES
 -----
