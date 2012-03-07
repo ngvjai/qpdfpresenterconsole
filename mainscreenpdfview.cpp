@@ -243,7 +243,8 @@ void MainScreenPdfView::showOptionsDialog()
 
 void MainScreenPdfView::showHelpDialog()
 {
-    /* TODO: implement */
+    HelpDialog *help = new HelpDialog();
+    help->show();
 }
 
 void MainScreenPdfView::keyReleaseEvent(QKeyEvent *ev)

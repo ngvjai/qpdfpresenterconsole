@@ -7,6 +7,7 @@
 QT       += core
 QT       += gui
 QT       += dbus
+QT       += webkit
 
 TARGET = QPdfPresenterConsole
 CONFIG   += console
@@ -41,7 +42,8 @@ SOURCES += main.cpp \
     windowsinhibiter.cpp \
     slidewidget.cpp \
     mousemoveeventeater.cpp \
-    mediaplayer.cpp
+    mediaplayer.cpp \
+    helpdialog.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -60,7 +62,8 @@ HEADERS += \
     windowsinhibiter.h \
     slidewidget.h \
     mousemoveeventeater.h \
-    mediaplayer.h
+    mediaplayer.h \
+    helpdialog.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS

@@ -133,7 +133,7 @@ if(UNIX)
     set(CPACK_GENERATOR "${CPACK_GENERATOR};DEB;RPM")
 endif(UNIX)
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtGui QtWebKit REQUIRED)
 find_package(Qt4 COMPONENTS QtDBus)
 find_package(PopplerQt4 REQUIRED)
 find_package(Asciidoc REQUIRED)
@@ -257,6 +257,12 @@ file(	GLOB
 	${PROJECT_FULLNAME}.png
 )
 
+file(   GLOB
+        HTMLDOC
+        ${CMAKE_BINARY_DIR}/${htmldoc}
+        ${CMAKE_BINARY_DIR}/${htmlcss}
+)
+
 configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
@@ -294,12 +300,11 @@ endif(ASCIIDOC_FOUND)
 install(FILES ${QM} DESTINATION ${PROJECT_DATADIR})
 install(FILES ${BEAMERNOTES} DESTINATION ${PROJECT_DATADIR}/examples/beamernotes/)
 install(FILES ${TEXTANNOT} DESTINATION ${PROJECT_DATADIR}/examples/textannot/)
+install(FILES ${HTMLDOC} DESTINATION ${PROJECT_DATADIR})
 install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
     install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_WINDEPS} DESTINATION bin/plugins/)
-    install(FILES ${CMAKE_BINARY_DIR}/${htmldoc} DESTINATION ${PROJECT_DATADIR})
-    install(FILES ${CMAKE_BINARY_DIR}/${htmlcss} DESTINATION ${PROJECT_DATADIR})
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 if(UNIX)
     install(FILES ${CMAKE_BINARY_DIR}/${mandoc} DESTINATION share/man/man1)

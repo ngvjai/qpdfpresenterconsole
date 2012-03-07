@@ -13,6 +13,7 @@
 #include "presentationtimer.h"
 #include "optionsdialog.h"
 #include "screensaverinhibit.h"
+#include "helpdialog.h"
 
 class MainScreenPdfView : public QMainWindow
 {
