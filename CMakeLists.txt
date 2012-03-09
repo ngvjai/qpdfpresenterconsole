@@ -302,6 +302,11 @@ add_custom_target(deborig
     COMMAND git archive --format=tar --prefix=${PROJECT_SOURCE_PREFIX}/ ${PROJECT_SOURCE_TAG} | bzip2 > ${CMAKE_BINARY_DIR}/${PROJECT_SOURCE_DEBORIG}
 )
 
+add_custom_target(debuild
+    DEPENDS deborig
+    COMMAND cd ${CMAKE_BINARY_DIR} && tar xf ${PROJECT_SOURCE_DEBORIG} && cd ${PROJECT_SOURCE_PREFIX} && debuild
+)
+
 if(ASCIIDOC_FOUND)
     add_custom_target(${htmldoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f xhtml --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
     add_custom_target(${mandoc} COMMAND ${ASCIIDOC_A2X_EXECUTABLE} -d manpage -f manpage --destination-dir=${CMAKE_BINARY_DIR} ${inputdoc})
