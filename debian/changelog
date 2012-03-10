@@ -1,3 +1,10 @@
+qpdfpresenterconsole (2.5.4-1) unstable; urgency=low
+
+  * Updating to 2.5.4
+  * Adding missing dependency againt libqtwebkit-dev
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sat, 10 Mar 2012 09:27:52 +0100
+
 qpdfpresenterconsole (2.5.3-1) unstable; urgency=low
 
   * Updating to 2.5.3
