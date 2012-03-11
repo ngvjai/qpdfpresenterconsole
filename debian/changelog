@@ -1,3 +1,13 @@
+qpdfpresenterconsole (2.5.5-1) unstable; urgency=low
+
+  * Updating to 2.5.5
+  * Removed useless README.source file
+  * Added watch file
+  * Improved debian/control file
+  * Submitted to Debian (Closes: #663255)
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sun, 11 Mar 2012 12:01:42 +0100
+
 qpdfpresenterconsole (2.5.4-1) unstable; urgency=low
 
   * Updating to 2.5.4
