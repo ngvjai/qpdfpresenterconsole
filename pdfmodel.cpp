@@ -71,11 +71,11 @@ void PDFModel::updateProjectorSize()
 
     if (this->params->getBeamerNotes()) {
         this->annotScale = 2;
-        this->scaleFactor = (1.0 * this->scaleFactorY) / this->getAnnotScale();
     } else {
         this->annotScale = 1;
-        this->scaleFactor = this->scaleFactorY;
     }
+
+    this->scaleFactor = this->scaleFactorX;
 
     this->render();
 }
