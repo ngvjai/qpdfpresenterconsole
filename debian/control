@@ -11,10 +11,22 @@ Vcs-Browser: https://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole/tre
 Package: qpdfpresenterconsole
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Beamer-targetted presentation tool.
- QPdfPresenterConsole is a software inspired by both Apple's
- Keynote and Pdf Presenter Console
- [http://westhoffswelt.de/projects/pdf_presenter_console.html]
- written using Qt4. Thus, it is easy to use, extend and
- port.  Currently, it runs smoothly on any Linux which has
- XRandR capabilities, and Windows 7 at least.
+Description: beamer-targetted presentation tool.
+ Presentation console software, similar to what is provided by LibreOffice
+ Impress' plugin or Apple Keynote, targetting PDF presentations and especially
+ those written in LaTeX with the Beamer package. It provides a presentation
+ console on the main speaker's screen which contains:
+  - the current slide if it's a simple pdf presentation, with notes below if
+    there is a text file provided that contains slide notes
+  - the current notes slide if it contains Beamer notes (left/right notes
+    supported)
+  - current date and time, current slide number
+  - countdown from the start of the presentation
+  - timer alarm to notify when the end of your slot is approaching
+ Slides are pre-rendered in background (current, next, previous) so that
+ changing slide is smooth and fast. Beamer-embedded (at least using movie15
+ package) videos are supported through LibVLC and one can provide separate text
+ file containing notes too. It's also heavily inspired from Pdf Presenter
+ Console, main differences are background pre-rendering of slides, videos
+ support, beamer and text file notes support. It should work nice on any
+ XRandR-capable system.
