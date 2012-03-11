@@ -1,3 +1,10 @@
+qpdfpresenterconsole (2.5.6-1) unstable; urgency=low
+
+  * Updating to 2.5.6
+  * Fixing rendering with some screen sizes
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sun, 11 Mar 2012 15:19:20 +0100
+
 qpdfpresenterconsole (2.5.5.2-1) unstable; urgency=low
 
   * Updating to 2.5.5.2
