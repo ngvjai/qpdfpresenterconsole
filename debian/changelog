@@ -1,3 +1,11 @@
+qpdfpresenterconsole (2.5.5.1-1) oneiric; urgency=low
+
+  * Updating to 2.5.5.1
+  * Added copyright version 1.0
+  * Updating standards version to 3.9.3
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sun, 11 Mar 2012 13:03:26 +0100
+
 qpdfpresenterconsole (2.5.5-1) unstable; urgency=low
 
   * Updating to 2.5.5

@@ -3,7 +3,7 @@ Section: graphics
 Priority: extra
 Maintainer: Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>
 Build-Depends: cdbs, debhelper (>= 8.0.0), cmake, asciidoc, docbook-xsl, docbook-xml, xsltproc, libxml2-utils, libqt4-dev, libqtwebkit-dev, libpoppler-qt4-dev, libvlc-dev
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Homepage: https://gitorious.org/qpdfpresenterconsole
 Vcs-Git: git://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole.git
 Vcs-Browser: https://gitorious.org/qpdfpresenterconsole/qpdfpresenterconsole/trees/master
