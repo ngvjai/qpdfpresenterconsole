@@ -147,7 +147,7 @@ void SlideWidget::mouseMoveEvent(QMouseEvent * ev)
     /* Check for multimedia stuff */
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
         QRectF scaledArea = this->scalePdfArea(fa->boundary());
-        if (this->modele->isMediaFile(fa->embeddedFile()) && scaledArea.contains(scaledPos)) {
+        if (this->modele->isMediaFile(fa) && scaledArea.contains(scaledPos)) {
             this->setCursor(Qt::PointingHandCursor);
             this->setToolTip(fa->embeddedFile()->name());
             break;
@@ -173,7 +173,7 @@ void SlideWidget::mouseReleaseEvent(QMouseEvent *ev)
 
     foreach(Poppler::FileAttachmentAnnotation *fa, this->modele->getMediaFiles()) {
         QRectF scaledArea = this->scalePdfArea(fa->boundary());
-        if (this->modele->isMediaFile(fa->embeddedFile()) && scaledArea.contains(scaledPos)) {
+        if (this->modele->isMediaFile(fa) && scaledArea.contains(scaledPos)) {
             this->modele->startMediaPlayer();
             break;
         }

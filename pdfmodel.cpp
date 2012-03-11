@@ -204,11 +204,30 @@ bool PDFModel::isMediaFile(Poppler::EmbeddedFile *file)
 {
     bool retval = false;
 
+    // not set by movie15 package
     if (file->mimeType().contains(this->detectMediaFiles)) {
         retval = true;
     }
 
+    // bogusly set by poppler 0.16.7, should be empty in fact
     if (file->description().contains(this->detectMediaFiles)) {
+        retval = true;
+    }
+
+    return retval;
+}
+
+bool PDFModel::isMediaFile(Poppler::FileAttachmentAnnotation *fa)
+{
+    bool retval = false;
+
+    retval = this->isMediaFile(fa->embeddedFile());
+    if (retval) {
+        return retval;
+    }
+
+    // works for both poppler 0.16.7 and 0.18.4
+    if (fa->contents().contains(this->detectMediaFiles)) {
         retval = true;
     }
 
@@ -303,7 +322,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                     case Poppler::Annotation::AFileAttachment:
                         {
                             Poppler::FileAttachmentAnnotation* fileannot = (Poppler::FileAttachmentAnnotation*) annot;
-                            if (this->isMediaFile(fileannot->embeddedFile())) {
+                            if (this->isMediaFile(fileannot)) {
                                 /* std::cerr << "PdfModel:" << this << " "
                                           << "Page:" << this->getCurrentPage() << " "
                                           << "fname:" << fileannot->embeddedFile()->name().toStdString() << " "

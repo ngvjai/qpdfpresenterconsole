@@ -91,6 +91,7 @@ public:
     void pushTargetWidget(QWidget* widget);
 
     bool isMediaFile(Poppler::EmbeddedFile *file);
+    bool isMediaFile(Poppler::FileAttachmentAnnotation *fa);
     bool hasMediaFile();
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
