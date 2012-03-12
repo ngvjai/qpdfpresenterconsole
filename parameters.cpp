@@ -208,12 +208,12 @@ QString Parameters::getPdfFileName()
     return this->pdfFileName;
 }
 
-void Parameters::setCurrentSlidePrcentWidth(float v)
+void Parameters::setCurrentSlidePrcentWidth(double v)
 {
     this->currentSlidePrcentWidth = v;
 }
 
-float Parameters::getCurrentSlidePrcentWidth()
+double Parameters::getCurrentSlidePrcentWidth()
 {
     return this->currentSlidePrcentWidth;
 }

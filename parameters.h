@@ -17,7 +17,7 @@ class Parameters : public QObject
     bool checkMultiDisplay;
     int presentationLength;
     int presentationEmergency;
-    float currentSlidePrcentWidth;
+    double currentSlidePrcentWidth;
     int openPage;
     int mainScreenId;
     int projectorScreenId;
@@ -40,7 +40,7 @@ public:
     void setPresentationLength(int v);
     void setPresentationEmergency(int v);
     void setPdfFileName(QString v);
-    void setCurrentSlidePrcentWidth(float v);
+    void setCurrentSlidePrcentWidth(double v);
     void setOpenPage(int v);
     void setMainScreenId(int v);
     void setProjectorScreenId(int v);
@@ -54,7 +54,7 @@ public:
     int getPresentationLength();
     int getPresentationEmergency();
     QString getPdfFileName();
-    float getCurrentSlidePrcentWidth();
+    double getCurrentSlidePrcentWidth();
     int getOpenPage();
     int getMainScreenId();
     int getProjectorScreenId();
