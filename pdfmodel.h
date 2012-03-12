@@ -63,6 +63,7 @@ class PDFModel : public QObject
     void renderNextPage();
 
     void finishInit();
+    void autoDetectBeamerNotes();
     void setPdfFileName(QString file);
 
 public:

@@ -48,6 +48,7 @@ void PDFModel::finishInit()
     // Pages starts at 0 ...
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
+    this->autoDetectBeamerNotes();
     this->updateProjectorSize();
     this->updateTextAnnot();
 
@@ -58,6 +59,19 @@ void PDFModel::finishInit()
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
     QObject::connect(this->params, SIGNAL(beamerNotesChanged()), SLOT(updateProjectorSize()));
     QObject::connect(this->params, SIGNAL(textAnnotChanged()), SLOT(updateTextAnnot()));
+}
+
+void PDFModel::autoDetectBeamerNotes()
+{
+    // ratio 4/3 for normal slides, 8/3 when beamer notes present
+    float ratio = 1.0 * this->pageSize.width() / this->pageSize.height();
+    int iRatio = qRound(ratio*3);
+
+    if (iRatio == 8) {
+        this->params->setBeamerNotes(true);
+    } else {
+        this->params->setBeamerNotes(false);
+    }
 }
 
 void PDFModel::updateProjectorSize()
