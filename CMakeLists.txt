@@ -179,12 +179,18 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         "${WINQTDIR}/bin/QtCore4.dll"
         "${WINQTDIR}/bin/QtGui4.dll"
         "${WINQTDIR}/bin/QtSvg4.dll"
+        "${WINQTDIR}/bin/QtWebKit4.dll"
+        "${WINQTDIR}/bin/QtNetwork4.dll"
+        "${WINQTDIR}/bin/phonon4.dll"
     )
     set(PROJECT_POPPLER_QT4_WINDEPS
         "${WINQTDIR}/bin/QtXml4.dll"
         "${WINPOPPLERDIR}/bin/libpoppler.dll"
         "${WINPOPPLERDIR}/bin/libpoppler-cpp.dll"
         "${WINPOPPLERDIR}/bin/libpoppler-qt4.dll"
+	"${WINOTHERDEPS}/libtiff3.dll"
+# for libpoppler-qt4.dll 0.18.1 from winkde, extracted from mingw32 gcc 4.4.0 fedora 11 package
+	"${WINOTHERDEPS}/libgcc_s_sjlj-1.dll"
     )
     set(PROJECT_POPPLER_QT4_DEPS_WINDEPS
         "${WINOTHERDEPS}/libfreetype.dll"
@@ -195,6 +201,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         "${WINOTHERDEPS}/libpng14.dll"
         "${WINOTHERDEPS}/libxml2.dll"
         "${WINOTHERDEPS}/libzlib1.dll"
+# libz.dll == libzlib1.dll	
+        "${WINOTHERDEPS}/libz.dll"
     )
     set(PROJECT_LIBVLC_WINDEPS
         "${WINLIBVLCDIR}/libvlc.dll"
