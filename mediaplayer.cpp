@@ -65,9 +65,9 @@ void MediaPlayer::preparePlayer()
                 vidWidget->winId());
 #endif
 #ifdef Q_WS_MAC
-        libvlc_media_player_set_drawable(
-                this->vlc_media_player,
-                this->targetWidget->winId());
+        libvlc_media_player_set_nsobject(
+                vlc_mp,
+                (void*)(vidWidget->winId()));
 #endif
 #ifdef Q_WS_X11
     // QString win1 = QString("%1").arg(this->videoTargets[0]->winId());
