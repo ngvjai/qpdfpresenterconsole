@@ -140,6 +140,11 @@ if(UNIX)
     set(CPACK_GENERATOR "${CPACK_GENERATOR};DEB;RPM")
 endif(UNIX)
 
+if(APPLE)
+    set(DEFAULT_OPTION_MAINSCREEN 0)
+    set(DEFAULT_OPTION_PROJECTORSCREEN 1)
+endif(APPLE)
+
 find_package(Qt4 COMPONENTS QtCore QtGui QtWebKit REQUIRED)
 find_package(Qt4 COMPONENTS QtDBus)
 find_package(PopplerQt4 REQUIRED)
