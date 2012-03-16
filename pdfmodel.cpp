@@ -378,7 +378,7 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
 
 QImage PDFModel::renderPdfPage(int page)
 {
-    return this->renderPdfPage(page, QSizeF(this->scaleFactor, this->scaleFactor), PDFModel::ContentPart);
+    return this->renderPdfPage(page, QSizeF(this->scaleFactorX, this->scaleFactorY), PDFModel::ContentPart);
 }
 
 void PDFModel::renderPreviousPage()
