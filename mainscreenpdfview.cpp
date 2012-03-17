@@ -349,7 +349,7 @@ void MainScreenPdfView::updateView()
                 QPixmap::fromImage(
                         this->modele->renderPdfPage(
                                 this->modele->getCurrentPage(),
-                                QSizeF(this->f1, this->f1),
+                                QSizeF(this->f1, this->f1 * this->modele->getAnnotScale()),
                                 this->modele->getAnnotationsPart()
                                 )
                         )
@@ -359,7 +359,7 @@ void MainScreenPdfView::updateView()
                 QPixmap::fromImage(
                         this->modele->renderPdfPage(
                                 this->modele->getCurrentPage(),
-                                QSizeF(this->f2, this->f2),
+                                QSizeF(this->f2, this->f2 * this->modele->getAnnotScale()),
                                 this->modele->getContentPart()
                                 )
                         )

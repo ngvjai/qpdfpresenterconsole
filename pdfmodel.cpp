@@ -173,7 +173,7 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
         // Generate a QImage of the rendered page
         image = pdfPage->renderToImage(
                     scaleFactor.width() * this->dpiX * this->getAnnotScale(),
-                    scaleFactor.height() * this->dpiY * this->getAnnotScale());
+                    scaleFactor.height() * this->dpiY);
 
         if (!image.isNull()) {
             int imageWidth = image.width() / this->getAnnotScale();
