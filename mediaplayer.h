@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QWidget>
 #include <vlc/vlc.h>
+#include "app.h"
+
+#ifdef HAVE_DEBUG
+#include <stdio.h>
+#include <QDir>
+#include <QMessageBox>
+#endif
 
 class MediaPlayer : public QObject
 {
@@ -18,6 +25,10 @@ class MediaPlayer : public QObject
     QString mediaFile;
 
     void preparePlayer();
+
+#ifdef HAVE_DEBUG
+    FILE* logErr;
+#endif
 
 public:
     explicit MediaPlayer(QObject *parent = 0);

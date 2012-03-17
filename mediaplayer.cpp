@@ -12,6 +12,7 @@ MediaPlayer::~MediaPlayer()
 {
     // libvlc_media_player_release(this->vlc_media_player);
     // libvlc_release(this->vlc_instance);
+    fclose(this->logErr);
 }
 
 MediaPlayer& MediaPlayer::getInstance(QObject *parent)
@@ -37,9 +38,27 @@ void MediaPlayer::pushTargetWidget(QWidget *widget)
 void MediaPlayer::preparePlayer()
 {
     const char *vlc_argv[] = {
+#ifndef HAVE_DEBUG
         "--verbose=0",
+#else
+        "--verbose=2",
+#endif
         "--no-video-title-show",
     };
+
+    /* Debug release, redirect stderr to logfile */
+#ifdef HAVE_DEBUG
+    QString log = QString(QDir::tempPath() + QString(APPNAME) + QString("_err.log"));
+    this->logErr = freopen(log.toLocal8Bit().data(), "w+", stderr);
+    if(!this->logErr) {
+        QMessageBox::critical(0,
+                              QObject::tr(APPNAME),
+                              QObject::tr("Cannot redirect standard error output to file '%1'.").arg(log)
+                              );
+    } else {
+	QMessageBox::information(0, QObject::tr(APPNAME), QObject::tr("Standard error has been redirected to '%1'.").arg(log));
+    }
+#endif
 
     this->vlc_instance = libvlc_new(sizeof(vlc_argv) / sizeof(*vlc_argv), vlc_argv);
     if (!this->vlc_instance) {
