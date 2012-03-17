@@ -6,14 +6,18 @@ MediaPlayer::MediaPlayer(QObject *parent) :
 {
     this->vlc_playing = false;
     this->vlc_ready = false;
+#ifdef HAVE_DEBUG
     this->logErr = NULL;
+#endif
 }
 
 MediaPlayer::~MediaPlayer()
 {
     // libvlc_media_player_release(this->vlc_media_player);
     // libvlc_release(this->vlc_instance);
+#ifdef HAVE_DEBUG
     fclose(this->logErr);
+#endif
 }
 
 MediaPlayer& MediaPlayer::getInstance(QObject *parent)
