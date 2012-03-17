@@ -191,8 +191,12 @@ void MainScreenPdfView::moveToScreen()
     this->move(res.x(), res.y());
     this->showFullScreen();
 
-    this->f1 = (QApplication::desktop()->screenGeometry(this).width() * this->params->getCurrentSlidePrcentWidth() - 15) / this->modele->getPageSize().width();
-    this->f2 = (QApplication::desktop()->screenGeometry(this).width() * (1 - this->params->getCurrentSlidePrcentWidth()) - 15) / this->modele->getPageSize().width();
+    double baseWidth = this->width() * 0.95;
+    int currentWidth = baseWidth * this->params->getCurrentSlidePrcentWidth();
+    int nextWidth = baseWidth * (1.0 - this->params->getCurrentSlidePrcentWidth());
+
+    this->f1 = (currentWidth) / this->modele->getPageSize().width();
+    this->f2 = (nextWidth) / this->modele->getPageSize().width();
 
     this->updateView();
 }
