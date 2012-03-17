@@ -144,24 +144,31 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 if(APPLE)
+    if(NOT VLC_PATH)
+	message(FATAL_ERROR "No VLC_PATH given, cannot continue. Please -DVLC_PATH=/path/to/VLC.app")
+    endif(NOT VLC_PATH)
+    set(VLC_DIR "${VLC_PATH}/Contents/MacOS")
+    set(LIBVLC_INCLUDE_DIR "${VLC_DIR}/include/")
+    set(LIBVLC_LIBRARY "${VLC_DIR}/lib/libvlc.5.dylib")
+    set(LIBVLCCORE_LIBRARY "${VLC_DIR}/lib/libvlccore.5.dylib")
     set(PROJECT_TARGETBIN "${PROJECT_FULLNAME}")
     set(EXECUTABLE "${PROJECT_TARGETBIN}.app")
     set(PROJECT_CONTENTS "${EXECUTABLE}/Contents/")
     set(PROJECT_DATADIR "${PROJECT_CONTENTS}/Resources/")
+    set(MACOSX_ICON "${PROJECT_FULLNAME}.icns")
+    set(MACOSX_ICON_FILE "${CMAKE_SOURCE_DIR}/${MACOSX_ICON}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64")
     set(OSX_BUNDLE MACOSX_BUNDLE)
     set(DEFAULT_OPTION_MAINSCREEN 0)
     set(DEFAULT_OPTION_PROJECTORSCREEN 1)
     set(CPACK_GENERATOR "${CPACK_GENERATOR};DragNDrop")
-#    set(CPACK_BINARY_DRAGNDROP ON)
-    set(CPACK_BUNDLE_NAME "${PROJECT_FULLNAME}")
-    set(CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/${PROJECT_FULLNAME}.icns")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
+    set(CPACK_PACKAGE_ICON "${MACOSX_ICON_FILE}")
     set(MACOSX_BUNDLE_EXECUTABLE_NAME "${PROJECT_TARGETBIN}")
     set(MACOSX_BUNDLE_INFO_STRING "${PROJECT_FULLNAME} ${PROJECT_VERSION}")
-    set(MACOSX_BUNDLE_ICON_FILE "${PROJECT_FULLNAME}.icns")
+    set(MACOSX_BUNDLE_ICON_FILE "${MACOSX_ICON}")
     set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION} ${CMAKE_SYSTEM_NAME} ${CMAKE_BUILD_TYPE}")
     set(MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_FULLNAME}")
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.qpdfpresenterconsole.qpdfpresenterconsole")
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
     set(MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}")
     set(MACOSX_BUNDLE_COPYRIGHT "MIT License, Copyright (c) Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>")
@@ -258,6 +265,9 @@ if(APPLE)
     set(PROJECT_LIBVLCCORE_APPLEDEPS
 	"${LIBVLCCORE_LIBRARY}"
     )
+    set(PROJECT_LIBVLC_PLUGINS_APPLEDEPS
+        "${VLC_DIR}/plugins/"
+    )
 ##    set(BUNDLE_SEARCH_PATH
 ##         "/opt/local/lib"
 ##    )
@@ -324,12 +334,6 @@ configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
 
-if(APPLE)
-	configure_file(
-		${CMAKE_SOURCE_DIR}/MacOSXBundleInfo.plist.in ${CMAKE_BINARY_DIR}/Info.plist
-	)
-endif(APPLE)
-
 QT4_WRAP_CPP(MOC ${H_SOURCE_FILES})
 QT4_WRAP_UI(UIC ${UIC_SOURCE_FILES})
 
@@ -340,6 +344,7 @@ add_executable(${PROJECT_TARGETBIN} ${GUI_TYPE} ${OSX_BUNDLE}
 	${MOC}
         ${UIC}
         ${QM}
+	${MACOSX_ICON_FILE}
 )
 
 target_link_libraries(
@@ -384,9 +389,15 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_WINDEPS} DESTINATION bin/plugins/)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 if(APPLE)
-    include(DeployQt4)
+    install(FILES ${MACOSX_ICON_FILE} DESTINATION ${PROJECT_DATADIR})
     install(FILES ${PROJECT_LIBVLC_APPLEDEPS} ${PROJECT_LIBVLCCORE_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/MacOS)
     install(DIRECTORY ${PROJECT_QT_MENU_NIB_APPLEDEPS} DESTINATION ${PROJECT_DATADIR}/qt_menu.nib)
+
+    # install a second time, libvlc plugins are not fixed up
+    install(FILES ${PROJECT_LIBVLC_APPLEDEPS} ${PROJECT_LIBVLCCORE_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/lib)
+    install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/plugins)
+
+    include(DeployQt4)
     install_qt4_executable("${EXECUTABLE}")
     # needed for libvlc fixup
     install(CODE "
