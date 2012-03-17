@@ -138,7 +138,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
-    this->setStyleSheet("background-color: black;");
+    this->setStyleSheet("MainScreenPdfView{background-color: black;}");
 
     this->beamerNote->setWordWrap(true);
     this->beamerNote->setStyleSheet(
@@ -247,7 +247,7 @@ void MainScreenPdfView::showOptionsDialog()
 
 void MainScreenPdfView::showHelpDialog()
 {
-    HelpDialog *help = new HelpDialog();
+    HelpDialog *help = new HelpDialog(this);
     help->show();
 }
 
