@@ -6,6 +6,7 @@ MediaPlayer::MediaPlayer(QObject *parent) :
 {
     this->vlc_playing = false;
     this->vlc_ready = false;
+    this->logErr = NULL;
 }
 
 MediaPlayer::~MediaPlayer()
