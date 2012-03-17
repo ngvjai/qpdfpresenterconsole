@@ -20,13 +20,11 @@ HelpDialog::HelpDialog(QWidget *parent) :
     central->setLayout(glayout);
     this->setCentralWidget(central);
 
-    html->load(
-                QUrl(
-                    QDir::toNativeSeparators(
-                        "file://"
-                        + QString(DATADIR)
-                        + QDir::separator()
-                        + QString(SHORTNAME) + ".html")
-                    )
-                );
+    QString file = "file://" +
+			QString(DATADIR) +
+			QDir::separator() +
+			QString(SHORTNAME) +
+			".html";
+
+    html->load(QUrl(QDir::toNativeSeparators(file)));
 }
