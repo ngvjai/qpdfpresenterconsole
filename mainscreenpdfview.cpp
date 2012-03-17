@@ -191,7 +191,7 @@ void MainScreenPdfView::moveToScreen()
     this->move(res.x(), res.y());
     this->showFullScreen();
 
-    double baseWidth = this->width() * 0.95;
+    double baseWidth = QApplication::desktop()->screenGeometry(this->params->getMainScreenId()).width() * 0.95;
     int currentWidth = baseWidth * this->params->getCurrentSlidePrcentWidth();
     int nextWidth = baseWidth * (1.0 - this->params->getCurrentSlidePrcentWidth());
 
