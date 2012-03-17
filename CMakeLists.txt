@@ -250,7 +250,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(APPLE)
     set(PROJECT_QT_MENU_NIB_APPLEDEPS
-        "${APPLEQTDIR}/Resources/qt_menu.nib/"
+        "${QT_LIBRARY_DIR}/Resources/qt_menu.nib/"
     )
     set(PROJECT_LIBVLC_APPLEDEPS
 	"${LIBVLC_LIBRARY}"
