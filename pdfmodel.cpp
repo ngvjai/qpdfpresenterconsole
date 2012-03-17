@@ -179,21 +179,22 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
             int imageWidth = image.width() / this->getAnnotScale();
             int imageHeight = image.height();
 
-            if (partie == this->getContentPart()) {
-                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
-                    image = image.copy(0, 0, imageWidth, imageHeight);
+            if (this->params->getBeamerNotes()) {
+                if (partie == this->getContentPart()) {
+                    if (this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
+                        image = image.copy(0, 0, imageWidth, imageHeight);
+                    }
+                    if (this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
+                        image = image.copy(imageWidth, 0, imageWidth, imageHeight);
+                    }
                 }
-                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
-                    image = image.copy(imageWidth, 0, imageWidth, imageHeight);
-                }
-            }
-
-            if (partie == this->getAnnotationsPart()) {
-                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
-                    image = image.copy(imageWidth, 0, imageWidth, imageHeight);
-                }
-                if (this->params->getBeamerNotes() && this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
-                    image = image.copy(0, 0, imageWidth, imageHeight);
+                if (partie == this->getAnnotationsPart()) {
+                    if (this->params->getBeamerNotesPart() == BEAMER_NOTES_RIGHT) {
+                        image = image.copy(imageWidth, 0, imageWidth, imageHeight);
+                    }
+                    if (this->params->getBeamerNotesPart() == BEAMER_NOTES_LEFT) {
+                        image = image.copy(0, 0, imageWidth, imageHeight);
+                    }
                 }
             }
         }
