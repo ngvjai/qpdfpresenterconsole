@@ -43,6 +43,9 @@ void MediaPlayer::preparePlayer()
 #else
         "--verbose=2",
 #endif
+#ifdef Q_WS_MAC
+	"--vout=macosx",
+#endif
         "--no-video-title-show",
     };
 
