@@ -144,15 +144,27 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 if(APPLE)
-    set(PROJECT_DATADIR "share")
+    set(PROJECT_TARGETBIN "${PROJECT_FULLNAME}")
+    set(EXECUTABLE "${PROJECT_TARGETBIN}.app")
+    set(PROJECT_CONTENTS "${EXECUTABLE}/Contents/")
+    set(PROJECT_DATADIR "${PROJECT_CONTENTS}/Resources/")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64")
+    set(OSX_BUNDLE MACOSX_BUNDLE)
     set(DEFAULT_OPTION_MAINSCREEN 0)
     set(DEFAULT_OPTION_PROJECTORSCREEN 1)
-    set(CPACK_GENERATOR "${CPACK_GENERATOR};Bundle")
-    set(CPACK_BINARY_DRAGNDROP ON)
+    set(CPACK_GENERATOR "${CPACK_GENERATOR};DragNDrop")
+#    set(CPACK_BINARY_DRAGNDROP ON)
     set(CPACK_BUNDLE_NAME "${PROJECT_FULLNAME}")
-    set(CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/${PROJECT_FULLNAME}.png")
-    set(CPACK_BUNDLE_PLIST "${CMAKE_SOURCE_DIR}/Info.plist")
-    set(CPACK_BUNDLE_LOCATION "${CMAKE_INSTALL_PREFIX}")
+    set(CPACK_BUNDLE_ICON "${CMAKE_SOURCE_DIR}/${PROJECT_FULLNAME}.icns")
+    set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
+    set(MACOSX_BUNDLE_EXECUTABLE_NAME "${PROJECT_TARGETBIN}")
+    set(MACOSX_BUNDLE_INFO_STRING "${PROJECT_FULLNAME} ${PROJECT_VERSION}")
+    set(MACOSX_BUNDLE_ICON_FILE "${PROJECT_FULLNAME}.icns")
+    set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION} ${CMAKE_SYSTEM_NAME} ${CMAKE_BUILD_TYPE}")
+    set(MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_FULLNAME}")
+    set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}")
+    set(MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}")
+    set(MACOSX_BUNDLE_COPYRIGHT "MIT License, Copyright (c) Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>")
 endif(APPLE)
 
 find_package(Qt4 COMPONENTS QtCore QtGui QtWebKit REQUIRED)
@@ -162,6 +174,7 @@ find_package(Asciidoc REQUIRED)
 find_package(LIBVLC REQUIRED)
 
 include(CPack)
+include(InstallRequiredSystemLibraries)
 
 if(ASCIIDOC_FOUND)
     message(STATUS "Found asciidoc: " ${ASCIIDOC_EXECUTABLE})
@@ -235,6 +248,21 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     )
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
+if(APPLE)
+    set(PROJECT_QT_MENU_NIB_APPLEDEPS
+        "${APPLEQTDIR}/Resources/qt_menu.nib/"
+    )
+    set(PROJECT_LIBVLC_APPLEDEPS
+	"${LIBVLC_LIBRARY}"
+    )
+    set(PROJECT_LIBVLCCORE_APPLEDEPS
+	"${LIBVLCCORE_LIBRARY}"
+    )
+##    set(BUNDLE_SEARCH_PATH
+##         "/opt/local/lib"
+##    )
+endif(APPLE)
+
 include(${QT_USE_FILE})
 
 include_directories(
@@ -296,12 +324,18 @@ configure_file(
 	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
 
+if(APPLE)
+	configure_file(
+		${CMAKE_SOURCE_DIR}/MacOSXBundleInfo.plist.in ${CMAKE_BINARY_DIR}/Info.plist
+	)
+endif(APPLE)
+
 QT4_WRAP_CPP(MOC ${H_SOURCE_FILES})
 QT4_WRAP_UI(UIC ${UIC_SOURCE_FILES})
 
 QT4_ADD_TRANSLATION(QM ${TRANSLATION_FILES})
 
-add_executable(${PROJECT_TARGETBIN} ${GUI_TYPE}
+add_executable(${PROJECT_TARGETBIN} ${GUI_TYPE} ${OSX_BUNDLE}
 	${CPP_SOURCE_FILES}
 	${MOC}
         ${UIC}
@@ -341,9 +375,7 @@ if(ASCIIDOC_FOUND)
     add_dependencies(${PROJECT_TARGETBIN} ${htmldoc} ${mandoc})
 endif(ASCIIDOC_FOUND)
 
-install(TARGETS ${PROJECT_TARGETBIN}
-	RUNTIME DESTINATION bin
-	BUNDLE DESTINATION .)
+install(TARGETS ${PROJECT_TARGETBIN} RUNTIME DESTINATION bin BUNDLE DESTINATION . )
 install(FILES ${QM} ${DOCUMENTATION_FILES} DESTINATION ${PROJECT_DATADIR})
 install(FILES ${BEAMERNOTES} DESTINATION ${PROJECT_DATADIR}/examples/beamernotes/)
 install(FILES ${TEXTANNOT} DESTINATION ${PROJECT_DATADIR}/examples/textannot/)
@@ -351,6 +383,17 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     install(FILES ${PROJECT_WINDEPS} DESTINATION bin)
     install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_WINDEPS} DESTINATION bin/plugins/)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+if(APPLE)
+    include(DeployQt4)
+    install(FILES ${PROJECT_LIBVLC_APPLEDEPS} ${PROJECT_LIBVLCCORE_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/MacOS)
+    install(DIRECTORY ${PROJECT_QT_MENU_NIB_APPLEDEPS} DESTINATION ${PROJECT_DATADIR}/qt_menu.nib)
+    install_qt4_executable("${EXECUTABLE}")
+    # needed for libvlc fixup
+    install(CODE "
+        include(BundleUtilities)
+        fixup_bundle(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${EXECUTABLE}\" \"\" \"${BUNDLE_SEARCH_PATH}\")
+")
+endif(APPLE)
 if(UNIX AND NOT APPLE)
     install(FILES ${CMAKE_BINARY_DIR}/${mandoc} DESTINATION share/man/man1)
     install(FILES ${DESKTOP} DESTINATION share/applications)
