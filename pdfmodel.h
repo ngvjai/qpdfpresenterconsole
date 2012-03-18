@@ -90,7 +90,7 @@ public:
     QHash<QString, QByteArray> getMediaContent();
     QString getMediaTempFileName(Poppler::FileAttachmentAnnotation *fa);
     void createMediaPlayer(Poppler::FileAttachmentAnnotation *fa);
-    void addMediaPlayerTarget(QWidget *widget);
+    void addMediaPlayerTarget(QWidget *widget, bool toMute = false);
     void pushTargetWidget(QWidget* widget);
 
     bool isMediaFile(Poppler::EmbeddedFile *file);

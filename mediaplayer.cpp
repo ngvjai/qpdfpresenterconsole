@@ -8,6 +8,7 @@ MediaPlayer::MediaPlayer(QObject *parent) :
 {
     this->vlc_playing = false;
     this->vlc_ready = false;
+    this->targetToMute = NULL;
 #ifdef HAVE_DEBUG
     this->logErr = NULL;
 #endif
@@ -26,6 +27,11 @@ MediaPlayer& MediaPlayer::getInstance(QObject *parent)
 {
     static MediaPlayer instance(parent);
     return instance;
+}
+
+void MediaPlayer::setTargetToMute(QWidget *widget)
+{
+    this->targetToMute = widget;
 }
 
 void MediaPlayer::setFile(QString file)
@@ -71,6 +77,18 @@ void MediaPlayer::detachMediaPlayerFromWidget(libvlc_media_player_t* vlc_mp)
 #ifdef Q_WS_X11
     libvlc_media_player_set_xwindow(vlc_mp, NULL);
 #endif
+}
+
+void MediaPlayer::muteMediaPlayer(libvlc_media_player_t *vlc_mp, QWidget *widget)
+{
+    // found a target to mute!!
+    if (widget == this->targetToMute) {
+        std::cerr << "setting mute for " << widget << std::endl;
+        libvlc_audio_set_mute(vlc_mp, 1);
+    } else {
+        std::cerr << "no mute for " << widget << std::endl;
+    }
+    std::cerr << "mute status for " << widget << " @" << vlc_mp << ": " << libvlc_audio_get_mute(vlc_mp) << std::endl;
 }
 
 void MediaPlayer::preparePlayer()
@@ -157,9 +175,14 @@ void MediaPlayer::play()
 
     if (!this->vlc_playing) {
         int iMediaPlayer = 0;
+        QWidget *w;
         foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
-            this->attachMediaPlayerToWidget(vlc_mp, this->videoTargets[iMediaPlayer]);
+            w = this->videoTargets[iMediaPlayer];
+            this->attachMediaPlayerToWidget(vlc_mp, w);
             libvlc_media_player_play(vlc_mp);
+#if 0
+            this->muteMediaPlayer(vlc_mp, w);
+#endif
             iMediaPlayer++;
         }
         this->vlc_playing = true;

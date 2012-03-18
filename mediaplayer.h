@@ -24,11 +24,13 @@ class MediaPlayer : public QObject
     libvlc_media_t *vlc_media;
     QList<libvlc_media_player_t*>vlc_media_players;
     QList<QWidget*> videoTargets;
+    QWidget* targetToMute;
     QString mediaFile;
 
     void preparePlayer();
     void attachMediaPlayerToWidget(libvlc_media_player_t* vlc_mp, QWidget *widget);
     void detachMediaPlayerFromWidget(libvlc_media_player_t* vlc_mp);
+    void muteMediaPlayer(libvlc_media_player_t* vlc_mp, QWidget *widget);
 
 #ifdef HAVE_DEBUG
     FILE* logErr;
@@ -40,6 +42,7 @@ public:
     static MediaPlayer& getInstance(QObject *parent);
 
     void setFile(QString file);
+    void setTargetToMute(QWidget *widget);
     void pushTargetWidget(QWidget *widget);
 
     void play();

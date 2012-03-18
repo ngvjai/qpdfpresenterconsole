@@ -277,10 +277,13 @@ void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
     }
 }
 
-void PDFModel::addMediaPlayerTarget(QWidget *widget)
+void PDFModel::addMediaPlayerTarget(QWidget *widget, bool toMute)
 {
     if (widget) {
         this->player->pushTargetWidget(widget);
+        if (toMute) {
+            this->player->setTargetToMute(widget);
+        }
     }
 }
 

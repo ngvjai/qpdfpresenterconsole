@@ -206,6 +206,10 @@ void SlideWidget::updateView()
         this->video->resize(scaledArea.size().toSize());
     // }
 
-    this->modele->addMediaPlayerTarget(this->video);
+    if(this->parent->windowTitle() != "MainScreenPdfView") {
+        this->modele->addMediaPlayerTarget(this->video, true);
+    } else {
+        this->modele->addMediaPlayerTarget(this->video, false);
+    }
     this->video->show();
 }
