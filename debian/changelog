@@ -1,4 +1,4 @@
-qpdfpresenterconsole (2.5.10-1) unstable; urgency=low
+qpdfpresenterconsole (2.5.11-1) unstable; urgency=low
 
   * Make main window background non inheritable
   * Improving LibVLC playback
