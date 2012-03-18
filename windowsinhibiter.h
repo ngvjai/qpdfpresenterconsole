@@ -5,7 +5,6 @@
 
 #include "screensaverinhibiters.h"
 
-#ifdef Q_WS_WIN
 class WindowsInhibiter : public ScreenSaverInhibiters
 {
     void *previousState;
@@ -15,6 +14,5 @@ public:
     virtual void inhibit();
     virtual void desinhibit();
 };
-#endif
 
 #endif // WINDOWSINHIBITER_H

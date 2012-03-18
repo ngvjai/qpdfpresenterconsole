@@ -10,11 +10,14 @@
 #ifdef HAVE_DBUS
 #include <QtDBus/QDBusInterface>
 #include <QtDBus/QDBusReply>
+#endif
 
 class FreedesktopInhibiter : private ScreenSaverInhibiters
 {
 private:
+#ifdef HAVE_DBUS
     QDBusInterface *dbus;
+#endif
     int cookie;
 
 public:
@@ -25,6 +28,5 @@ public:
     virtual void desinhibit();
 
 };
-#endif
 
 #endif
