@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #ifndef PDFMODEL_H
 #define PDFMODEL_H
 

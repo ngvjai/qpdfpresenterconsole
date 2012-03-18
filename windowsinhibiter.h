@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #ifndef WINDOWSINHIBITER_H
 #define WINDOWSINHIBITER_H
 

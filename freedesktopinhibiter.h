@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #ifndef FREEDESKTOPINHIBITER_H
 #define FREEDESKTOPINHIBITER_H
 

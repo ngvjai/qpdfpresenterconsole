@@ -1,3 +1,5 @@
+# vim: set et ts=4 sw=4:
+
 cmake_minimum_required(VERSION 2.6)
 
 if(NOT CMAKE_INSTALL_PREFIX)

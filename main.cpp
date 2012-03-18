@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QMessageBox>

@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #include "presenterpdf.h"
 
 PresenterPdf::PresenterPdf(QWidget *parent, PDFModel *modele, Parameters *params) :

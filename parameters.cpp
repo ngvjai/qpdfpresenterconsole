@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #include "app.h"
 #include "parameters.h"
 #include <QDebug>

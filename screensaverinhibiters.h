@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #ifndef SCREENSAVERINHIBITERS_H
 #define SCREENSAVERINHIBITERS_H
 

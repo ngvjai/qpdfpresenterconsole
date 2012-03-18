@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #include "xdginhibiter.h"
 #include <QApplication>
 #include <QWidget>

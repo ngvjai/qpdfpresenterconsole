@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #include "pdfmodel.h"
 #include <QApplication>
 #include <QFileDialog>

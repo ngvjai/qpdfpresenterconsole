@@ -1,3 +1,5 @@
+/* vim: set et ts=4 sw=4: */
+
 #ifndef QCOMMAND_LINE_H
 # define QCOMMAND_LINE_H
 
