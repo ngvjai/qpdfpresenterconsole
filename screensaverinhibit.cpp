@@ -4,6 +4,7 @@
 #include "freedesktopinhibiter.h"
 #include "xdginhibiter.h"
 #include "windowsinhibiter.h"
+#include "osxinhibiter.h"
 
 #include <QDebug>
 
@@ -49,7 +50,9 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
 {
     qDebug() << "Screensaver target status:" << targetStatus;
 
-#ifdef Q_OS_UNIX
+/* Mac OSX will be reported as UNIX and somehow, executing xdg-screensaver
+   does not fail */
+#if defined Q_OS_UNIX && !defined Q_WS_MAC
     static XDGInhibiter xdgi;
     if (xdgi.canHandle()) {
         switch(targetStatus) {
@@ -66,7 +69,8 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
     }
 #endif
 
-#ifdef HAVE_DBUS
+/* QtDBus is available under Mac but not working */
+#if defined HAVE_DBUS && !defined Q_WS_MAC
     static FreedesktopInhibiter fdi;
     if(fdi.canHandle()) {
         switch(targetStatus) {
@@ -97,6 +101,23 @@ void ScreenSaverInhibit::switchScreenSaverInhibition(ScreenSaverStatus targetSta
         goto inhibitok;
     } else {
         std::cerr << "Windows inhibiter not valid." << std::endl;
+    }
+#endif
+
+#ifdef Q_WS_MAC
+    static OSXInhibiter osxi;
+    if(osxi.canHandle()) {
+        switch(targetStatus) {
+            case SCREENSAVER_INHIBITED:
+                osxi.inhibit();
+                break;
+            case SCREENSAVER_NON_INHIBITED:
+                osxi.desinhibit();
+                break;
+        }
+        goto inhibitok;
+    } else {
+        std::cerr << "OSX inhibiter not valid." << std::endl;
     }
 #endif
 
