@@ -8,8 +8,8 @@ endif(NOT CMAKE_INSTALL_PREFIX)
 
 project(QPdfPresenterConsole)
 set(CMAKE_MODULE_PATH
-	"${PROJECT_SOURCE_DIR}/cmake"
-	"${CMAKE_MODULE_PATH}"
+    "${PROJECT_SOURCE_DIR}/cmake"
+    "${CMAKE_MODULE_PATH}"
 )
 
 set(PROJECT_TARGETBIN "qpdfpresenterconsole")
@@ -94,11 +94,11 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
 set(PROJECT_SOURCE_BASENAME "${PROJECT_SHORTNAME}")
 set(PROJECT_SOURCE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 if (PROJECT_SOURCE_TAG)
-	set(PROJECT_SOURCE_TAG "${PROJECT_SOURCE_TAG}")
-	set(PROJECT_SOURCE_ORIG "${PROJECT_SOURCE_TAG}")
+    set(PROJECT_SOURCE_TAG "${PROJECT_SOURCE_TAG}")
+    set(PROJECT_SOURCE_ORIG "${PROJECT_SOURCE_TAG}")
 else (PROJECT_SOURCE_TAG)
-	set(PROJECT_SOURCE_TAG "v${PROJECT_SOURCE_VERSION}")
-	set(PROJECT_SOURCE_ORIG "${PROJECT_SOURCE_VERSION}")
+    set(PROJECT_SOURCE_TAG "v${PROJECT_SOURCE_VERSION}")
+    set(PROJECT_SOURCE_ORIG "${PROJECT_SOURCE_VERSION}")
 endif (PROJECT_SOURCE_TAG)
 set(PROJECT_SOURCE_PREFIX "${PROJECT_SOURCE_BASENAME}-${PROJECT_SOURCE_TAG}")
 set(PROJECT_SOURCE_TARGETNAME "${PROJECT_SOURCE_BASENAME}-${PROJECT_SOURCE_TAG}.tar.bz2")
@@ -119,16 +119,16 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(CPACK_NSIS_URL_INFO_ABOUT "http://gitorious.org/qpdfpresenterconsole")
     set(CPACK_PACKAGE_EXECUTABLES "${PROJECT_TARGETBIN}" "QPdfPresenterConsole")
     set(CPACK_NSIS_CREATE_ICONS_EXTRA
-    	"CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Documentation.lnk\\\" \\\"$INSTDIR\\\\share\\\\${htmldoc}\\\"
+        "CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Documentation.lnk\\\" \\\"$INSTDIR\\\\share\\\\${htmldoc}\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\BeamerNotes.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"-n 1 -l left\\\" \\\"$INSTDIR\\\\share\\\\examples\\\\beamernotes\\\\beamer.left.pdf\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\TextAnnot.lnk\\\" \\\"$INSTDIR\\\\bin\\\\${PROJECT_TARGETBIN}.exe\\\" \\\"-t\\\" \\\"$INSTDIR\\\\share\\\\examples\\\\textannot\\\\beamer.pdf\\\"
-	")
+    ")
     set(CPACK_NSIS_DELETE_ICONS_EXTRA
-    	"!insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
-	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Documentation.lnk\\\"
-    	Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\BeamerNotes.lnk\\\"
+        "!insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
+    Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Documentation.lnk\\\"
+        Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\BeamerNotes.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\TextAnnot.lnk\\\"
-	")
+    ")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(UNIX AND NOT APPLE)
@@ -147,7 +147,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 if(APPLE)
     if(NOT VLC_PATH)
-	message(FATAL_ERROR "No VLC_PATH given, cannot continue. Please -DVLC_PATH=/path/to/VLC.app")
+        message(FATAL_ERROR "No VLC_PATH given, cannot continue. Please -DVLC_PATH=/path/to/VLC.app")
     endif(NOT VLC_PATH)
     set(VLC_DIR "${VLC_PATH}/Contents/MacOS")
     set(LIBVLC_INCLUDE_DIR "${VLC_DIR}/include/")
@@ -227,9 +227,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         "${WINPOPPLERDIR}/bin/libpoppler.dll"
         "${WINPOPPLERDIR}/bin/libpoppler-cpp.dll"
         "${WINPOPPLERDIR}/bin/libpoppler-qt4.dll"
-	"${WINOTHERDEPS}/libtiff3.dll"
+        "${WINOTHERDEPS}/libtiff3.dll"
 # for libpoppler-qt4.dll 0.18.1 from winkde, extracted from mingw32 gcc 4.4.0 fedora 11 package
-	"${WINOTHERDEPS}/libgcc_s_sjlj-1.dll"
+        "${WINOTHERDEPS}/libgcc_s_sjlj-1.dll"
     )
     set(PROJECT_POPPLER_QT4_DEPS_WINDEPS
         "${WINOTHERDEPS}/libfreetype.dll"
@@ -240,7 +240,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         "${WINOTHERDEPS}/libpng14.dll"
         "${WINOTHERDEPS}/libxml2.dll"
         "${WINOTHERDEPS}/libzlib1.dll"
-# libz.dll == libzlib1.dll	
+# libz.dll == libzlib1.dll
         "${WINOTHERDEPS}/libz.dll"
     )
     set(PROJECT_LIBVLC_WINDEPS
@@ -264,10 +264,10 @@ if(APPLE)
         "${QT_LIBRARY_DIR}/Resources/qt_menu.nib/"
     )
     set(PROJECT_LIBVLC_APPLEDEPS
-	"${LIBVLC_LIBRARY}"
+        "${LIBVLC_LIBRARY}"
     )
     set(PROJECT_LIBVLCCORE_APPLEDEPS
-	"${LIBVLCCORE_LIBRARY}"
+        "${LIBVLCCORE_LIBRARY}"
     )
     set(PROJECT_LIBVLC_PLUGINS_APPLEDEPS
         "${VLC_DIR}/plugins/"
@@ -280,28 +280,28 @@ endif(APPLE)
 include(${QT_USE_FILE})
 
 include_directories(
-	${QT_INCLUDE_DIR}
-        ${POPPLER_QT4_INCLUDE_DIR}
-        ${LIBVLC_INCLUDE_DIR}
-	${CMAKE_BINARY_DIR}
+    ${QT_INCLUDE_DIR}
+    ${POPPLER_QT4_INCLUDE_DIR}
+    ${LIBVLC_INCLUDE_DIR}
+    ${CMAKE_BINARY_DIR}
 )
 
-file(	GLOB
-	CPP_SOURCE_FILES
-	*.cpp
+file(   GLOB
+        CPP_SOURCE_FILES
+        *.cpp
 )
 
-file(	GLOB
-	H_SOURCE_FILES
-	*.h
+file(   GLOB
+        H_SOURCE_FILES
+        *.h
 )
 
-file(	GLOB
-	TRANSLATION_FILES
-	*.ts
+file(   GLOB
+        TRANSLATION_FILES
+        *.ts
 )
 
-file(	GLOB
+file(   GLOB
         UIC_SOURCE_FILES
         *.ui
 )
@@ -319,23 +319,23 @@ file(   GLOB
         beamer.annot
 )
 
-file(	GLOB
-	DESKTOP
-	${PROJECT_FULLNAME}.desktop
+file(   GLOB
+        DESKTOP
+        ${PROJECT_FULLNAME}.desktop
 )
 
-file(	GLOB
-	ICON
-	${PROJECT_FULLNAME}.png
+file(   GLOB
+        ICON
+        ${PROJECT_FULLNAME}.png
 )
 
-set(	DOCUMENTATION_FILES
+set(    DOCUMENTATION_FILES
         ${CMAKE_BINARY_DIR}/${htmldoc}
         ${CMAKE_BINARY_DIR}/${htmlcss}
 )
 
 configure_file(
-	${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
+    ${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
 
 QT4_WRAP_CPP(MOC ${H_SOURCE_FILES})
@@ -344,18 +344,18 @@ QT4_WRAP_UI(UIC ${UIC_SOURCE_FILES})
 QT4_ADD_TRANSLATION(QM ${TRANSLATION_FILES})
 
 add_executable(${PROJECT_TARGETBIN} ${GUI_TYPE} ${OSX_BUNDLE}
-	${CPP_SOURCE_FILES}
-	${MOC}
-        ${UIC}
-        ${QM}
-	${MACOSX_ICON_FILE}
+    ${CPP_SOURCE_FILES}
+    ${MOC}
+    ${UIC}
+    ${QM}
+    ${MACOSX_ICON_FILE}
 )
 
 target_link_libraries(
-        ${PROJECT_TARGETBIN}
-	${QT_LIBRARIES}
-        ${POPPLER_QT4_LIBRARIES}
-        ${LIBVLC_LIBRARY}
+    ${PROJECT_TARGETBIN}
+    ${QT_LIBRARIES}
+    ${POPPLER_QT4_LIBRARIES}
+    ${LIBVLC_LIBRARY}
 )
 
 add_custom_target(dist
