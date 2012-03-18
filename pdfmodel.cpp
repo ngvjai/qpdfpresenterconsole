@@ -61,6 +61,9 @@ void PDFModel::finishInit()
     QObject::connect(this->params, SIGNAL(projectorScreenChanged()), SLOT(updateProjectorSize()));
     QObject::connect(this->params, SIGNAL(beamerNotesChanged()), SLOT(updateProjectorSize()));
     QObject::connect(this->params, SIGNAL(textAnnotChanged()), SLOT(updateTextAnnot()));
+
+    QObject::connect(this->player, SIGNAL(mediaTimeChanged(qint64)), SLOT(getNewMediaTime(qint64)));
+    QObject::connect(this->player, SIGNAL(mediaPositionChanged(float)), SLOT(getNewMediaPosition(float)));
 }
 
 void PDFModel::autoDetectBeamerNotes()
@@ -633,4 +636,29 @@ void PDFModel::handleMouseWheelModelSequence(QWheelEvent *ev)
         emit presentationStarted();
         this->gotoPreviousPage();
     }
+}
+
+void PDFModel::seekMediaPlayer(float position)
+{
+    this->player->seekPlayback(position);
+}
+
+void PDFModel::setMediaPlayerVolume(int volume)
+{
+    this->player->volumePlayback(volume);
+}
+
+int PDFModel::getMediaPlayerVolume()
+{
+    return this->player->getVolume();
+}
+
+void PDFModel::getNewMediaTime(qint64 milisecpos)
+{
+    emit mediaTimeChanged(milisecpos);
+}
+
+void PDFModel::getNewMediaPosition(float position)
+{
+    emit mediaPositionChanged(position);
 }

@@ -17,6 +17,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->pTimer = timer;
     this->options = NULL;
     this->screensaver = screensaverinhibiter;
+    this->canSlidePosition = true;
 
     this->setWindowTitle("MainScreenPdfView");
 
@@ -33,23 +34,33 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->beamerNote = new QLabel(this);
     this->mediabar = new QToolBar(this);
     this->controlbar = new QToolBar(this);
+    this->positionSlider = new QSlider(Qt::Horizontal, this);
+    this->positionSlider->setToolTip(tr("Set media position"));
+    this->volumeSlider = new QSlider(Qt::Horizontal, this);
+    this->volumeSlider->setToolTip(tr("Set media volume"));
 
     /* media playback stuff */
+    this->previousAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSeekBackward), tr("Backward"), this);
+    this->nextAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSeekForward), tr("Forward"), this);
     this->playAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
     this->pauseAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
     this->stopAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
-    // this->previousAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipBackward), tr("Previous"), this);
-    // this->nextAction = new QAction(this->style()->standardIcon(QStyle::SP_MediaSkipForward), tr("Next"), this);
     this->playAction->setShortcut(tr("Ctrl+P"));
     this->pauseAction->setShortcut(tr("Ctrl+A"));
     this->stopAction->setShortcut(tr("Ctrl+S"));
-    // this->nextAction->setShortcut(tr("Ctrl+N"));
-    // this->previousAction->setShortcut(tr("Ctrl+R"));
+    this->nextAction->setShortcut(tr("Ctrl+N"));
+    this->previousAction->setShortcut(tr("Ctrl+R"));
+
+    this->mediabar->addAction(this->previousAction);
+    this->mediabar->addWidget(this->positionSlider);
+    this->mediabar->addAction(this->nextAction);
+    this->mediabar->addSeparator();
     this->mediabar->addAction(this->playAction);
     this->mediabar->addAction(this->pauseAction);
     this->mediabar->addAction(this->stopAction);
-    // this->mediabar->addAction(this->previousAction);
-    // this->mediabar->addAction(this->nextAction);
+    this->mediabar->addSeparator();
+    this->mediabar->addWidget(this->volumeSlider);
+    this->mediabar->addAction(new QAction(this->style()->standardIcon(QStyle::SP_MediaVolume), tr("Volume"), this));
     this->mediabar->hide();
 
     QAction *actPrevious = new QAction(
@@ -173,6 +184,16 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QObject::connect(this->playAction, SIGNAL(triggered()), this->modele, SLOT(startMediaPlayer()));
     QObject::connect(this->pauseAction, SIGNAL(triggered()), this->modele, SLOT(pauseMediaPlayer()));
     QObject::connect(this->stopAction, SIGNAL(triggered()), this->modele, SLOT(stopMediaPlayer()));
+    QObject::connect(this->previousAction, SIGNAL(triggered()), SLOT(userSeekBackward()));
+    QObject::connect(this->nextAction, SIGNAL(triggered()), SLOT(userSeekForward()));
+
+    QObject::connect(this->positionSlider, SIGNAL(sliderPressed()), SLOT(lockSlider()));
+    QObject::connect(this->positionSlider, SIGNAL(sliderReleased()), SLOT(unlockSlider()));
+    QObject::connect(this->positionSlider, SIGNAL(sliderMoved(int)), SLOT(userChangePosition(int)));
+    QObject::connect(this->volumeSlider, SIGNAL(sliderMoved(int)), SLOT(userChangeVolume(int)));
+
+    QObject::connect(this->modele, SIGNAL(mediaTimeChanged(qint64)), SLOT(updateMediaPlayerTime(qint64)));
+    QObject::connect(this->modele, SIGNAL(mediaPositionChanged(float)), SLOT(updateMediaPlayerPosition(float)));
 
     QObject::connect(actPrevious, SIGNAL(triggered()), this->modele, SLOT(gotoPreviousPage()));
     QObject::connect(actNext, SIGNAL(triggered()), this->modele, SLOT(gotoNextPage()));
@@ -399,6 +420,52 @@ void MainScreenPdfView::timerUpdated()
     if (this->pTimer->isCritical()) {
         this->timer->setStyleSheet(this->timer->styleSheet().append("color: red;"));
     }
+}
+
+void MainScreenPdfView::updateMediaPlayerTime(qint64 time)
+{
+    // std::cerr << "got new time: " << time << std::endl;
+}
+
+void MainScreenPdfView::updateMediaPlayerPosition(float position)
+{
+    // std::cerr << "got new position: " << position << std::endl;
+    this->volumeSlider->setValue(this->modele->getMediaPlayerVolume());
+
+    if (this->canSlidePosition) {
+        this->positionSlider->setValue(position * 100);
+    }
+}
+
+void MainScreenPdfView::lockSlider()
+{
+    this->canSlidePosition = false;
+}
+
+void MainScreenPdfView::unlockSlider()
+{
+    this->canSlidePosition = true;
+}
+
+void MainScreenPdfView::userChangePosition(int value)
+{
+    float newPos = value / 100.0;
+    this->modele->seekMediaPlayer(newPos);
+}
+
+void MainScreenPdfView::userChangeVolume(int value)
+{
+    this->modele->setMediaPlayerVolume(value);
+}
+
+void MainScreenPdfView::userSeekBackward()
+{
+    this->modele->seekMediaPlayer((this->positionSlider->value() - 10) / 100.0);
+}
+
+void MainScreenPdfView::userSeekForward()
+{
+    this->modele->seekMediaPlayer((this->positionSlider->value() + 10) / 100.0);
 }
 
 void MainScreenPdfView::timerEvent(QTimerEvent *ev)

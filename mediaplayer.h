@@ -22,6 +22,7 @@ class MediaPlayer : public QObject
     bool vlc_playing;
     libvlc_instance_t *vlc_instance;
     libvlc_media_t *vlc_media;
+    QList<libvlc_event_manager_t*>vlc_event_managers;
     QList<libvlc_media_player_t*>vlc_media_players;
     QList<QWidget*> videoTargets;
     QWidget* targetToMute;
@@ -48,16 +49,29 @@ public:
     void play();
     void pause();
     void stop();
+    void seek(float position);
+    void volume(int vol);
+
+    int getVolume();
+
+    static void mediaEventCallback(const libvlc_event_t *ev, void *p);
 
 signals:
     void playbackStarted();
     void playbackStopped();
     void playbackPaused();
+    void playbackSeeked();
+    void playbackVolumed();
+
+    void mediaTimeChanged(qint64 milisectime);
+    void mediaPositionChanged(float position);
 
 public slots:
     void startPlayback();
     void stopPlayback();
     void pausePlayback();
+    void seekPlayback(float position);
+    void volumePlayback(int volume);
 
 };
 

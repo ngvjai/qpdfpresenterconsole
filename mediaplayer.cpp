@@ -144,11 +144,23 @@ void MediaPlayer::preparePlayer()
             std::cerr << "[vlc_mp] VLC Error:" << libvlc_errmsg() << std::endl;
             return;
         }
+        libvlc_event_manager_t *vlc_em = libvlc_media_player_event_manager(vlc_mp);
+        if (!vlc_mp) {
+            std::cerr << "[vlc_em] VLC Error:" << libvlc_errmsg() << std::endl;
+            return;
+        }
         this->vlc_media_players.append(vlc_mp);
+        this->vlc_event_managers.append(vlc_em);
         iter++;
     }
 
     libvlc_media_release(this->vlc_media);
+
+    foreach(libvlc_event_manager_t *vlc_em, this->vlc_event_managers) {
+        libvlc_event_attach(vlc_em, libvlc_MediaPlayerTimeChanged, MediaPlayer::mediaEventCallback, this);
+        libvlc_event_attach(vlc_em, libvlc_MediaPlayerPositionChanged, MediaPlayer::mediaEventCallback, this);
+    }
+
     this->vlc_ready = true;
 }
 
@@ -165,6 +177,16 @@ void MediaPlayer::stopPlayback()
 void MediaPlayer::pausePlayback()
 {
     this->pause();
+}
+
+void MediaPlayer::seekPlayback(float position)
+{
+    this->seek(position);
+}
+
+void MediaPlayer::volumePlayback(int volume)
+{
+    this->volume(volume);
 }
 
 void MediaPlayer::play()
@@ -207,4 +229,42 @@ void MediaPlayer::stop()
     }
     this->vlc_playing = false;
     emit playbackStopped();
+}
+
+void MediaPlayer::seek(float position)
+{
+    foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
+        libvlc_media_player_set_position(vlc_mp, position);
+    }
+    emit playbackSeeked();
+}
+
+void MediaPlayer::volume(int vol)
+{
+    foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
+        libvlc_audio_set_volume(vlc_mp, vol);
+    }
+    emit playbackVolumed();
+}
+
+int MediaPlayer::getVolume()
+{
+    return libvlc_audio_get_volume(this->vlc_media_players[0]);
+}
+
+void MediaPlayer::mediaEventCallback(const libvlc_event_t *ev, void *p)
+{
+    if (ev && p) {
+        MediaPlayer* mp = (MediaPlayer*)p;
+
+        if (ev->type == libvlc_MediaPlayerTimeChanged) {
+            qint64 time = ev->u.media_player_time_changed.new_time;
+            emit mp->mediaTimeChanged(time);
+        }
+
+        if (ev->type == libvlc_MediaPlayerPositionChanged) {
+            float pos = ev->u.media_player_position_changed.new_position;
+            emit mp->mediaPositionChanged(pos);
+        }
+    }
 }

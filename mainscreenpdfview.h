@@ -10,6 +10,7 @@
 #include <QAction>
 #include <QToolBar>
 #include <QTimer>
+#include <QSlider>
 #include "pdfmodel.h"
 #include "parameters.h"
 #include "presentationtimer.h"
@@ -39,6 +40,10 @@ class MainScreenPdfView : public QMainWindow
     QAction *previousAction;
     QToolBar *mediabar;
     QToolBar *controlbar;
+
+    QSlider *positionSlider;
+    QSlider *volumeSlider;
+    bool canSlidePosition;
 
     OptionsDialog *options;
     PresentationTimer *pTimer;
@@ -75,6 +80,17 @@ public slots:
     void showHelpDialog();
     void showGotoDialog();
     void showOptionsDialog();
+
+    /* media player */
+    void updateMediaPlayerTime(qint64 time);
+    void updateMediaPlayerPosition(float position);
+
+    void lockSlider();
+    void unlockSlider();
+    void userSeekBackward();
+    void userSeekForward();
+    void userChangePosition(int value);
+    void userChangeVolume(int value);
 
 };
 

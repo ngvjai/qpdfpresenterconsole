@@ -96,6 +96,7 @@ public:
     bool isMediaFile(Poppler::EmbeddedFile *file);
     bool isMediaFile(Poppler::FileAttachmentAnnotation *fa);
     bool hasMediaFile();
+    int getMediaPlayerVolume();
     void processCurrentPageAnnotations(Poppler::Page* page);
     QImage renderPdfPage(int page);
     QImage renderPdfPage(int page, QSizeF scaleFactor, int partie);
@@ -121,17 +122,26 @@ signals:
     void presentationReset(void);
     void mediaFilesReady(void);
 
+    void mediaTimeChanged(qint64 milisecpos);
+    void mediaPositionChanged(float position);
+
 public slots:
     void handleKeyModelSequence(QKeyEvent *e);
     void handleMouseModelSequence(QMouseEvent *e);
     void handleMouseWheelModelSequence(QWheelEvent *e);
+
     void updateProjectorSize();
     void updateTextAnnot();
+    void gotoNextPage();
+    void gotoPreviousPage();
+
     void startMediaPlayer();
     void stopMediaPlayer();
     void pauseMediaPlayer();
-    void gotoNextPage();
-    void gotoPreviousPage();
+    void seekMediaPlayer(float position);
+    void setMediaPlayerVolume(int volume);
+    void getNewMediaTime(qint64 milisecpos);
+    void getNewMediaPosition(float position);
 
 };
 
