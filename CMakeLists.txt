@@ -184,6 +184,11 @@ find_package(PopplerQt4 REQUIRED)
 find_package(Asciidoc REQUIRED)
 find_package(LIBVLC REQUIRED)
 
+if(APPLE)
+    # CoreServices framework is needed for OSX's Screen Saver Inhibiter
+    find_package(OSXCoreServices REQUIRED)
+endif(APPLE)
+
 include(CPack)
 include(InstallRequiredSystemLibraries)
 
@@ -356,6 +361,7 @@ target_link_libraries(
     ${QT_LIBRARIES}
     ${POPPLER_QT4_LIBRARIES}
     ${LIBVLC_LIBRARY}
+    ${OSX_CORE_SERVICES_LIBRARY}
 )
 
 add_custom_target(dist
