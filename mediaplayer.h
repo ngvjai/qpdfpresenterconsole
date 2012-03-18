@@ -27,6 +27,8 @@ class MediaPlayer : public QObject
     QString mediaFile;
 
     void preparePlayer();
+    void attachMediaPlayerToWidget(libvlc_media_player_t* vlc_mp, QWidget *widget);
+    void detachMediaPlayerFromWidget(libvlc_media_player_t* vlc_mp);
 
 #ifdef HAVE_DEBUG
     FILE* logErr;
