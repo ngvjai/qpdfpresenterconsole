@@ -3,7 +3,6 @@
 #include "osxinhibiter.h"
 #include <QDebug>
 
-#ifdef Q_WS_MAC
 #include <CoreServices/CoreServices.h>
 
 OSXInhibiter::OSXInhibiter()
@@ -34,4 +33,3 @@ void OSXInhibiter::sendSystemNotification()
 // simulating user activity: keyboard, mouse, etc.
     UpdateSystemActivity(UsrActivity);
 }
-#endif

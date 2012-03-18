@@ -346,6 +346,47 @@ configure_file(
     ${CMAKE_SOURCE_DIR}/app.h.in ${CMAKE_BINARY_DIR}/app.h
 )
 
+# Define platform-specific files
+if(NOT APPLE)
+    file(GLOB OSX_H_SOURCE_FILES "osxinhibiter.h")
+    file(GLOB OSX_CPP_SOURCE_FILES "osxinhibiter.cpp")
+endif(NOT APPLE)
+
+if(NOT WIN32)
+    file(GLOB WINDOWS_H_SOURCE_FILES "windowsinhibiter.h")
+    file(GLOB WINDOWS_CPP_SOURCE_FILES "windowsinhibiter.cpp")
+endif(NOT WIN32)
+
+if(NOT HAVE_DBUS)
+    file(GLOB FREEDESKTOP_H_SOURCE_FILES "freedesktopinhibiter.h")
+    file(GLOB FREEDESKTOP_CPP_SOURCE_FILES "freedesktopinhibiter.cpp")
+endif(NOT HAVE_DBUS)
+
+if(NOT UNIX)
+    file(GLOB XDG_H_SOURCE_FILES "xdginhibiter.h")
+    file(GLOB XDG_CPP_SOURCE_FILES "xdginhibiter.cpp")
+endif(NOT UNIX)
+
+list(APPEND H_SOURCE_FILES_TO_REMOVE
+    ${OSX_H_SOURCE_FILES}
+    ${WINDOWS_H_SOURCE_FILES}
+    ${FREEDESKTOP_H_SOURCE_FILES}
+    ${XDG_H_SOURCE_FILES}
+)
+list(APPEND CPP_SOURCE_FILES_TO_REMOVE
+    ${OSX_CPP_SOURCE_FILES}
+    ${WINDOWS_CPP_SOURCE_FILES}
+    ${FREEDESKTOP_CPP_SOURCE_FILES}
+    ${XDG_CPP_SOURCE_FILES}
+)
+
+message(STATUS "Removed the following h files: ${H_SOURCE_FILES_TO_REMOVE}")
+message(STATUS "Removed the following cpp files: ${CPP_SOURCE_FILES_TO_REMOVE}")
+
+# Remove platform-specific stuff
+list(REMOVE_ITEM H_SOURCE_FILES ${H_SOURCE_FILES_TO_REMOVE})
+list(REMOVE_ITEM CPP_SOURCE_FILES ${CPP_SOURCE_FILES_TO_REMOVE})
+
 QT4_WRAP_CPP(MOC ${H_SOURCE_FILES})
 QT4_WRAP_UI(UIC ${UIC_SOURCE_FILES})
 
