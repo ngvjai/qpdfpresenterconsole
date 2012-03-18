@@ -357,15 +357,15 @@ if(NOT WIN32)
     file(GLOB WINDOWS_CPP_SOURCE_FILES "windowsinhibiter.cpp")
 endif(NOT WIN32)
 
-if(NOT HAVE_DBUS)
+if((NOT HAVE_DBUS) OR APPLE)
     file(GLOB FREEDESKTOP_H_SOURCE_FILES "freedesktopinhibiter.h")
     file(GLOB FREEDESKTOP_CPP_SOURCE_FILES "freedesktopinhibiter.cpp")
-endif(NOT HAVE_DBUS)
+endif((NOT HAVE_DBUS) OR APPLE)
 
-if(NOT UNIX)
+if((NOT UNIX) OR APPLE)
     file(GLOB XDG_H_SOURCE_FILES "xdginhibiter.h")
     file(GLOB XDG_CPP_SOURCE_FILES "xdginhibiter.cpp")
-endif(NOT UNIX)
+endif((NOT UNIX) OR APPLE)
 
 list(APPEND H_SOURCE_FILES_TO_REMOVE
     ${OSX_H_SOURCE_FILES}
