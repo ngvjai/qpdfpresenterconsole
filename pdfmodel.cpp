@@ -87,11 +87,11 @@ void PDFModel::updateProjectorSize()
 
     if (this->params->getBeamerNotes()) {
         this->annotScale = 2;
+        this->scaleFactor = qMax(this->scaleFactorX, this->scaleFactorY);
     } else {
         this->annotScale = 1;
+        this->scaleFactor = qMin(this->scaleFactorX, this->scaleFactorY);
     }
-
-    this->scaleFactor = this->scaleFactorX;
 
     this->render();
 }
@@ -384,7 +384,9 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
 
 QImage PDFModel::renderPdfPage(int page)
 {
-    return this->renderPdfPage(page, QSizeF(this->scaleFactorX, this->scaleFactorY), PDFModel::ContentPart);
+    return this->renderPdfPage(page,
+                               QSizeF(this->scaleFactor / this->getAnnotScale(), this->scaleFactor),
+                               PDFModel::ContentPart);
 }
 
 void PDFModel::renderPreviousPage()
