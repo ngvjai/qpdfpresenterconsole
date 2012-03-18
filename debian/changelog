@@ -1,3 +1,12 @@
+qpdfpresenterconsole (2.5.10-1) unstable; urgency=low
+
+  * Make main window background non inheritable
+  * Improving LibVLC playback
+  * Fix streched projector slides with wide resolutions
+  * Add volume and position control for media playback
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sun, 18 Mar 2012 21:25:30 +0100
+
 qpdfpresenterconsole (2.5.8-1) unstable; urgency=low
 
   * Automagically (trying) to detect beamer notes
