@@ -185,6 +185,9 @@ find_package(Asciidoc REQUIRED)
 find_package(LIBVLC REQUIRED)
 
 if(APPLE)
+    if(NOT QT_MAC_USE_COCOA)
+        message(WARNING "Qt does not use Cocoa. Unknown results, you have been warned.")
+    endif(NOT QT_MAC_USE_COCOA)
     # CoreServices framework is needed for OSX's Screen Saver Inhibiter
     find_package(OSXCoreServices REQUIRED)
 endif(APPLE)
