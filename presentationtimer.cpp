@@ -23,10 +23,11 @@ void PresentationTimer::initCounter()
 void PresentationTimer::timerEvent(QTimerEvent *timer)
 {
     this->presentationLength -= this->timerInterval;
-
+/*
     if (this->presentationLength <= 0) {
         this->killTimer(timer->timerId());
     }
+*/
 
     emit timerChanged();
 }
