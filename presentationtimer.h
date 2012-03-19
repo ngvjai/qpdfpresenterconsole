@@ -30,6 +30,7 @@ public:
     int getEmergencyMinutes();
     int getEmergencySeconds();
     bool isCritical();
+    bool isFinished();
     void launch();
     void initCounter();
 

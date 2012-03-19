@@ -67,6 +67,11 @@ bool PresentationTimer::isCritical()
     return (this->presentationLength <= this->presentationEmergency);
 }
 
+bool PresentationTimer::isFinished()
+{
+    return (this->presentationLength <= 0);
+}
+
 void PresentationTimer::launch()
 {
     this->timerId = this->startTimer(this->timerInterval);
