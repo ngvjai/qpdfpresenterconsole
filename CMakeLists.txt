@@ -280,6 +280,12 @@ if(APPLE)
     set(PROJECT_LIBVLC_PLUGINS_APPLEDEPS
         "${VLC_DIR}/plugins/"
     )
+    file(GLOB
+        LIBVLC_PLUGINS
+        "${PROJECT_LIBVLC_PLUGINS_APPLEDEPS}/*.dylib"
+    )
+    string(REPLACE "${VLC_DIR}/" "../" LIBVLC_PLUGINS_OSX_BUNDLE "${LIBVLC_PLUGINS}")
+#    message(STATUS "PLUGINS=${LIBVLC_PLUGINS_OSX_BUNDLE}")
 ##    set(BUNDLE_SEARCH_PATH
 ##         "/opt/local/lib"
 ##    )
@@ -451,9 +457,6 @@ if(APPLE)
     install(FILES ${CMAKE_BINARY_DIR}/Info.plist DESTINATION ${PROJECT_CONTENTS})
     install(FILES ${PROJECT_LIBVLC_APPLEDEPS} ${PROJECT_LIBVLCCORE_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/MacOS)
     install(DIRECTORY ${PROJECT_QT_MENU_NIB_APPLEDEPS} DESTINATION ${PROJECT_RESOURCES}/qt_menu.nib)
-
-    # install a second time, libvlc plugins are not fixed up
-    install(FILES ${PROJECT_LIBVLC_APPLEDEPS} ${PROJECT_LIBVLCCORE_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/lib)
     install(DIRECTORY ${PROJECT_LIBVLC_PLUGINS_APPLEDEPS} DESTINATION ${PROJECT_CONTENTS}/plugins)
 
     include(DeployQt4)
@@ -461,7 +464,7 @@ if(APPLE)
     # needed for libvlc fixup
     install(CODE "
         include(BundleUtilities)
-        fixup_bundle(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${EXECUTABLE}\" \"\" \"${BUNDLE_SEARCH_PATH}\")
+        fixup_bundle(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${EXECUTABLE}\" \"${LIBVLC_PLUGINS_OSX_BUNDLE}\" \"${BUNDLE_SEARCH_PATH}\")
 ")
 endif(APPLE)
 if(UNIX AND NOT APPLE)
