@@ -26,6 +26,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     QHBoxLayout *barlayout = new QHBoxLayout();
     QWidget *fake = new QWidget(this);
     this->slides = new QLabel(this);
+    this->nextslides = new QLabel(this);
     this->timer = new QLabel(this);
     this->currentSlide = new SlideWidget(this, modele, params);
     this->nextSlide = new QLabel(this);
@@ -112,6 +113,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->slides->setStyleSheet(
             this->slides->styleSheet()
             .append("color: white; font-weight: bold;"));
+    this->nextslides->setStyleSheet(
+            this->slides->styleSheet()
+            .append("color: white; font-weight: bold;"));
     this->emergencyDate->setStyleSheet(
             this->emergencyDate->styleSheet()
             .append("color: red; font-weight: bold;")
@@ -123,17 +127,20 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     /* Setting fontSize */
     QFont slidesFont(this->slides->font());
+    QFont nextslidesFont(this->nextslides->font());
     QFont timerFont(this->timer->font());
     QFont dateFont(this->currentDate->font());
     QFont emergencyFont(this->emergencyDate->font());
     QFont beamerNoteFont(this->beamerNote->font());
     slidesFont.setPointSize(24);
+    nextslidesFont.setPointSize(20);
     timerFont.setPointSize(24);
     dateFont.setPointSize(24);
     emergencyFont.setPointSize(24);
     beamerNoteFont.setPointSize(16);
 
     this->slides->setFont(slidesFont);
+    this->nextslides->setFont(nextslidesFont);
     this->timer->setFont(timerFont);
     this->currentDate->setFont(dateFont);
     this->emergencyDate->setFont(emergencyFont);
@@ -146,8 +153,9 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     glayout->addWidget(this->mediabar,      2, 0, Qt::AlignCenter);
     glayout->addWidget(this->beamerNote,    3, 0, 1, -1, Qt::AlignCenter);
     glayout->addWidget(this->slides,        4, 0, Qt::AlignCenter);
-    glayout->addWidget(this->timer,         4, 1, Qt::AlignCenter);
-    glayout->addWidget(this->controlbar,    5, 0, 1, -1, Qt::AlignCenter);
+    glayout->addWidget(this->nextslides,    4, 1, Qt::AlignCenter);
+    glayout->addWidget(this->timer,         5, 1, Qt::AlignCenter);
+    glayout->addWidget(this->controlbar,    6, 0, 1, -1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
@@ -333,6 +341,12 @@ void MainScreenPdfView::updateView()
                     .arg(this->modele->getCurrentPage() + 1)
                     .arg(this->modele->getLastPage() + 1)
             );
+
+    if (!this->params->getBeamerNotes()) {
+        this->nextslides->setText(QObject::tr("Next slide"));
+    } else {
+        this->nextslides->setText(QObject::tr("Current slide"));
+    }
 
     this->emergencyDate->setText(
             QString(

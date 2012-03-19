@@ -25,6 +25,7 @@ class MainScreenPdfView : public QMainWindow
     Parameters *params;
     ScreenSaverInhibit *screensaver;
     QLabel *slides;
+    QLabel *nextslides;
     QLabel *timer;
     QLabel *currentDate;
     QLabel *emergencyDate;
