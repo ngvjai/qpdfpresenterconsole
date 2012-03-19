@@ -64,6 +64,9 @@ void PDFModel::finishInit()
 
     QObject::connect(this->player, SIGNAL(mediaTimeChanged(qint64)), SLOT(getNewMediaTime(qint64)));
     QObject::connect(this->player, SIGNAL(mediaPositionChanged(float)), SLOT(getNewMediaPosition(float)));
+
+    QObject::connect(this, SIGNAL(notifyWorkStarted()), SLOT(setApplicationCursorWorking()));
+    QObject::connect(this, SIGNAL(notifyWorkFinished()), SLOT(setApplicationCursorIdling()));
 }
 
 void PDFModel::autoDetectBeamerNotes()
@@ -661,4 +664,14 @@ void PDFModel::getNewMediaTime(qint64 milisecpos)
 void PDFModel::getNewMediaPosition(float position)
 {
     emit mediaPositionChanged(position);
+}
+
+void PDFModel::setApplicationCursorWorking()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+}
+
+void PDFModel::setApplicationCursorIdling()
+{
+    QApplication::restoreOverrideCursor();
 }

@@ -122,6 +122,9 @@ signals:
     void presentationReset(void);
     void mediaFilesReady(void);
 
+    void notifyWorkStarted(void);
+    void notifyWorkFinished(void);
+
     void mediaTimeChanged(qint64 milisecpos);
     void mediaPositionChanged(float position);
 
@@ -143,6 +146,8 @@ public slots:
     void getNewMediaTime(qint64 milisecpos);
     void getNewMediaPosition(float position);
 
+    void setApplicationCursorWorking(void);
+    void setApplicationCursorIdling(void);
 };
 
 #endif // PDFMODEL_H
