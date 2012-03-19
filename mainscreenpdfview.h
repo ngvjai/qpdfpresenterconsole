@@ -7,6 +7,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QLabel>
+#include <QtGui/QTextEdit>
 #include <QAction>
 #include <QToolBar>
 #include <QTimer>
@@ -32,7 +33,7 @@ class MainScreenPdfView : public QMainWindow
 
     QLabel *currentSlide;
     QLabel *nextSlide;
-    QLabel *beamerNote;
+    QTextEdit *beamerNote;
 
     QAction *playAction;
     QAction *pauseAction;

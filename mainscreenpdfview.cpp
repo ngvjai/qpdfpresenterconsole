@@ -32,7 +32,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     this->nextSlide = new QLabel(this);
     this->currentDate = new QLabel(this);
     this->emergencyDate = new QLabel(this);
-    this->beamerNote = new QLabel(this);
+    this->beamerNote = new QTextEdit(this);
     this->mediabar = new QToolBar(this);
     this->controlbar = new QToolBar(this);
     this->positionSlider = new QSlider(Qt::Horizontal, this);
@@ -151,21 +151,17 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
     glayout->addWidget(this->currentSlide,  1, 0, Qt::AlignCenter);
     glayout->addWidget(this->nextSlide,     1, 1, Qt::AlignCenter);
     glayout->addWidget(this->mediabar,      2, 0, Qt::AlignCenter);
-    glayout->addWidget(this->beamerNote,    3, 0, 1, -1, Qt::AlignCenter);
-    glayout->addWidget(this->slides,        4, 0, Qt::AlignCenter);
-    glayout->addWidget(this->nextslides,    4, 1, Qt::AlignCenter);
-    glayout->addWidget(this->timer,         5, 1, Qt::AlignCenter);
-    glayout->addWidget(this->controlbar,    6, 0, 1, -1, Qt::AlignCenter);
+    glayout->addWidget(this->slides,        3, 0, Qt::AlignCenter);
+    glayout->addWidget(this->nextslides,    3, 1, Qt::AlignCenter);
+    glayout->addWidget(this->timer,         4, 1, Qt::AlignCenter);
+    glayout->addWidget(this->controlbar,    5, 0, 1, -1, Qt::AlignCenter);
+    glayout->addWidget(this->beamerNote,    6, 0, 1, -1, Qt::AlignCenter);
 
     fake->setLayout(glayout);
     this->setCentralWidget(fake);
     this->setStyleSheet("MainScreenPdfView{background-color: black;}");
 
-    this->beamerNote->setWordWrap(true);
-    this->beamerNote->setStyleSheet(
-            this->beamerNote->styleSheet()
-            .append("color: white;")
-            );
+    this->beamerNote->setReadOnly(true);
 
     this->timerUpdated();
     /* Timer for current date displaying */
@@ -404,7 +400,12 @@ void MainScreenPdfView::updateView()
     }
 
     this->beamerNote->setFixedWidth(this->currentSlide->width() + this->nextSlide->width());
-    this->beamerNote->setText(this->modele->getCurrentTextAnnot());
+    if (!this->modele->getCurrentTextAnnot().isEmpty()) {
+        this->beamerNote->setText(this->modele->getCurrentTextAnnot());
+        this->beamerNote->show();
+    } else {
+        this->beamerNote->hide();
+    }
 
     if (this->modele->hasMediaFile()) {
         this->mediabar->show();
