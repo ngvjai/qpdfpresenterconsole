@@ -168,6 +168,8 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
 {
     QImage image;
 
+    emit notifyWorkStarted();
+
     // Access page of the PDF file
     if (page >= this->firstPage && page <= this->lastPage) {
         this->document->setRenderHint(Poppler::Document::Antialiasing, true);
@@ -214,6 +216,8 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
         // after the usage, the page must be deleted
         delete pdfPage;
     }
+
+    emit notifyWorkFinished();
 
     return image;
 }
