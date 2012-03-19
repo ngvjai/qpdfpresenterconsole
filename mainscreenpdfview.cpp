@@ -406,19 +406,35 @@ void MainScreenPdfView::resetPresentationTimer()
 
 void MainScreenPdfView::timerUpdated()
 {
-    this->timer->setText(
-            QString(
-                    QTime(
-                            this->pTimer->getPresentationHours(),
-                            this->pTimer->getPresentationMinutes(),
-                            this->pTimer->getPresentationSeconds(), 0
-                            )
-                    .toString("hh:mm:ss")
-                    )
-            );
+    int h, m, s;
+    QTime time;
+    QString format;
+
+    h = this->pTimer->getPresentationHours();
+    m = this->pTimer->getPresentationMinutes();
+    s = this->pTimer->getPresentationSeconds();
+
+    if (this->pTimer->isFinished()) {
+        h *= -1;
+        m *= -1;
+        s *= -1;
+        format = "-hh:mm:ss";
+    } else {
+        format = "hh:mm:ss";
+    }
+
+    time = QTime(h, m, s, 0);
+
+    this->timer->setText(QString(time.toString(format)));
 
     if (this->pTimer->isCritical()) {
         this->timer->setStyleSheet(this->timer->styleSheet().append("color: red;"));
+    }
+
+    if (this->pTimer->isFinished()) {
+        this->setStyleSheet("MainScreenPdfView{background-color: red;}");
+        this->timer->setStyleSheet(this->timer->styleSheet().append("color: black;"));
+        this->emergencyDate->setStyleSheet(this->emergencyDate->styleSheet().append("color: black;"));
     }
 }
 
