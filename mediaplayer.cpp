@@ -103,6 +103,8 @@ void MediaPlayer::preparePlayer()
 	"--vout=macosx",
 #endif
         "--no-video-title-show",
+        "--no-osd",
+        "--text-renderer=tdummy",
     };
 
     //        "--vout-filter=clone",
