@@ -269,7 +269,7 @@ void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
 {
     if (fa) {
         QString fname = this->getMediaTempFileName(fa);
-        QByteArray data(this->getMediaContent().value(fa->embeddedFile()->name()));
+        QByteArray data(fa->embeddedFile()->data());
         QFile media(fname);
 
         if (media.open(QIODevice::WriteOnly)) {
@@ -358,9 +358,9 @@ void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
                                             this->getCurrentPage(),
                                             this->nbMediaFilesInPage.value(this->getCurrentPage()) + 1);
                                 // insert (name, *data), QByteArray should do no copy.
-                                this->mediaContent.insert(
+                                /* this->mediaContent.insert(
                                             fileannot->embeddedFile()->name(),
-                                            fileannot->embeddedFile()->data());
+                                            fileannot->embeddedFile()->data()); */
                             }
                         }
                         break;
