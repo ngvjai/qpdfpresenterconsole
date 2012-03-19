@@ -299,16 +299,20 @@ void PDFModel::addMediaPlayerTarget(QWidget *widget, bool toMute)
 
 void PDFModel::startMediaPlayer()
 {
+    emit notifyWorkStarted();
     this->createMediaPlayer(this->getMediaFiles().first());
+    emit notifyWorkFinished();
     this->player->play();
 }
 
 void PDFModel::stopMediaPlayer()
 {
     this->player->stop();
+    emit notifyWorkStarted();
     foreach(Poppler::FileAttachmentAnnotation *fa, this->mediaFiles) {
         QFile::remove(this->getMediaTempFileName(fa));
     }
+    emit notifyWorkFinished();
 }
 
 void PDFModel::pauseMediaPlayer()
