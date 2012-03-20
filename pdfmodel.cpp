@@ -276,13 +276,14 @@ void PDFModel::createMediaPlayer(Poppler::FileAttachmentAnnotation *fa)
 {
     if (fa) {
         QString fname = this->getMediaTempFileName(fa);
-        QByteArray data(fa->embeddedFile()->data());
-        QFile media(fname);
+        QTemporaryFile media(fname);
+        media.setAutoRemove(false);
 
-        if (media.open(QIODevice::WriteOnly)) {
-            media.write(data);
+        if (media.open()) {
+            media.write(fa->embeddedFile()->data().data(), fa->embeddedFile()->data().size());
             media.close();
-            this->player->setFile(fname);
+            this->player->setFile(media.fileName());
+            this->filesToDelete.append(media.fileName());
         }
     }
 }
@@ -309,9 +310,10 @@ void PDFModel::stopMediaPlayer()
 {
     this->player->stop();
     emit notifyWorkStarted();
-    foreach(Poppler::FileAttachmentAnnotation *fa, this->mediaFiles) {
-        QFile::remove(this->getMediaTempFileName(fa));
+    foreach(QString f, this->filesToDelete) {
+        QFile::remove(f);
     }
+    this->filesToDelete.clear();
     emit notifyWorkFinished();
 }
 

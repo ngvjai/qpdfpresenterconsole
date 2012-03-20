@@ -133,6 +133,14 @@ void MediaPlayer::preparePlayer()
         return;
     }
 
+    this->vlc_ready = true;
+}
+
+void MediaPlayer::prepareMedia()
+{
+    this->vlc_media_players.clear();
+    this->vlc_event_managers.clear();
+
     this->vlc_media = libvlc_media_new_path(this->vlc_instance, this->mediaFile.toStdString().c_str());
     if (!this->vlc_media) {
         std::cerr << "[vlc_media] VLC Error:" << libvlc_errmsg() << std::endl;
@@ -162,8 +170,6 @@ void MediaPlayer::preparePlayer()
         libvlc_event_attach(vlc_em, libvlc_MediaPlayerTimeChanged, MediaPlayer::mediaEventCallback, this);
         libvlc_event_attach(vlc_em, libvlc_MediaPlayerPositionChanged, MediaPlayer::mediaEventCallback, this);
     }
-
-    this->vlc_ready = true;
 }
 
 void MediaPlayer::startPlayback()
@@ -199,6 +205,7 @@ void MediaPlayer::play()
 
     if (!this->vlc_playing) {
         int iMediaPlayer = 0;
+        this->prepareMedia();
         QWidget *w;
         foreach(libvlc_media_player_t *vlc_mp, this->vlc_media_players) {
             w = this->videoTargets[iMediaPlayer];
@@ -229,6 +236,12 @@ void MediaPlayer::stop()
         libvlc_media_player_stop(vlc_mp);
         this->detachMediaPlayerFromWidget(vlc_mp);
     }
+
+    foreach(libvlc_event_manager_t *vlc_em, this->vlc_event_managers) {
+        libvlc_event_attach(vlc_em, libvlc_MediaPlayerTimeChanged, MediaPlayer::mediaEventCallback, this);
+        libvlc_event_attach(vlc_em, libvlc_MediaPlayerPositionChanged, MediaPlayer::mediaEventCallback, this);
+    }
+
     this->vlc_playing = false;
     emit playbackStopped();
 }

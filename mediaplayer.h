@@ -29,6 +29,7 @@ class MediaPlayer : public QObject
     QString mediaFile;
 
     void preparePlayer();
+    void prepareMedia();
     void attachMediaPlayerToWidget(libvlc_media_player_t* vlc_mp, QWidget *widget);
     void detachMediaPlayerFromWidget(libvlc_media_player_t* vlc_mp);
     void muteMediaPlayer(libvlc_media_player_t* vlc_mp, QWidget *widget);

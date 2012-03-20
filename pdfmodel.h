@@ -12,7 +12,7 @@
 #include <QMouseEvent>
 #include <QReadWriteLock>
 #include <QRegExp>
-#include <QFile>
+#include <QTemporaryFile>
 #include <QLabel>
 #include "parameters.h"
 #include "presentationtimer.h"
@@ -32,6 +32,7 @@ class PDFModel : public QObject
 
     QList<Poppler::Link*> gotoLinks;
     QList<Poppler::FileAttachmentAnnotation*> mediaFiles;
+    QList<QString> filesToDelete;
     QHash<int, int> nbMediaFilesInPage;
     QHash<QString, QByteArray> mediaContent;
     MediaPlayer* player;
