@@ -42,18 +42,6 @@ int main(int argc, char *argv[])
     ScreenSaverInhibit screensaverinhibiter(0);
 
     PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
-    if(!pdf.pdfLoaded()) {
-        QString err = QObject::tr("File '%1' not found. Cannot continue.")
-                    .arg(pdf.getPdfFileName());
-
-        QMessageBox::critical(0,
-                              APPNAME,
-                              err
-                              );
-
-        exit(EXIT_FAILURE);
-    }
-
     MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer, &screensaverinhibiter);
     PresenterPdf presenterPdf(0, &pdf, &params);
 

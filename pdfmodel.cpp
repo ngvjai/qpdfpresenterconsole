@@ -17,23 +17,29 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->timer = timer;
     this->document = NULL;
     this->textannot = NULL;
+    this->firstPage = 0;
+    this->currentPage = 0;
 
+    QObject::connect(this, SIGNAL(pdfFileNameReady()), SLOT(pdfFileNameSet()));
+
+    this->player = new MediaPlayer(this);
     this->detectMediaFiles = QRegExp("(video|audio)/.*");
 
     if (!this->params->getPdfFileName().isEmpty()) {
         this->setPdfFileName(this->params->getPdfFileName());
-        this->finishInit();
     } else {
         QString fileName = QFileDialog::getOpenFileName(0,
              tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
         if (!fileName.isEmpty()) {
             this->params->setPdfFileName(fileName);
             this->setPdfFileName(fileName);
-            this->finishInit();
-        } else {
-            QCoreApplication::exit(EXIT_FAILURE);
         }
     }
+}
+
+void PDFModel::pdfFileNameSet()
+{
+    this->finishInit();
 }
 
 void PDFModel::finishInit()
@@ -41,20 +47,19 @@ void PDFModel::finishInit()
     this->document = Poppler::Document::load(this->getPdfFileName());
 
     if (!this->document || this->document->isLocked()) {
-      delete this->document;
-      return;
+        QString err = QObject::tr("File '%1' not found. Cannot continue.").arg(this->getPdfFileName());
+        QMessageBox::critical(0, APPNAME, err);
+        QCoreApplication::exit(EXIT_FAILURE);
+        delete this->document;
+        return;
     }
 
-    this->firstPage = 0;
-    this->currentPage = 0;
     // Pages starts at 0 ...
     this->lastPage = this->document->numPages() - 1;
     this->pageSize = this->document->page(0)->pageSizeF();
     this->autoDetectBeamerNotes();
     this->updateProjectorSize();
     this->updateTextAnnot();
-
-    this->player = new MediaPlayer(this);
 
     QObject::connect(this, SIGNAL(presentationStarted()), this->timer, SLOT(startCounterIfNeeded()));
     QObject::connect(this, SIGNAL(presentationReset()), this->timer, SLOT(resetCounter()));
@@ -300,26 +305,32 @@ void PDFModel::addMediaPlayerTarget(QWidget *widget, bool toMute)
 
 void PDFModel::startMediaPlayer()
 {
-    emit notifyWorkStarted();
-    this->createMediaPlayer(this->getMediaFiles().first());
-    emit notifyWorkFinished();
-    this->player->play();
+    if (this->player) {
+        emit notifyWorkStarted();
+        this->createMediaPlayer(this->getMediaFiles().first());
+        emit notifyWorkFinished();
+        this->player->play();
+    }
 }
 
 void PDFModel::stopMediaPlayer()
 {
-    this->player->stop();
-    emit notifyWorkStarted();
-    foreach(QString f, this->filesToDelete) {
-        QFile::remove(f);
+    if (this->player) {
+        this->player->stop();
+        emit notifyWorkStarted();
+        foreach(QString f, this->filesToDelete) {
+            QFile::remove(f);
+        }
+        this->filesToDelete.clear();
+        emit notifyWorkFinished();
     }
-    this->filesToDelete.clear();
-    emit notifyWorkFinished();
 }
 
 void PDFModel::pauseMediaPlayer()
 {
-    this->player->pause();
+    if (this->player) {
+        this->player->pause();
+    }
 }
 
 void PDFModel::processCurrentPageAnnotations(Poppler::Page *pdfPage)
@@ -532,7 +543,10 @@ QSizeF PDFModel::getPageSize()
 
 void PDFModel::setPdfFileName(QString file)
 {
-    this->pdfFileName = file;
+    if (!file.isEmpty()) {
+        this->pdfFileName = file;
+        emit pdfFileNameReady();
+    }
 }
 
 QString& PDFModel::getPdfFileName(void)

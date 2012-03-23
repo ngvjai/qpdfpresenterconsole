@@ -118,6 +118,7 @@ public:
     QString& getPdfFileName(void);
 
 signals:
+    void pdfFileNameReady(void);
     void renderingChanged(void);
     void presentationStarted(void);
     void presentationReset(void);
@@ -130,6 +131,8 @@ signals:
     void mediaPositionChanged(float position);
 
 public slots:
+    void pdfFileNameSet(void);
+
     void handleKeyModelSequence(QKeyEvent *e);
     void handleMouseModelSequence(QMouseEvent *e);
     void handleMouseWheelModelSequence(QWheelEvent *e);

@@ -19,7 +19,9 @@ MediaPlayer::~MediaPlayer()
     // libvlc_media_player_release(this->vlc_media_player);
     // libvlc_release(this->vlc_instance);
 #ifdef HAVE_DEBUG
-    fclose(this->logErr);
+    if (this->logErr) {
+        fclose(this->logErr);
+    }
 #endif
 }
 
