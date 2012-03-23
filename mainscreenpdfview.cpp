@@ -214,14 +214,6 @@ void MainScreenPdfView::moveToScreen()
     QRect res = QApplication::desktop()->screenGeometry(this->params->getMainScreenId());
     this->move(res.x(), res.y());
     this->showFullScreen();
-
-    double baseWidth = QApplication::desktop()->screenGeometry(this->params->getMainScreenId()).width() * 0.95;
-    int currentWidth = baseWidth * this->params->getCurrentSlidePrcentWidth();
-    int nextWidth = baseWidth * (1.0 - this->params->getCurrentSlidePrcentWidth());
-
-    this->f1 = (currentWidth) / this->modele->getPageSize().width();
-    this->f2 = (nextWidth) / this->modele->getPageSize().width();
-
     this->updateView();
 }
 
@@ -329,6 +321,13 @@ void MainScreenPdfView::resizeEvent(QResizeEvent *ev)
 
 void MainScreenPdfView::updateView()
 {
+    double baseWidth = QApplication::desktop()->screenGeometry(this->params->getMainScreenId()).width() * 0.95;
+    int currentWidth = baseWidth * this->params->getCurrentSlidePrcentWidth();
+    int nextWidth = baseWidth * (1.0 - this->params->getCurrentSlidePrcentWidth());
+
+    this->f1 = (currentWidth) / this->modele->getPageSize().width();
+    this->f2 = (nextWidth) / this->modele->getPageSize().width();
+
     this->slides->setText(
             QObject::tr("Slide %1 of %2")
                     .arg(this->modele->getCurrentPage() + 1)

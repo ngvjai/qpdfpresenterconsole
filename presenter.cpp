@@ -32,11 +32,6 @@ Presenter::Presenter(int &argc, char **argv)
         this->mainScreen = new MainScreenPdfView(this->desktop(), this->pdf, this->params, this->presentationTimer, this->screensaverinhibiter);
         this->presenterPdf = new PresenterPdf(this->desktop(), this->pdf, this->params);
 
-        this->pdf->gotoOpenPage();
-        this->mainScreen->setFocus();
-        this->presenterPdf->showFullScreen();
-        this->mainScreen->showFullScreen();
-
         QObject::connect(this, SIGNAL(aboutToQuit()), this->params, SLOT(saveSettingsOnClose()));
     }
 }
