@@ -106,10 +106,7 @@ MainScreenPdfView::MainScreenPdfView(QWidget *parent, PDFModel *modele, Paramete
 
     this->timer->setStyleSheet(
             this->timer->styleSheet()
-            .append("color: white;"));
-    this->timer->setStyleSheet(
-            this->timer->styleSheet()
-            .append("font-weight: bold;"));
+            .append("color: white; font-weight: bold;"));
     this->slides->setStyleSheet(
             this->slides->styleSheet()
             .append("color: white; font-weight: bold;"));
