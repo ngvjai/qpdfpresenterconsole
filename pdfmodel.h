@@ -67,7 +67,6 @@ class PDFModel : public QObject
 
     void finishInit();
     void autoDetectBeamerNotes();
-    void setPdfFileName(QString file);
 
 public:
     explicit PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer);
@@ -116,6 +115,7 @@ public:
     int getAnnotScale();
 
     QString& getPdfFileName(void);
+    void setPdfFileName(QString file);
 
 signals:
     void pdfFileNameReady(void);

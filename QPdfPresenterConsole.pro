@@ -44,7 +44,8 @@ SOURCES += main.cpp \
     mousemoveeventeater.cpp \
     mediaplayer.cpp \
     helpdialog.cpp \
-    osxinhibiter.cpp
+    osxinhibiter.cpp \
+    presenter.cpp
 
 HEADERS += \
     mainscreenpdfview.h \
@@ -65,7 +66,8 @@ HEADERS += \
     mousemoveeventeater.h \
     mediaplayer.h \
     helpdialog.h \
-    osxinhibiter.h
+    osxinhibiter.h \
+    presenter.h
 
 QMAKE_EXTRA_COMPILERS += lrelease
 lrelease.input         = TRANSLATIONS

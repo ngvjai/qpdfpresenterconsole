@@ -1,56 +1,11 @@
 /* vim: set et ts=4 sw=4: */
 
-#include <QtGui/QApplication>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QMessageBox>
-#include <QObject>
-#include "mainscreenpdfview.h"
-#include "textannot.h"
-#include "presenterpdf.h"
-#include "pdfmodel.h"
-#include "screensaverinhibit.h"
-#include "app.h"
+#include "presenter.h"
 
 int main(int argc, char *argv[])
 {
     int retval = 0;
-
-    QCoreApplication::setOrganizationName(orgname);
-    QCoreApplication::setApplicationName(appname);
-    QCoreApplication::setApplicationVersion(appvers);
-    QApplication app(argc, argv);
-
-    QString locale = QLocale::system().name();
-    QTranslator translator;
-    translator.load(QString(SHORTNAME) + "_" + locale, QString(DATADIR));
-    app.installTranslator(&translator);
-
-    QDesktopWidget *desktop = app.desktop();
-    Parameters params((QObject*)desktop);
-
-    bool hasMultipleScreens = (desktop->screenCount() > 1) ? true : false;
-    if (params.getCheckMultiDisplay() && !hasMultipleScreens) {
-        QMessageBox::critical(0,
-                              QObject::tr(APPNAME),
-                              QObject::tr("No multiscreen enabled. Quitting.")
-                              );
-
-        exit(EXIT_FAILURE);
-    }
-
-    PresentationTimer presentationTimer(0, &params);
-    ScreenSaverInhibit screensaverinhibiter(0);
-
-    PDFModel pdf((QObject*)desktop, &params, &presentationTimer);
-    MainScreenPdfView mainScreen(0, &pdf, &params, &presentationTimer, &screensaverinhibiter);
-    PresenterPdf presenterPdf(0, &pdf, &params);
-
-    pdf.gotoOpenPage();
-    mainScreen.setFocus();
-    presenterPdf.showFullScreen();
-    mainScreen.showFullScreen();
-
+    Presenter app(argc, argv);
     retval = app.exec();
-    params.saveSettingsOnClose();
     return retval;
 }
