@@ -22,22 +22,28 @@ Presenter::Presenter(int &argc, char **argv)
                               QObject::tr(APPNAME),
                               QObject::tr("No multiscreen enabled. Quitting.")
                               );
-        QCoreApplication::exit(EXIT_FAILURE);
+        this->ready = false;
+    } else {
+        this->ready = true;
+        this->presentationTimer = new PresentationTimer(this, this->params);
+        this->screensaverinhibiter = new ScreenSaverInhibit(this);
+
+        this->pdf = new PDFModel(this, this->params, this->presentationTimer);
+        this->mainScreen = new MainScreenPdfView(this->desktop(), this->pdf, this->params, this->presentationTimer, this->screensaverinhibiter);
+        this->presenterPdf = new PresenterPdf(this->desktop(), this->pdf, this->params);
+
+        this->pdf->gotoOpenPage();
+        this->mainScreen->setFocus();
+        this->presenterPdf->showFullScreen();
+        this->mainScreen->showFullScreen();
+
+        QObject::connect(this, SIGNAL(aboutToQuit()), this->params, SLOT(saveSettingsOnClose()));
     }
+}
 
-    this->presentationTimer = new PresentationTimer(this, this->params);
-    this->screensaverinhibiter = new ScreenSaverInhibit(this);
-
-    this->pdf = new PDFModel(this, this->params, this->presentationTimer);
-    this->mainScreen = new MainScreenPdfView(this->desktop(), this->pdf, this->params, this->presentationTimer, this->screensaverinhibiter);
-    this->presenterPdf = new PresenterPdf(this->desktop(), this->pdf, this->params);
-
-    this->pdf->gotoOpenPage();
-    this->mainScreen->setFocus();
-    this->presenterPdf->showFullScreen();
-    this->mainScreen->showFullScreen();
-
-    QObject::connect(this, SIGNAL(aboutToQuit()), this->params, SLOT(saveSettingsOnClose()));
+bool Presenter::isReady()
+{
+    return this->ready;
 }
 
 bool Presenter::event(QEvent *ev)

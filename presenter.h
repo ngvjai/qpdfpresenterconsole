@@ -24,9 +24,11 @@ class Presenter : public QApplication
     PDFModel *pdf;
     MainScreenPdfView *mainScreen;
     PresenterPdf *presenterPdf;
+    bool ready;
 
 public:
     Presenter(int &argc, char **argv);
+    bool isReady();
 
 protected:
     bool event(QEvent *ev);
