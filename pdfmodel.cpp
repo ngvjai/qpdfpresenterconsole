@@ -176,13 +176,16 @@ QImage PDFModel::renderPdfPage(int page, QSizeF scaleFactor, int partie)
     emit notifyWorkStarted();
 
     // Access page of the PDF file
-    if (page >= this->firstPage && page <= this->lastPage) {
+    if (this->document && page >= this->firstPage && page <= this->lastPage) {
         this->document->setRenderHint(Poppler::Document::Antialiasing, true);
         this->document->setRenderHint(Poppler::Document::TextAntialiasing, true);
         this->document->setRenderHint(Poppler::Document::TextHinting, true);
         Poppler::Page* pdfPage = this->document->page(page);  // Document starts at page 0
 
         if (pdfPage == NULL) {
+            QString err = QObject::tr("Unable to render page. Aborting everything.");
+            QMessageBox::critical(0, APPNAME, err);
+            QCoreApplication::exit(EXIT_FAILURE);
         }
 
         // Generate a QImage of the rendered page
