@@ -414,6 +414,10 @@ void MainScreenPdfView::updateView()
 void MainScreenPdfView::resetPresentationTimer()
 {
     this->pTimer->resetCounter();
+
+    this->setStyleSheet("MainScreenPdfView{background-color: black;}");
+    this->timer->setStyleSheet(this->timer->styleSheet().append("color: white;"));
+    this->emergencyDate->setStyleSheet(this->emergencyDate->styleSheet().append("color: red;"));
 }
 
 void MainScreenPdfView::timerUpdated()
