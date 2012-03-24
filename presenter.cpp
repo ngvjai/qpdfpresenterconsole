@@ -12,7 +12,6 @@ Presenter::Presenter(int &argc, char **argv)
     QString locale = QLocale::system().name();
     this->translator = new QTranslator(this);
     this->translator->load(QString(SHORTNAME) + "_" + locale, QString(DATADIR));
-    this->translator->load(QString(SHORTNAME) + "_" + locale);
     this->installTranslator(this->translator);
 
     this->params = new Parameters(this);
