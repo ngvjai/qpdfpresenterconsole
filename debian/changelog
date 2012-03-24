@@ -1,3 +1,18 @@
+qpdfpresenterconsole (2.5.13-1) unstable; urgency=low
+
+  * Updated french locale
+  * Updated italian locale
+  * Better feedback on video processing
+  * Better feedback on rendering processing
+  * Allow scrolling for textual annotations
+  * Indication of next or current slide
+  * More readable notification when late
+  * Informing the speaker of lateness of its talk
+  * Disabled text rendering in LibVLC
+  * Improved efficiency for video playback
+
+ -- Alexandre Lissy <alexandre.lissy@etu.univ-tours.fr>  Sat, 24 Mar 2012 12:11:08 +0100
+
 qpdfpresenterconsole (2.5.11-1) unstable; urgency=low
 
   * Make main window background non inheritable
