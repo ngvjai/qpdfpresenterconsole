@@ -6,22 +6,23 @@
     <message>
         <location filename="mainscreenpdfview.cpp" line="39"/>
         <source>Set media position</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Scegliere in alternativa di Stabilire</translatorcomment>
+        <translation>Stabilire poszione media</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="41"/>
         <source>Set media volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegliere il volume media</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="44"/>
         <source>Backward</source>
-        <translation type="unfinished"></translation>
+        <translation>Indietro</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="45"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Avanti</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="46"/>
@@ -57,52 +58,54 @@
     <message>
         <location filename="mainscreenpdfview.cpp" line="52"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="53"/>
         <source>Ctrl+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+R</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="64"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="69"/>
         <source>Previous slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Slide precedente</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="73"/>
         <source>Next slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Slide seguente</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="77"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Scelte ? Menu di Scelte ?</translatorcomment>
+        <translation>Opzione</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="81"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aiuto</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="85"/>
         <source>Goto slide</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>aggiungere predefinito ?</translatorcomment>
+        <translation>Va al slide</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="89"/>
         <source>Presentation/Desktop Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Vedere Presentazione/Desktop</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="93"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Chuidi</translation>
     </message>
 </context>
 <context>
@@ -126,7 +129,7 @@
     <message>
         <location filename="optionsdialog.ui" line="45"/>
         <source>Presentation emergency</source>
-        <translation></translation>
+        <translation>Emergenza fine presentazione</translation>
     </message>
     <message>
         <location filename="optionsdialog.ui" line="65"/>
@@ -188,12 +191,12 @@
     <message>
         <location filename="presenter.cpp" line="41"/>
         <source>Open PDF file</source>
-        <translation type="unfinished">Apri PDF file</translation>
+        <translation>Apri PDF file</translation>
     </message>
     <message>
         <location filename="presenter.cpp" line="41"/>
         <source>PDF Files (*.pdf)</source>
-        <translation type="unfinished">PDF Files (*.pdf)</translation>
+        <translation>PDF Files (*.pdf)</translation>
     </message>
 </context>
 <context>
@@ -269,12 +272,12 @@ Valore obbligatorie per lunghe opzione sono anche obbligatorie per opzione corte
     <message>
         <location filename="pdfmodel.cpp" line="178"/>
         <source>Unable to render page. Aborting everything.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non è possibile presentare la pagina. Interruzione processi.</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="241"/>
         <source>Going to a specific page number</source>
-        <translation>Andando verso un specificao numero di pagina</translation>
+        <translation>Andando verso un specificato numero di pagina</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="242"/>
@@ -289,12 +292,13 @@ Valore obbligatorie per lunghe opzione sono anche obbligatorie per opzione corte
     <message>
         <location filename="mainscreenpdfview.cpp" line="338"/>
         <source>Next slide</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>prossimo anche possibile</translatorcomment>
+        <translation>Slide seguente</translation>
     </message>
     <message>
         <location filename="mainscreenpdfview.cpp" line="340"/>
         <source>Current slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Slide attuale</translation>
     </message>
     <message>
         <location filename="optionsdialog.cpp" line="22"/>
@@ -369,12 +373,12 @@ Valore obbligatorie per lunghe opzione sono anche obbligatorie per opzione corte
     <message>
         <location filename="mediaplayer.cpp" line="125"/>
         <source>Cannot redirect standard error output to file &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non si pùo inoltrare &quot;standard error output&quot; verso il file &apos;%1&apos;.</translation>
     </message>
     <message>
         <location filename="mediaplayer.cpp" line="128"/>
         <source>Standard error has been redirected to &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Standard error&quot; è stato inoltrato verso &apos;%1&quot;.</translation>
     </message>
 </context>
 </TS>
