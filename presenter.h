@@ -24,6 +24,7 @@ class Presenter : public QApplication
     PDFModel *pdf;
     MainScreenPdfView *mainScreen;
     PresenterPdf *presenterPdf;
+    QTranslator *translator;
     bool ready;
 
 public:

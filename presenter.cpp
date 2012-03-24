@@ -10,9 +10,10 @@ Presenter::Presenter(int &argc, char **argv)
     QCoreApplication::setApplicationVersion(appvers);
 
     QString locale = QLocale::system().name();
-    QTranslator translator;
-    translator.load(QString(SHORTNAME) + "_" + locale, QString(DATADIR));
-    this->installTranslator(&translator);
+    this->translator = new QTranslator(this);
+    this->translator->load(QString(SHORTNAME) + "_" + locale, QString(DATADIR));
+    this->translator->load(QString(SHORTNAME) + "_" + locale);
+    this->installTranslator(this->translator);
 
     this->params = new Parameters(this);
 
