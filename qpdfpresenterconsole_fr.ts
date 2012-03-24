@@ -172,12 +172,23 @@
 <context>
     <name>PDFModel</name>
     <message>
-        <location filename="pdfmodel.cpp" line="28"/>
+        <source>Open PDF file</source>
+        <translation type="obsolete">Ouvrir le fichier PDF</translation>
+    </message>
+    <message>
+        <source>PDF Files (*.pdf)</source>
+        <translation type="obsolete">Fichiers PDF (*.pdf)</translation>
+    </message>
+</context>
+<context>
+    <name>Presenter</name>
+    <message>
+        <location filename="presenter.cpp" line="41"/>
         <source>Open PDF file</source>
         <translation>Ouvrir le fichier PDF</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="28"/>
+        <location filename="presenter.cpp" line="41"/>
         <source>PDF Files (*.pdf)</source>
         <translation>Fichiers PDF (*.pdf)</translation>
     </message>
@@ -243,37 +254,42 @@ Les arguments nécessaires aux options longues le sont également pour les optio
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="46"/>
+        <location filename="pdfmodel.cpp" line="42"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation>Le fichier &apos;%1&apos; n&apos;a pas pu être chargé. Impossible de continuer.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="35"/>
+        <location filename="pdfmodel.cpp" line="178"/>
+        <source>Unable to render page. Aborting everything.</source>
+        <translation>Impossible de calculer le rendu de la page. Abandon général.</translation>
+    </message>
+    <message>
+        <location filename="presenter.cpp" line="23"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation>Pas de support multi-écran actif. Arrêt.</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="252"/>
+        <location filename="mainscreenpdfview.cpp" line="241"/>
         <source>Going to a specific page number</source>
         <translation>Aller à une page précise</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="253"/>
+        <location filename="mainscreenpdfview.cpp" line="242"/>
         <source>Going to page:</source>
         <translation>Aller à la page :</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="336"/>
+        <location filename="mainscreenpdfview.cpp" line="332"/>
         <source>Slide %1 of %2</source>
         <translation>Diapositive %1 sur %2</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="342"/>
+        <location filename="mainscreenpdfview.cpp" line="338"/>
         <source>Next slide</source>
         <translation>Diapositive suivante</translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="344"/>
+        <location filename="mainscreenpdfview.cpp" line="340"/>
         <source>Current slide</source>
         <translation>Diapositive en cours</translation>
     </message>
@@ -344,17 +360,17 @@ Les arguments nécessaires aux options longues le sont également pour les optio
         <translation>Gestion des paramètres</translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="118"/>
+        <location filename="pdfmodel.cpp" line="115"/>
         <source>Text file annotations for pdf &apos;%1&apos; not found. Cannot use text file annotations, disabling for now. File(s) expected: %2</source>
         <translation>Annotations contenues dans un fichier texte introuvable pour le document PDF &apos;%1&apos;. Impossible de les utiliser, désactivation pour le moment. Fichier(s) attendu(s) : %2</translation>
     </message>
     <message>
-        <location filename="mediaplayer.cpp" line="123"/>
+        <location filename="mediaplayer.cpp" line="125"/>
         <source>Cannot redirect standard error output to file &apos;%1&apos;.</source>
         <translation>Impossible de rediriger la sortie d&apos;erreur standard vers le fichier &apos;%1&apos;.</translation>
     </message>
     <message>
-        <location filename="mediaplayer.cpp" line="126"/>
+        <location filename="mediaplayer.cpp" line="128"/>
         <source>Standard error has been redirected to &apos;%1&apos;.</source>
         <translation>La sortie d&apos;erreur standard a été redirigée vers le fichier &apos;%1&apos;.</translation>
     </message>
