@@ -34,6 +34,15 @@ Presenter::Presenter(int &argc, char **argv)
 
         QObject::connect(this, SIGNAL(aboutToQuit()), this->params, SLOT(saveSettingsOnClose()));
     }
+
+    if (this->params->getPdfFileName().isEmpty()) {
+        QString fileName = QFileDialog::getOpenFileName(0,
+             tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
+        if (!fileName.isEmpty()) {
+            this->params->setPdfFileName(fileName);
+            this->pdf->setPdfFileName(fileName);
+        }
+    }
 }
 
 bool Presenter::isReady()

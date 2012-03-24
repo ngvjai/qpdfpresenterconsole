@@ -25,18 +25,7 @@ PDFModel::PDFModel(QObject *parent, Parameters *params, PresentationTimer *timer
     this->player = new MediaPlayer(this);
     this->detectMediaFiles = QRegExp("(video|audio)/.*");
 
-    if (!this->params->getPdfFileName().isEmpty()) {
-        this->setPdfFileName(this->params->getPdfFileName());
-    } else {
-#ifndef Q_WS_MAC
-        QString fileName = QFileDialog::getOpenFileName(0,
-             tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
-        if (!fileName.isEmpty()) {
-            this->params->setPdfFileName(fileName);
-            this->setPdfFileName(fileName);
-        }
-#endif
-    }
+    this->setPdfFileName(this->params->getPdfFileName());
 }
 
 void PDFModel::pdfFileNameSet()
