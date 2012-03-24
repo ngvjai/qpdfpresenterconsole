@@ -29,14 +29,15 @@ Presenter::Presenter(int &argc, char **argv)
         this->screensaverinhibiter = new ScreenSaverInhibit(this);
 
         this->pdf = new PDFModel(this, this->params, this->presentationTimer);
-        this->mainScreen = new MainScreenPdfView(this->desktop(), this->pdf, this->params, this->presentationTimer, this->screensaverinhibiter);
         this->presenterPdf = new PresenterPdf(this->desktop(), this->pdf, this->params);
+        this->mainScreen = new MainScreenPdfView(this->desktop(), this->pdf, this->params, this->presentationTimer, this->screensaverinhibiter);
+        this->mainScreen->setFocus();
 
         QObject::connect(this, SIGNAL(aboutToQuit()), this->params, SLOT(saveSettingsOnClose()));
     }
 
     if (this->params->getPdfFileName().isEmpty()) {
-        QString fileName = QFileDialog::getOpenFileName(0,
+        QString fileName = QFileDialog::getOpenFileName(this->mainScreen,
              tr("Open PDF file"), "", tr("PDF Files (*.pdf)"));
         if (!fileName.isEmpty()) {
             this->params->setPdfFileName(fileName);
@@ -55,8 +56,14 @@ bool Presenter::event(QEvent *ev)
     bool eaten;
     switch (ev->type()) {
         case QEvent::FileOpen:
-            this->pdf->setPdfFileName(static_cast<QFileOpenEvent *>(ev)->file());
-            eaten = true;
+            {
+                this->pdf->setPdfFileName(static_cast<QFileOpenEvent *>(ev)->file());
+                QFileDialog* open = this->mainScreen->findChild<QFileDialog*>;
+                if (open) {
+                    open->close();
+                }
+                eaten = true;
+            }
             break;
         default:
             eaten = QApplication::event(ev);
