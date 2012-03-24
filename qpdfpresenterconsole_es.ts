@@ -170,14 +170,14 @@
     </message>
 </context>
 <context>
-    <name>PDFModel</name>
+    <name>Presenter</name>
     <message>
-        <location filename="pdfmodel.cpp" line="28"/>
+        <location filename="presenter.cpp" line="41"/>
         <source>Open PDF file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="28"/>
+        <location filename="presenter.cpp" line="41"/>
         <source>PDF Files (*.pdf)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,37 +241,42 @@ Mandatory arguments to long options are mandatory for short options too.
 <context>
     <name>QObject</name>
     <message>
-        <location filename="main.cpp" line="35"/>
+        <location filename="presenter.cpp" line="23"/>
         <source>No multiscreen enabled. Quitting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.cpp" line="46"/>
+        <location filename="pdfmodel.cpp" line="42"/>
         <source>File &apos;%1&apos; not found. Cannot continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="252"/>
+        <location filename="pdfmodel.cpp" line="178"/>
+        <source>Unable to render page. Aborting everything.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainscreenpdfview.cpp" line="241"/>
         <source>Going to a specific page number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="253"/>
+        <location filename="mainscreenpdfview.cpp" line="242"/>
         <source>Going to page:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="336"/>
+        <location filename="mainscreenpdfview.cpp" line="332"/>
         <source>Slide %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="342"/>
+        <location filename="mainscreenpdfview.cpp" line="338"/>
         <source>Next slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainscreenpdfview.cpp" line="344"/>
+        <location filename="mainscreenpdfview.cpp" line="340"/>
         <source>Current slide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -341,17 +346,17 @@ Mandatory arguments to long options are mandatory for short options too.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="pdfmodel.cpp" line="118"/>
+        <location filename="pdfmodel.cpp" line="115"/>
         <source>Text file annotations for pdf &apos;%1&apos; not found. Cannot use text file annotations, disabling for now. File(s) expected: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mediaplayer.cpp" line="123"/>
+        <location filename="mediaplayer.cpp" line="125"/>
         <source>Cannot redirect standard error output to file &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mediaplayer.cpp" line="126"/>
+        <location filename="mediaplayer.cpp" line="128"/>
         <source>Standard error has been redirected to &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
