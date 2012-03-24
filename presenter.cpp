@@ -58,7 +58,7 @@ bool Presenter::event(QEvent *ev)
         case QEvent::FileOpen:
             {
                 this->pdf->setPdfFileName(static_cast<QFileOpenEvent *>(ev)->file());
-                QFileDialog* open = this->mainScreen->findChild<QFileDialog*>;
+                QFileDialog* open = this->mainScreen->findChild<QFileDialog*>();
                 if (open) {
                     open->close();
                 }
