@@ -1,0 +1,77 @@
+Environment :
+=============
+To cross compile for Windows from Linux, you need:
+ - QtSDK installed in wine, same version as linux host preferably 
+   (4.7 on each side, 4.8 on each side)
+ - VLC SDK for Windows
+ - Poppler for Windows (get from KDE4 Windows project)
+ - dependencies of the previous ones
+
+The cross compiler recommended is:
+$ i686-w64-mingw32-gcc -v
+Using built-in specs.
+COLLECT_GCC=i686-w64-mingw32-gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/i686-w64-mingw32/4.6/lto-wrapper
+Target: i686-w64-mingw32
+Configured with: ../../src/configure --build=x86_64-linux-gnu --prefix=/usr --includedir='/usr/include' --mandir='/usr/share/man' --infodir='/usr/share/info' --sysconfdir=/etc --localstatedir=/var --libexecdir='/usr/lib/gcc-mingw-w64' --disable-maintainer-mode --disable-dependency-tracking --prefix=/usr --enable-shared --enable-static --disable-multilib --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --libdir=/usr/lib --enable-libstdcxx-time=yes --with-tune=generic --enable-version-specific-runtime-libs --enable-threads=win32 --enable-fully-dynamic-string --enable-sjlj-exceptions --enable-languages=c,c++,fortran,objc,obj-c++,ada --enable-lto --with-plugin-ld --target=i686-w64-mingw32 --with-gxx-include-dir=/usr/include/c++/4.6 --with-as=/usr/bin/i686-w64-mingw32-as --with-ld=/usr/bin/i686-w64-mingw32-ld
+Thread model: win32
+gcc version 4.6.3 (GCC) 
+
+Under Debian and Ubuntu, it comes with the gcc-mingw32 package
+(it pulls 'gcc-mingw-w64-i686, g++-mingw-w64-i686, gfortran-mingw-w64-i686,
+gcc-mingw-w64-base').
+
+Those dependencies should be in win32-dependencies/ directory.
+For example:
+$ LC_ALL=C ls -n win32-dependencies/
+total 5.5M
+drwxr-xr-x  2 1000 1000 4.0K Mar 12 16:24 .
+drwxr-xr-x 18 1000 1000 4.0K May 20 14:34 ..
+-rw-r--r--  1 1000 1000 2.1M Mar 19  2011 libfreetype.dll
+-rw-r--r--  1 1000 1000 236K Mar 12 16:18 libgcc_s_sjlj-1.dll
+-rw-r--r--  1 1000 1000  41K Mar 19  2011 libiconv.dll
+-rw-r--r--  1 1000 1000 359K Mar 19  2011 libjpeg.dll
+-rw-r--r--  1 1000 1000 295K Mar 19  2011 liblcms-1.dll
+-rw-r--r--  1 1000 1000 160K Mar 19  2011 libopenjpeg.dll
+-rw-r--r--  1 1000 1000 167K Mar 19  2011 libpng14.dll
+-rw-rw-r--  1 1000 1000 885K Jan 22 12:19 libtiff3.dll
+-rw-r--r--  1 1000 1000 1.2M Mar 19  2011 libxml2.dll
+-rw-r--r--  1 1000 1000 101K Mar 12 16:24 libz.dll
+-rw-r--r--  1 1000 1000 101K Mar 19  2011 libzlib1.dll
+
+For the rest, we consider that they are available in, with $SOURCE_DIR
+being the directory containing the sources:
+ - QtSDK: $HOME/.wine/drive_c/QtSDK/
+ - Poppler: $SOURCE_DIR/poppler/
+ - VLC: $SOURCE_DIR/vlc-2.0.0/
+
+From this we can derive the following variables:
+ - WINQTMINGWDIR=$HOME/.wine/drive_c/QtSDK/mingw/
+ - WINQTDIR=HOME/.wine/drive_c/QtSDK/Desktop/Qt/4.8.1/mingw/
+ - WINPOPPLERDIR=$SOURCE_DIR/poppler/
+ - WINLIBVLCDIR=$SOURCE_DIR/vlc-2.0.0/
+
+Prepare :
+=========
+$ mkdir build-mingw && cd build-mingw
+
+Build :
+=======
+$ cmake \
+	-DCMAKE_TOOLCHAIN_FILE=$SOURCE_DIR/cmake/mingw32-cross.cmake \
+	-DWINQTMINGWDIR=$HOME/.wine/drive_c/QtSDK/mingw/ \
+	-DWINQTDIR=$HOME/.wine/drive_c/QtSDK/Desktop/Qt/4.8.1/mingw/ \
+	-DWINPOPPLERDIR=$SOURCE_DIR/poppler/ \
+	-DWINLIBVLCDIR=$SOURCE_DIR/vlc-2.0.0/ \
+	../
+$ make
+
+Package :
+=========
+$ make package
+
+Notes :
+=======
+If you have strange crashes and/or behavior, try to disable binaries
+packing by adding '-DPROJECT_PACK_BIN:BOOL=FALSE' to the CMake
+invocation.

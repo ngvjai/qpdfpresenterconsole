@@ -109,6 +109,7 @@ message(STATUS "Compilation profile: " ${CMAKE_BUILD_TYPE})
 if(CMAKE_CROSSCOMPILING)
     message(STATUS "Cross-compiling for " ${CMAKE_SYSTEM_NAME})
 endif(CMAKE_CROSSCOMPILING)
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(PROJECT_DATADIR "share")
     set(GUI_TYPE WIN32)
@@ -129,6 +130,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\BeamerNotes.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\TextAnnot.lnk\\\"
     ")
+    # Remove dll dependencies
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -mthreads")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if(UNIX AND NOT APPLE)
@@ -219,8 +222,9 @@ endif(PROJECT_PACK_BIN)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     set(PROJECT_BASE_WINDEPS
-        "${WINQTDIR}/bin/mingwm10.dll"
-        "${WINQTDIR}/bin/libgcc_s_dw2-1.dll"
+        "${WINQTMINGWDIR}/bin/mingwm10.dll"
+        "${WINQTMINGWDIR}/bin/libstdc++-6.dll"
+        "${WINQTMINGWDIR}/bin/libgcc_s_dw2-1.dll"
     )
     set(PROJECT_QT4_WINDEPS
         "${WINQTDIR}/bin/QtCore4.dll"

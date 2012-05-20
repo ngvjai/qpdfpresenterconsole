@@ -2,19 +2,19 @@
 SET(CMAKE_SYSTEM_NAME Windows)
 
 # which compilers to use for C and C++
-SET(CMAKE_C_COMPILER i586-mingw32msvc-gcc)
-SET(CMAKE_CXX_COMPILER i586-mingw32msvc-g++)
-SET(CMAKE_RC_COMPILER i586-mingw32msvc-windres)
+SET(CMAKE_C_COMPILER i686-w64-mingw32-gcc)
+SET(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
+SET(CMAKE_RC_COMPILER i686-w64-mingw32-windres)
 
 # here is the target environment located
 SET(CMAKE_FIND_ROOT_PATH
-    /usr/i586-mingw32msvc
+    "/usr/i686-w64-mingw32"
 # Path to the directory containing qmake.exe
-    ${WINQTDIR}
+    "${WINQTDIR}"
 # Path to the directory containing poppler for windows (from KDE4 for example)
-    ${WINPOPPLERDIR}
+    "${WINPOPPLERDIR}"
 # Path to the content of the extracted VLC SDK archive
-    ${WINLIBVLCDIR}/sdk/
+    "${WINLIBVLCDIR}/sdk/"
 )
 
 # adjust the default behaviour of the FIND_XXX() commands:
